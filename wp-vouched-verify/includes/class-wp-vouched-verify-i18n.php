@@ -22,7 +22,7 @@
  * @since      1.0.0
  * @package    Wp_Vouched_Verify
  * @subpackage Wp_Vouched_Verify/includes
- * @author     Brian Cole <bcolemutech@gmail.com>
+ * @author     Brian Cole <https://github.com/bcolemutech>
  */
 class Wp_Vouched_Verify_i18n {
 

@@ -18,7 +18,7 @@
  *
  * @package    Wp_Vouched_Verify
  * @subpackage Wp_Vouched_Verify/public
- * @author     Brian Cole <bcolemutech@gmail.com>
+ * @author     Brian Cole <https://github.com/bcolemutech>
  */
 class Wp_Vouched_Verify_Public {
 
