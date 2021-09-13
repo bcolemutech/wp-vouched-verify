@@ -1,0 +1,57 @@
+<mxfile host="app.diagrams.net" modified="2021-09-13T02:56:28.484Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.63 Safari/537.36" etag="tszqaD5rv6u3fMhrQk8p" version="15.2.1" type="github" pages="2">
+  <diagram id="C5RBs43oDa-KdzZeNtuy" name="Register">
+    <mxGraphModel dx="2942" dy="1122" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1200" pageHeight="1600" math="0" shadow="1">
+      <root>
+        <mxCell id="WIyWlLk6GJQsqaUBKTNV-0" />
+        <mxCell id="WIyWlLk6GJQsqaUBKTNV-1" parent="WIyWlLk6GJQsqaUBKTNV-0" />
+        <mxCell id="0BklGKwx9ci3qJPS7ujR-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="WIyWlLk6GJQsqaUBKTNV-3" target="0BklGKwx9ci3qJPS7ujR-1" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="WIyWlLk6GJQsqaUBKTNV-3" value="Intercept submit" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="360" y="310" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="0BklGKwx9ci3qJPS7ujR-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="0BklGKwx9ci3qJPS7ujR-1" target="0BklGKwx9ci3qJPS7ujR-9" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="0BklGKwx9ci3qJPS7ujR-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="0BklGKwx9ci3qJPS7ujR-1" target="0BklGKwx9ci3qJPS7ujR-8" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="0BklGKwx9ci3qJPS7ujR-1" value="Send Invite POST to Vouched API" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="360" y="420" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="0BklGKwx9ci3qJPS7ujR-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="0BklGKwx9ci3qJPS7ujR-2" target="0BklGKwx9ci3qJPS7ujR-3" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="0BklGKwx9ci3qJPS7ujR-2" value="&lt;span&gt;&amp;nbsp;User fills out&lt;br&gt;&amp;nbsp;account form&lt;/span&gt;" style="verticalLabelPosition=middle;verticalAlign=middle;html=1;shape=trapezoid;perimeter=trapezoidPerimeter;whiteSpace=wrap;size=0.23;arcSize=10;flipV=1;labelPosition=center;align=center;fillColor=#FCFCFC;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="360" y="80" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="0BklGKwx9ci3qJPS7ujR-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="0BklGKwx9ci3qJPS7ujR-3" target="WIyWlLk6GJQsqaUBKTNV-3" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="0BklGKwx9ci3qJPS7ujR-3" value="&lt;span&gt;User clicks&lt;br&gt;Submit&lt;br&gt;&lt;/span&gt;" style="verticalLabelPosition=middle;verticalAlign=middle;html=1;shape=trapezoid;perimeter=trapezoidPerimeter;whiteSpace=wrap;size=0.23;arcSize=10;flipV=1;labelPosition=center;align=center;fillColor=#FCFCFC;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="360" y="210" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="0BklGKwx9ci3qJPS7ujR-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="0BklGKwx9ci3qJPS7ujR-8" target="0BklGKwx9ci3qJPS7ujR-12" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="0BklGKwx9ci3qJPS7ujR-8" value="Save Invite ID to user meta data" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="210" y="420" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="0BklGKwx9ci3qJPS7ujR-9" value="Message prompt informing user of invite email." style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="510" y="420" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="0BklGKwx9ci3qJPS7ujR-12" value="WP_User" style="strokeWidth=1;html=1;shape=mxgraph.flowchart.database;whiteSpace=wrap;fillColor=#FCFCFC;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="240" y="530" width="60" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="FUD7xHW1DmYKEpzv24Qb" name="Login">
+    <mxGraphModel dx="2942" dy="1122" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="1600" math="0" shadow="0">
+      <root>
+        <mxCell id="9qL4d-IsdaPlkCjsfBJc-0" />
+        <mxCell id="9qL4d-IsdaPlkCjsfBJc-1" parent="9qL4d-IsdaPlkCjsfBJc-0" />
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
