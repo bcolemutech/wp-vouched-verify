@@ -25,4 +25,5 @@ node_modules/
 .idea/
 /composer.phar
 /.phpunit.result.cache
-src/vendor/*
+/vendor/
+/src/vendor/
