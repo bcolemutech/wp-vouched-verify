@@ -23,3 +23,7 @@ node_modules/
 *.sqlite
 
 .idea/
+/composer.phar
+/.phpunit.result.cache
+/vendor/
+/src/vendor/
