@@ -1,0 +1,7 @@
+{
+    "name": "bcolemutech/wp-vouched-verify",
+    "description": "WordPress plugin using Vouched to validate users and ensure users have a single account.",
+    "type": "wordpress-plugin",
+    "license": "GPL-2.0-or-later",
+    "require": {}
+}
