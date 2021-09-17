@@ -12,7 +12,7 @@ jobs:
         uses: datamonsters/replace-action@master
         with:
           files: 'src/wp-vouched-verify.php'
-          replacements: '[SEMVER1]=${{GITHUB_REF/refs\/tags\//}},[SEMVER2]=${{GITHUB_REF/refs\/tags\//}}'
+          replacements: '[SEMVER1]=${{ GITHUB_REF#refs/tags/ }},[SEMVER2]=${{ GITHUB_REF#refs/tags/ }}'
       - name: Zip Release
         uses: montudor/action-zip@v1
         with:
