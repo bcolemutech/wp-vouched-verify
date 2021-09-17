@@ -16,7 +16,7 @@
  * Plugin Name:       WP Vouched Verify
  * Plugin URI:        https://bcolemutech.github.io/wp-vouched-verify/
  * Description:       WordPress plugin using Vouched to validate users and ensure users have a single account.
- * Version:           [SEMVER]
+ * Version:           [SEMVER1]
  * Author:            Brian Cole
  * Author URI:        https://github.com/bcolemutech
  * License:           GPL-2.0+
@@ -35,7 +35,7 @@ if ( ! defined( 'WPINC' ) ) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'WP_VOUCHED_VERIFY_VERSION', '[SEMVER]' );
+define( 'WP_VOUCHED_VERIFY_VERSION', '[SEMVER2]' );
 
 /**
  * The code that runs during plugin activation.
