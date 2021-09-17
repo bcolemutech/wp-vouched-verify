@@ -1,7 +1,7 @@
 name: Create Archive
-on: [release]
+on: release
 jobs:
-  build:
+  release:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
@@ -14,8 +14,9 @@ jobs:
         uses: montudor/action-zip@v1
         with:
           args: zip -qq -r wp-vouched-verify.zip src
-      - name: Upload Release
-        uses: ncipollo/release-action@v1
+      - name: Upload to release
+        uses: JasonEtco/upload-to-release@master
         with:
-          artifacts: "wp-vouched-verify.zip"
-          token: ${{ secrets.GITHUB_TOKEN }}
+          args: wp-vouched-verify.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
