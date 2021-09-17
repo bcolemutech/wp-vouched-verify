@@ -6,7 +6,7 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - name: Set Plugin Version
-        uses: datamonsters/replace-action
+        uses: datamonsters/replace-action@master
         with:
           files: 'src/wp-vouched-verify.php'
           replacements: '[SEMVER]=${GITHUB_REF/refs\/tags\//}'
