@@ -5,6 +5,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
+      - name: Set Plugin Version
+        uses: datamonsters/replace-action
+        with:
+          files: 'src/wp-vouched-verify.php'
+          replacements: '[SEMVER]=${GITHUB_REF/refs\/tags\//}'
       - name: Archive Release
         uses: thedoctor0/zip-release@master
         with:
