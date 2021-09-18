@@ -1,0 +1,4767 @@
+openapi: 3.0.2
+info:
+  title: Vouched Developers
+  description: "\n# Overview\n\n## How Vouched Works\nVouched is an identity verification\
+    \ platform for developers. \nVouched uses a combination of a cloud solution, patent\
+    \ pending AI, [SDKs](/#section/SDKs), and [APIs](/#tag/jobs) to \nenable developers\
+    \ to build real-time identity verification applications.\n\n## Security and Privacy\n\
+    Vouched is built with security and data privacy in mind. Data in transit and at\
+    \ rest is protected through [AES-256 encryption](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard).\
+    \ Vouched systems and services are [SOC2 Type 1](https://en.wikipedia.org/wiki/System_and_Organization_Controls)\
+    \ certified.\nVouched processes personal information in compliance with [California\
+    \ Consumer Privacy Act (CCPA)](https://oag.ca.gov/privacy/ccpa) \nand [General\
+    \ Data Protection Regulation (GDPR)](https://gdpr-info.eu/).\n\n[ISO/IEC-27001](https://en.wikipedia.org/wiki/ISO/IEC_27001)\
+    \ and [ISO/IEC 27701](https://en.wikipedia.org/wiki/ISO/IEC_27701) certifications\
+    \ that Vouched currently has.<br>\n\nVouched authenticates your requests using\
+    \ your [keys](/#section/Dashboard/Manage-keys). If the key is missing or incorrect\
+    \ in your request, Vouched will not process the request and return \nan unauthenticated\
+    \ error.\n\nThere are three types of keys:\n\n- `public` - Required by user facing\
+    \ SDKs ([JS Plugin](/#section/SDKs/JS-Plugin), [iOS](/#section/SDKs/iOS), [Android](/#section/SDKs/Android),\
+    \ [React Native](/#section/SDKs/React-Native))  \n- `private` - Required by the\
+    \ backend [REST API](/#tag/jobs)\n- `signature` - Alternative to the private key.\
+    \ Required by the backend [REST API](/#tag/jobs)\n\n## Vouched Status\nThe status\
+    \ of current Vouched services can be found on our [status dashboard](https://status.vouched.id/).\n\
+    \n## Recognized IDs\n\n| ID Type <img width=1670/> | Name <img width=1670/> |\
+    \ [Country Code](https://www.nationsonline.org/oneworld/country_code_list.htm)\
+    \ <img width=1670/> | \n| ----------- | ----------- | ----------- | \n|     `citizen-card`\
+    \      | [Citizen](https://www.canada.ca/en/immigration-refugees-citizenship/services/canadian-citizenship/proof-citizenship/documents.html)\
+    \    |  Canada, Portugal    | \n|   `commercial-license`       |  [Commercial\
+    \ Drivers License](https://en.wikipedia.org/wiki/Commercial_driver%27s_license)\
+    \    | United States       | \n|  `drivers-license`  | [Drivers License](https://en.wikipedia.org/wiki/Driver%27s_license)\
+    \      | American Samoa, Argentina, Australia, Belarus, Bermuda, Brazil, Canada,\
+    \ China, Colombia, Costa Rica, El Salvador, France, Germany, Hong Kong, India,\
+    \ Ireland, Isle of Man, Israel, Italy, Japan, Luxembourg, Malta, Mexico, Netherlands,\
+    \ New Zealand, Pakistan, Panama, Peru, Philippines, Puerto Rico, Romania, Singapore,\
+    \ Slovakia, South Africa, Spain, Sweden, Switzerland, Thailand, Ukraine, United\
+    \ Kingdom, United States, Vietnam   |\n|  `drivers-license-permit` | [Drivers\
+    \ License Permit](https://en.wikipedia.org/wiki/Learner%27s_permit)      | Canada,\
+    \ New Zealand, United Kingdom, United States      |\n|   `employment`  | [Employment\
+    \  Card](https://en.wikipedia.org/wiki/Employment_authorization_document)    \
+    \    | United States       |\n|  `global-entry`| [Global Entry Card](https://en.wikipedia.org/wiki/Global_Entry)\
+    \        | United States       |\n|    `handgun`  | [Handgun](https://www.loc.gov/law/help/firearms-control/canada.php)\
+    \         | Canada, United States       |\n|    `health-insurance`   |  [Health\
+    \ Insurance Card](https://www.canada.ca/en/health-canada/services/health-cards.html)\
+    \          | Canada, Germany       |\n|     `identification`      | [Identification\
+    \ Card](https://en.wikipedia.org/wiki/Identity_documents_in_the_United_States#:~:text=Identity%20documents%20in%20the%20United%20States%20are%20typically%20the%20regional,may%20serve%20as%20national%20identification.)\
+    \   | Argentina, Australia, Belgium, Brazil, Canada, Chile, El Salvador, France,\
+    \ Germany, Guatemala, India, Indonesia, Iraq, Ireland, Italy, Latvia, Lithuania,\
+    \ Malta, Mexico, Netherlands, Peru, Philippines, Romania, Singapore, Slovakia,\
+    \ South Africa, Spain, Turkey, United Arab Emirates, United States, Vietnam  |\n\
+    |  `indian`     | [Indian  Status Card](https://www.sac-isc.gc.ca/eng/1100100032374/1572457769548)\
+    \      | Canada       |\n| `nexus`    | [Nexus  Card](https://en.wikipedia.org/wiki/NEXUS)\
+    \        | United States       |\n|     `passport`   | [Passport](https://en.wikipedia.org/wiki/Passport)\
+    \      | Argentina, Australia, Bahrain, Belarus, Bermuda, Brazil, Cameroon, Canada,\
+    \ China, Colombia, Côte d'Ivoire, Denmark, Finland, France, Germany, Ghana, Haiti,\
+    \ Honduras, Hong Kong, Hungary, Iceland, India, Indonesia, Iraq, Ireland, Israel,\
+    \ Italy, Jamaica, Japan, Korea, Republic of, Latvia, Macao, Malaysia, Malta, Mexico,\
+    \ Myanmar, Netherlands, New Zealand, Nigeria, Pakistan, Peru, Philippines, Poland,\
+    \ Russian Federation, Singapore, South Africa, Sri Lanka, Switzerland, Syrian\
+    \ Arab Republic, Thailand, Uganda, Ukraine, United Kingdom, United States, Vietnam\
+    \ |\n|    `passport-card`| [Passport Card](https://en.wikipedia.org/wiki/United_States_Passport_Card)\
+    \          | Ukraine, United States     |\n|      `residence`  | [Residence  Permit](https://en.wikipedia.org/wiki/Residence_permit)\
+    \     | Belgium, Canada, Germany, Hong Kong, Peru, Spain, United Arab Emirates,\
+    \ United Kingdom, United States, Vietnam |\n|    `visa`  | [Visa](https://travel.state.gov/content/travel/en/us-visas.html)\
+    \         | United States       |\n\n\n\n## Postman\n\nDebugging and understanding\
+    \ the Vouched APIs are easier with [Postman](https://www.postman.com/). The steps\
+    \ to add the APIs as a [Postman](https://www.postman.com/) collection are:\n\n\
+    1. Download the [OpenAPI specifications](/)\n1. [Add OpenAPI to Postman](https://learning.postman.com/docs/integrations/available-integrations/working-with-openAPI/)\
+    \ \n\n## Swagger\n\nModel Renderings are currently not supported in the [Swagger\
+    \ Editor](https://editor.swagger.io/)\n\n## Examples \n\nExample use cases for\
+    \ our API are available in [Python](https://github.com/vouched/vouched-python-example)\
+    \ , [Java](https://github.com/vouched/vouched-java-example), [React](https://github.com/vouched/vouched-react-example)\
+    \ and [NodeJS](https://github.com/vouched/vouched-nodejs-example).\n\n# Submit\
+    \ a verification\n\n## Demo Mode\n\nDemo mode can be enabled and disabled for\
+    \ an account by submitting a ticket to [Vouched support](/#section/Support). \n\
+    In demo mode, the system will pass the provided demo ids ([Passport](images/usPassport.jpeg),\
+    \ [Driving License](images/Thor_Washington.jpg), [Identification Card](images/philippinesid.jpeg)).\n\
+    Face Match will be passed in demo mode.\n\nTo get started;\n1. Switch the `id`\
+    \ prop for the [JS Plugin](/#section/SDKs/JS-Plugin) to `upload`.\n1. Use one\
+    \ of the ids provided above to test demo mode.\n\n\n## Vouched Now\n\nVouched\
+    \ Now is a No Code way to verify the identity of users. The following user information\
+    \ is required:\n\n  - `First Name` and `Last Name` - in order to match to that\
+    \ of the ID\n  - `Phone Number` and `Email Address` - in order to send a verification\
+    \ invite\n\nOnce completed, customers see the results of the ID verification and\
+    \ additional account features such as crosscheck and AAMVA.\n\n1. Sign in to the\
+    \ [dashboard](/#section/Dashboard/Sign-In)\n1. Send an [verification invite](/#section/Dashboard/Verification-invites)\
+    \ by email or SMS\n1. View the [status](#section/Dashboard/Verification-invites)\
+    \ of the invite \n1. View the [verification job results](/#section/Dashboard/Jobs)\n\
+    \n\n## JS Plugin\n\nThe Javascript (JS) Plugin is the recommended way to add Vouched\
+    \ to your web application. \n\n![Diagram 1](images/JS-Plugin-Flow.png)     \n\n\
+    1. Sign in to the [dashboard](/#section/Dashboard/Sign-In)\n1. Create your [public\
+    \ key](#section/Dashboard/Manage-keys)\n1. Click *Get Started* on the side menu\n\
+    1. Click *Website*\n1. Click *Javascript Plugin*\n1. Configure and customize your\
+    \ UI as needed. Customize your UI by changing the logo here as well as the [theme](#theme)\
+    \ style.\n1. Click *demo* and submit your first job. From here you will be able\
+    \ to try out a real-time verification job.\n1. Click *code* to view the JS code\
+    \ for your web application\n1. Define a post verification [webhook](/#section/After-a-verification/Webhook)\
+    \ with the `callbackURL` property\n1. Define `onInit` to have access to a callback\
+    \ during initialization of the webapp.\n1. Set `crossDevice` to true in order\
+    \ to maintain the same session accross multiple devices using the token retrieved\
+    \ from `onInit`.\n1. Define `onDone` to redirect to the next page\n\n### Quick\
+    \ start code \n\n```\n<head>\n  <!-- utf-8 is required for JS Plugin default fonts\
+    \ -->\n  <meta charset=\"utf-8\" />\n  <script src=\"https://static.vouched.id/widget/vouched-2.0.0.js\"\
+    ></script>\n  <script type='text/javascript'>\n\n\n\n    (function() {\n     \
+    \ var vouched = Vouched({\n      // Optional verification properties.\n      \
+    \  verification: {\n          // verify the user's information \n          firstName:\
+    \ 'Gladys',\n          lastName: 'West',\n          // used for the crosscheck\
+    \ feature\n          email: 'test@test.id',\n          phone: '000-111-2222'\n\
+    \        },\n        \n        appId: \"<PUBLIC_KEY>\",\n        // your webhook\
+    \ for POST verification processing\n        callbackURL: 'https://website.com/webhook',\n\
+    \n        // mobile handoff\n        crossDevice: true,\n        crossDeviceQRCode:\
+    \ true,\n        crossDeviceSMS: true,\n        onInit: ({token, job}) => {\n\
+    \          console.log('initialization');\n        },\n             \n       \
+    \ // callback executed after every time Job was posted\n        onSubmit: ({stage,\
+    \ attempts, job}) => {\n\n        },\n        \n        // called when the verification\
+    \ is completed.\n        onDone: (job) => {\n          // token used to query\
+    \ jobs\n          console.log(\"Scanning complete\", { token: job.token });\n\n\
+    \          // An alternative way to update your system based on the \n       \
+    \   // results of the job. Your backend could perform the following:\n       \
+    \   // 1. query jobs with the token\n          // 2. store relevant job information\
+    \ such as the id and \n          //    success property into the user's profile\n\
+    \          fetch(`/yourapi/idv?job_token=${job.token}`);\n\n\n          // Redirect\
+    \ to the next page based on the job success\n          if( job.result.success){\n\
+    \            window.location.replace(\"https://website.com/success/\");\n    \
+    \      }else{\n            window.location.replace(\"https://website.com/failed/\"\
+    );\n          }\n        },\n        onSurveyDone: (job) => {\n          // callback\
+    \ when survey is submitted\n        },       \n        \n        // callback executed\
+    \ after attempt to find camera device\n        onCamera: ({hasCamera, hasPermission})\
+    \ => {\n\n        },\n        \n        // callback executed after DOM changes\
+    \ to Camera\n        onCameraEvent:(cameraEvent) => {\n        \n        },\n\
+    \        \n        // theme\n        theme: {\n          name: 'avant',\n    \
+    \    },\n      });\n      vouched.mount(\"#vouched-element\");\n    })();\n\n\
+    \  </script>\n</head>\n<body>\n  <div id='vouched-element' style=\"height: 100%\"\
+    />\n</body>\n```\n### Sessions\n\nUsers can reuse non-completed verifications\
+    \ with sessions. By tying users with sessions, multiple attempts at verifications\
+    \ will \nnot generate unnecessary verification jobs. Sessions are uniquely identified\
+    \ by the time limited `token` property. The steps to enable sessions are:\n\n\
+    1. Set the property `crossDevice`: true\n1. Define `onInit` callback to forward\
+    \ the token to your backend.\n\n```\n      // initialize Vouched\n      var vouched\
+    \ = Vouched({\n        /* other properties */\n\n        onInit: ({token, job})\
+    \ => {\n          // If crossDevice is true, a web token is created during initialization\
+    \ \n          // Your backend will save and associate the token the user.\n  \
+    \        fetch(`/yourapi/idv?job_token=${job.token}&&user=${user.id}`);\n    \
+    \      console.log('initialization');\n        }            \n\n      });\n```\n\
+    \n3. Initialize the `token` if the user has a previously saved one.\n\n```\n \
+    \     var token = null;\n\n      // Assuming the user profile contains the previously\
+    \ \n      // store user information, get the token from the user profile\n   \
+    \   if( user.token ){\n        token = user.token;\n      }\n      // initialize\
+    \ Vouched\n      var vouched = Vouched({\n        /* other properties */\n\n \
+    \       token: token\n      });\n```\n\n### Content Security Policy\n\nThe HTTP\
+    \ Content-Security-Policy response header allows web site administrators to control\
+    \ resources the user agent is allowed to load for a given page. \nWith a few exceptions,\
+    \ policies mostly involve specifying server origins and script endpoints. \nThis\
+    \ helps guard against cross-site scripting attacks ([XSS](https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting))\n\
+    \nIf the Vouched JS Plugin is being embedded into your website and CSP is being\
+    \ used, the following needs to be enabled;\n\n\n```\ndefault-src: [ `self`, `unsafe-eval`,\
+    \ `unsafe-inline`, `blob:`, `data:`,\n               `*.sentry.io`, `*.amplitude.com`,\
+    \ `*.jsdelivr.net`, `*.vouched.id`,\n                `*.googleapis.com`, `*.fontawesome.com`,\
+    \ `*.gstatic.com`\n              ]\n```        \n\n### Camera restrictions\n\n\
+    Browser permissions for the camera requires a `https` host, a `http` hosted site\
+    \ or `file://` will not work. A `localhost` hosted site is an viable option.\n\
+    For more information \n[How to access Camera and Microphone in Chrome without\
+    \ HTTPS?](https://stackoverflow.com/questions/52759992/how-to-access-camera-and-microphone-in-chrome-without-https).\n\
+    \n\n### Layout Considerations\nWhen integrating Vouched into your site design,\
+    \ consider that Vouched component occupies 100% height of the parent container\
+    \ (it has `CSS` rule height: 100% applied). That means that parent container should\
+    \ be given height. \n\nHeight should be given, for example, by setting `height`\
+    \ value (`height`: 100%) on the container or by using flex constraints (`flex-grow`:\
+    \ 1 in vertical `flex-box`).\n\n\nFor full specifications, refer to the [JS Plugin\
+    \ SDK](#section/SDKs/JS-Plugin).    \n\n### Mobile Handoff\nOne of our newer features\
+    \ is the Mobile handoff. The JS Plugin has the ability to recognize a person's\
+    \ device (mobile, OS) and show the QR Code or SMS options if the person is on\
+    \ the desktop. It prompts the user to either scan the [QR Code](https://www.hellotech.com/guide/for/how-to-scan-qr-code-iphone-android)\
+    \ or input a mobile number to send the SMS to.\nVerification continues on the\
+    \ person's mobile device. Once completed, control is given back to the desktop\
+    \ application. This allows for desktop onboarding while leveraging the user's\
+    \ superior mobile camera.\n\nUsers will see the following instructions on their\
+    \ mobile device during the Mobile Handoff: <br>\n1. Open the Camera App from your\
+    \ phone.\n2. Hold the device so the [QR Code](https://www.hellotech.com/guide/for/how-to-scan-qr-code-iphone-android)\
+    \ appears in the viewfinder.\n3. Click on notification to open the verification\
+    \ link.\n\nThere is also the option to finish the Mobile handoff on your desktop\
+    \ instead on a mobile device, if you wish to do so.\nIn order to enable the Mobile\
+    \ Handoff functionality, set the `crossDevice` and `crossDeviceQRCode` [parameters](#section/SDKs/JS-Plugin)\
+    \ to true.\n\nFor the mobile handoff option, a new job is created during each\
+    \ refresh, to generate a token to be used on the mobile device. However, empty\
+    \ jobs are not billable.\n\nOnce the verification is completed, the JS callback\
+    \ `onDone` is called on the desktop.\n\nThe handoff forwards the verification\
+    \ to a Vouched hosted site. We offer the capability to host the site with a custom\
+    \ domain for a monthly fee. If you would like this feature, configure a CNAME\
+    \ for your domain that points to **i.vouched.id**\n```\n# nslookup custom.customer.com\n\
+    Server:\t\t8.8.8.8\nAddress:\t8.8.8.8#53\n\nNon-authoritative answer:\ncustom.customer.com\t\
+    canonical name = i.vouched.id.\nName:\ti.vouched.id\nAddress: 34.120.27.192\n\
+    ```\nOnce this is completed, email us at [sales@vouched.id](mailto:sales@vouched.id)\
+    \ with the subject \"Request Custom URL Feature\" and provide the CNAME evidence.\
+    \ \n\n### Localization\nThe Plugin supports 3 languages: English (en), Spanish\
+    \ (es), French-Canadian (fr_CA).\nRefer to the 'locale' prop in the VouchedProp\
+    \ section.\n\n\n## REST - Submit job\n\n![Diagram 2](images/REST-API-Flow.png)\n\
+    \nThe `REST` API could be used to submit a verification [job](/#tag/job-model)\
+    \ .\nCompared to the frontend SDKs ([JS Plugin](/#section/SDKs/JS-Plugin), [iOS](/#section/SDKs/iOS),\
+    \ [Android](/#section/SDKs/Android), [React Native](/#section/SDKs/React-Native)),\
+    \ \nthe [REST verification submit](/#operation/SubmitJob) has the lowest accuracy\
+    \ rates. \nA [resolution of 2K](https://www.tomshardware.com/news/2k-definition,37641.html)\
+    \ is recommended for optimal accuracy and response time (**Max file size allowed\
+    \ is 11 Mb**).\n\n1. Sign in to the [dashboard](/#section/Dashboard/Sign-In)\n\
+    1. Create your [private key](#section/Dashboard/Manage-keys)\n1. Implement [REST\
+    \ - Submit job](/#operation/SubmitJob) \n\n## REST - Send an invite \n\nWith the\
+    \ `REST` API, a customized SMS or email verification invitation could sent programatically.\n\
+    \n1. Sign in to the [dashboard](/#section/Dashboard/Sign-In)\n1. Create your [private\
+    \ key](#section/Dashboard/Manage-keys)\n1. Implement [REST - Send an invite](/#operation/sendInvites)\n\
+    \n## Mobile SDKs\n\nVouched provides mobile SDKs for [iOS](https://github.com/vouched/vouched-ios)\
+    \ and [Android](https://github.com/vouched/vouched-android). The SDK provides\
+    \ \nthe constructs to recognize, detect and ensure clear ID images. It also provides\
+    \ the constructs to recognize,\ndetect, and prove liveness on faces. This low-level\
+    \ design allows you to rely on Vouched's AI expertise and still have complete\
+    \ control over the UX.  \n\nThe [React Native SDK](https://github.com/vouched/vouched-react-native)\
+    \ is a slightly different than the native SDKs. The React Native SDK provides\
+    \ two camera components; one for ID detection and one for face detection. Each\
+    \ \ncamera component uses a native camera and the corresponding Vouched native\
+    \ SDK.\n\nTo get started or run the mobile SDK example app:\n  - [iOS](#section/SDKs/iOS)\n\
+    \  - [Android](#section/SDKs/Android)\n  - [React Native](#section/SDKs/React-Native)\n\
+    \n\n# After a verification\n\n## Webhook\n\nUpon the verification [job's](/#tag/job-model)\
+    \ completion, Vouched will `POST` the [job](/#tag/job-model) results to the defined\
+    \ webhook (`callbackURL`). \nAll webhook requests contain `X-Signature` in request\
+    \ headers. The `X-Signature` is base64 encoded, created using `HMAC-SHA1` using\
+    \ \nyour private key as the key and using the jobs response as data. To validate\
+    \ the webhook response, perform the same signature procedure and compare if \n\
+    your generated signature and the sent signature match.\n\n- Note: If your account\
+    \ uses the signature key, the `X-Signature` is base64 encoded, created using `HMAC-SHA1`\
+    \ using \nyour signature key instead of the private key.\n\n\n\n## API \n\nVerification\
+    \ results are programatically retrievable with the [jobs API](/#operation/findJobs).\
+    \ Each [job](/#tag/job-model) is uniquely identified by the persistent `id` \n\
+    or ephemeral `token` property.\n\n## Confidence Scores, Errors, and Signals \n\
+    \nThe [errors](/#tag/error-model)  provided in a [job](/#tag/job-model) are an\
+    \ indicator of the failure of the `job`. Errors fall under a various \ncategories.\
+    \ For the `id`, `selfie`, and `faceMatch` categories, a feature called [signal](/#tag/job-model)\
+    \ is available. These provide further \ninsights into why a specific job may have\
+    \ failed. While `errors` provide information\non the error code leading to the\
+    \ failure, `signals` provide detailed information on what lead to the `error`.\
+    \ The `signals` also help to visualize the potential sources for penalties to\
+    \ a \nspecific category score.    \n\n## Dashboard\n\nVerification job results\
+    \ are available on the dashboard.\n\n1. Sign in to the [dashboard](/#section/Dashboard/Sign-In)\n\
+    1. View the [verification job results](/#section/Dashboard/Jobs)\n\n# AAMVA\n\
+    For some use cases, only the data of a provided driver's license needs to be verified.\
+    \ You can accomplish this using the **[AAMVA API](#tag/aamva)**\n\nThe **[AAMVA\
+    \ API](#tag/aamva)** exposes an endpoint that accepts data on a user's identification\
+    \ card and validates that information against the database of the ID's state's\
+    \ Department of Motor Vehicles/Secretary of State. This check enables you to verify\
+    \ that the data on the card (`drivers-license` or `identification-card`) matches\
+    \ the data held by the jurisdiction that issued the document.\n\nThe **[AAMVA](#tag/aamva-model)**\
+    \ verification process consists of two steps:\n\n\n1. Submit the [AAMVA request](/#operation/submitAamva)\
+    \ with the user info. Include a webhook ('callbackURL') in the request to receive\
+    \ the AAMVA response post completion.\n1. The [results](/#tag/job-model) of the\
+    \ AAMVA verification process will be posted to the defined webhook.\n\nAAMVA is\
+    \ supported for most states but there are a few notable exceptions. The states\
+    \ that are not supported by AAMVA are: \n  - Alaska\n  - Alabama\n  - California\n\
+    \  - Louisiana\n  - Minnesota\n  - New Hampshire\n  - Nevada\n  - New York\n \
+    \ - Oklahoma\n  - Pennsylvania\n  - South Carolina\n  - Utah\n  - West Virginia\n\
+    \n<sub>AAMVA stands for the American Association of Motor Vehicle Administrators.</sub>\n\
+    \n<sub>[AAMVA](#tag/aamva-identity-model) checks are restricted to **US** based\
+    \ `drivers-license`s and `identification-card`s. </sub>\n\n# Watchlist\nWatchlist\
+    \ helps to identity potential risk associated with a prospective user. This api\
+    \ consolidates data for an individual from multiple \nverified data sources.\n\
+    Notable result data include:\n\n- `confidence` - Confidence score for an watchlist\
+    \ match\n- `data` - Array containing matched records\n\nThe watchlist check if\
+    \ performed during the idv process if the feature is enabled and the results are\
+    \ added to the [job](/#tag/job-model) response.\n\n# Crosscheck\n\nThe [Crosscheck\
+    \ API](#tag/crosscheck) verifies a user's identity with the provided user information.\
+    \ \nCrosscheck results are more accurate with more information. Notable result\
+    \ data include:\n\n- `confidences` - Confidence score for an identity match\n\
+    - `ageRange` - A matching age range\n- `gender` - Calculated gender information\
+    \ \n\n## Crosscheck then IDV\n\nDecisioning logic involving Crosscheck and IDV\
+    \ is used to minimize user friction while assuring identity. Here are the steps:\n\
+    \n1. Perform [Crosscheck verification](#tag/crosscheck) with the user's information\n\
+    1. If Crosscheck `confidences.identity` pass the required threshold, continue\
+    \ with the post verification process\n1. If Crosscheck fails or other criteria\
+    \ such as `ageRange` or `gender` does not match, move the user to IDV\n1. For\
+    \ IDV, employ one of the [verification methods](/#section/Submit-a-verification)\n\
+    \n# Dashboard \n## Sign In\n\n1. Sign in with your Vouched credentials at https://app.vouched.id\n\
+    1. You've made it to your Vouched Dashboard! It should resemble this:\n\n\n##\
+    \ 2FA Authentication\n\nTwo-Factor Authentication (2FA) can be used to help protect\
+    \ your account from unauthorized access by requiring you to enter an additional\
+    \ code when you sign in.\n2FA is mandatory on the dashboard and you will be asked\
+    \ to enter the code from your preferred two-factor authentication method, before\
+    \ being allowed to sign\ninto your account\nThe Two-Factor Authentication feature\
+    \ currently supports the use of an authenticator app ([Android](https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en_US&gl=US)\n\
+    or [iOS](https://apps.apple.com/us/app/google-authenticator/id388497605)).\nSteps\
+    \ to set up the authenticator can be found [here](https://www.youtube.com/watch?v=2ZLnBx8Mm40).\n\
+    \n## Manage users\n\nCreate and manage users on behalf of your organization. \n\
+    \n\n1. Click *Users* on the left menu\n2. Create a user by filling out user's\
+    \ information (`Email`,`First Name`, `Last Name`) \n3. Check the appropriate permissions\
+    \  \n  - `Review` - Allows user to review verification jobs   \n  - `Files` -\
+    \ Allows user to download PDFs of jobs   \n  - `Admin` - Allows user to manage\
+    \ users and keys\n  - `2FA` - Add 2 Factor Authentication for the user\n  - `Groups`\
+    \ - Select the [group](/#section/Dashboard/Groups) to be assigned to the user\n\
+    \n\n## Manage keys\n![Diagram 1](images/sigkey.png)\n[Keys](/#section/Overview/Security-and-Privacy)\
+    \ are required to use Vouched SDKs and APIs.\n\n1. Click *Keys* on the left menu\n\
+    1. Follow the instructions under the sections *Public Keys* and/or *Private Keys*\
+    \ and/or *Signature Keys*  \n- Note: Only one of each key can be active at a given\
+    \ time\n- Note: The signature key is an alternative to the private key\n- Note:\
+    \ Recreated keys will invalidate previous key\n\n  | Key Type   <img width=1670/>\
+    \   | Description <img width=1670/> | Use Case <img width=1670/> |\n  | -----------\
+    \ | ----------- | ----------- |\n  | Private key      | Used for security sensitive\
+    \ backend operations such as removing jobs       |   [API](/#section/Submit-a-verification/REST-Submit-job)\
+    \      |\n  | Public key      | Used for submitting jobs via user facing SDKs\
+    \     |   [JS Plugin](/#section/Submit-a-verification/JS-Plugin) and [Mobile](/#section/Submit-a-verification/Mobile-SDKs)\
+    \     |\n  | Signature key      | Used for security sensitive backend operations\
+    \ such as securing the webhook      |   [Webhook](/#section/After-a-verification/Webhook)\
+    \      |\n  | Sandbox private key      | Used for sandbox jobs via the REST endpoint\
+    \  |   [Sandbox](/#section/Sandbox)      |\n  | Sandbox public key      | Used\
+    \ for sandbox jobs via the JS Plugin     |   [Plugin](/#section/SDKs/JS-Plugin)\
+    \      |\n  \n\n\n## Verification invites \n\n### Sending an invite\n\nSending\
+    \ verification invites is available from the *Candidates* section. An invite is\
+    \ not a [verification job](#section/Dashboard/Jobs). \nWhen the user starts the\
+    \ verification process, a corresponding [verification job](#section/Dashboard/Jobs)\
+    \ is created.\n\n![Diagram 1](images/candidates.png)  \n1. Click *Candidates*\
+    \ on the left menu\n1. Send a verification invite by filling out the top form\
+    \  \n  - `First Name` - The user's first name\n  - `Last Name` - The user's last\
+    \ name\n  - `Contact` - Where to the send the invite to\n  - `Phone` - Text the\
+    \ verification link to the given phone number  \n  - `Email` - Email the verification\
+    \ link to the given email address  \n  - `Send Message` - Generate and send SMS\
+    \ or email invite to the user\n  - `Internal Id` - *Optional* - Use to track verification\
+    \ with an application ID \n  - `Group` - *Optional* - Select a sub-group for the\
+    \ account if one is available\n\n\n\n### Invite Status\n\n![Diagram 1](images/invite_states.png)\n\
+    \nInvites have the following status:\n\n  - `Sent` - The invite has been sent\
+    \ via email or SMS\n  - `Delivered` - The invite was delivered via email or SMS\n\
+    \  - `Completed` - The customer has completed the verification process \n\nPost\
+    \ invite actions are available via more icon (3 dots):\n\n  - `Copy` - Copy the\
+    \ invitation message including the unique invite URL. This option can be used\
+    \ to copy the contents of the \n  invite message if the `Resend Invite` option\
+    \ is not being used.\n  - `Resend` - Resend the invite to the user\n\n### Send\
+    \ an invite from your email \n\n1. Create an invite from *Sending an invite*\n\
+    1. Deselect `Send Message`\n1. Click `Create`\n1. Copy the invitation message\
+    \ from *Invite Status*\n1. Send a messge from your email account with the invitation\
+    \ messae\n\n\n## Jobs\n\nIn the *Jobs* section, the verification jobs are in descending\
+    \ order based on time\n\n1. Click *Jobs* on the left menu\n1. If applicable, filter\
+    \ the verification jobs using the top form\n\nJobs have the following status:\n\
+    \n  - `Approved` - The verification process has been completed and approved\n\
+    \  - `Failed` - The verification process has failed\n  - `Active` - User is in\
+    \ the process of being verified\n  - `Removed` - The job was deleted by the account\
+    \ admin\n  - `Warning` - The verification process was completed and may requrie\
+    \ a review\n\n## Manually Review Jobs\n\nOnce a specific job has been selected,\
+    \ for cases where a manual review is required, the user can override the results.\
+    \ \n\n1. Click *Jobs* on the left menu\n1. Select the job to be reviewed\n1. Click\
+    \ on the `Review` tab.\n\n  - The status of the job is dependent on the status\
+    \ of the processes defined below it (Valid ID, Valid Selfie, Face Match, etc.)\n\
+    \  - The grey status icon on the right indicates the process that had a result\
+    \ below the threshold. For icons with a `x` symbol, selecting \n  the said icon\
+    \ will switch it to an `approved / check` symbol if the reviewer deems it to be\
+    \ an error by the system. Changing every `x` icon \n  will change the Status icon\
+    \ to approved.\n\n\n## Delete Jobs\n\n- **Deleted jobs cannot be retrieved**\n\
+    - In the *Jobs* section, the verification jobs are in descending order based on\
+    \ time\n- Click on the job to be deleted.\n- Select the `DANGER` tab and type\
+    \ in the `job id` in the **ID** field.\n- Click the `Remove` button to delete\
+    \ the job.\n\n\n## Groups\n![Diagram 2](images/groups.png) \n\nAccounts can have\
+    \ multiple groups associated with them, each with their own private and public\
+    \ [keys](#section/Overview/Security-and-Privacy).\n\n\nEach group can have its\
+    \ own set of [jobs](#tag/jobs), and [invites](#tag/invites) for jobs.\n\n## Mobile\
+    \ Assets\n\nMobile development SDKs require asset files to run.\n\n1. Click *Get\
+    \ Started* on the left menu\n2. Check the *Mobile Application* checkbox  \n  a.\
+    \ Select the platform of your choice  \n  a. Click the *Assets* link to download\n\
+    \n\n\n\n# SDKs \n\n## JS Plugin\n\n### Arguments\n \n  | Parameters  <img width=1670/>\
+    \    | Type <img width=1670/> | Description <img width=1670/> |\n  | -----------\
+    \ | ----------- | ----------- |\n  | appId <br>`Required`     | string       |\
+    \  Public key.           |\n  | type      | string       |      **Default**: `idv`<br>\
+    \ **Enums**:`idv - id with selfie verification`, `id - id only`.       |\n  |\
+    \ survey      | boolean       |    **Default**: `true` <br> Show an optional survey\
+    \ at the end.         |\n  | token      | string       |     Time limited session\
+    \ token used to restart a session.        |\n  | crossDevice      | boolean  \
+    \     |   Provides the ability to maintain the same session across multiple devices\
+    \ using the token retrieved from onInit.        |\n  | crossDeviceQRCode     \
+    \ | boolean       |    If the user is on a desktop computer, a scannable QR Code\
+    \ enables the verification to continue on their mobile phone. Once completed,\
+    \ control is given back to the desktop.        |\n  | crossDeviceSMS      | boolean\
+    \       |    If the user is on a desktop computer, the user can input a cell phone\
+    \ number and we will text a secure link to continue verification.        |\n \
+    \ | crossDeviceURL      | string       |    Option to forward handoff verification\
+    \ to a custom site.        |\n  | showUploadFirst      | boolean       |     \
+    \ **Default**: `true` <br> Show the upload first instead of the camera.      \
+    \ |\n  | face      | string       |     **Default**: `camera`<br> **Enums**: `upload`,\
+    \ `camera`, `both` <br> Specify how user can submit their selfie.      |\n  |\
+    \ id      | string       |      **Default**: `both` <br> **Enums**: `upload`,\
+    \ `camera`, `both` <br> Specify how user can submit their id.       |\n  | idLiveness\
+    \      | string       |      **Default**: `null` <br> Only applicable for ID Card\
+    \ liveness check. Add `distance` to activate liveness check. idLiveness checks\
+    \ for user movements with ID Card.       |\n  | liveness      | string       |\
+    \   **Default**: `mouth` <br> **Enums**: `mouth`, `orientation`, `distance`, `straight`\
+    \ <br> Only applicable for selfie/headshot liveness check. Specify how Vouched\
+    \ should check for face liveness. The \"mouth\" liveness, checks for mouth movements,\
+    \ \"orientation\" checks the facial orientation, `distance` checks for user movements,\
+    \ and \"straight\" checks if the user is looking at the camera.        |\n  |\
+    \ enableEyeCheck      | boolean       |    **Default**: `false`  Only applicable\
+    \ for selfies. Checks if user has kept their eye open before selfie image is captured.\
+    \      |\n  | [properties](#jobproperty)      | [JobProperty]  |     List of JobProperty\
+    \ - Arbitrary properties to add to the job, i.e. name, value. |\n  | [content](#content)\
+    \     | object       |       Properties to change the content.      |\n  | [verification](#verification)\
+    \       | object       |       Optional verification properties.      |\n  | callbackURL\
+    \      | String      | Upon the job's completion, Vouched will POST the job results\
+    \ to the defined [webhook](/#section/After-a-verification/Webhook). |\n  | [stepTitles](#steptitles)\
+    \       | object       |  Titles for steps of the verification process.      \
+    \     |\n  | [theme](#theme)       | object       |    Change the theme and styles\
+    \ of the plugin.         |\n  | includeBarcode      | boolean       |       Enable\
+    \ ID barcode capture and processing for applicable IDs. The error `BarcodeMatchError`\
+    \ results when `idMatch` falls below the normalized threshold or the user skips\
+    \ the barcode step. |\n  | sandbox      | boolean       |       If true, creates\
+    \ a sandbox job      |\n  | disableCssBaseline      | boolean       |       If\
+    \ true, disables the internal CSS baseline styles      |\n  | onSubmit      |\
+    \ function       |       Javascript callback when a user submits a photo     \
+    \ |\n  | onCamera      | function       |       Javascript callback when camera\
+    \ initialization is complete      |\n  | onCameraEvent      | function       |\
+    \       Javascript callback when there are changes to the Camera DOM element \
+    \     |\n  | onInit      | function       |       Javascript callback during initialization\
+    \ of the webapp      |\n  | onDone      | function       |       Javascript callback\
+    \ when a verification is complete      |\n  | onSurveyDone      | function   \
+    \    |       Javascript callback when a survey is submitted      |\n  | showTermsAndPrivacy\
+    \          |   boolean             |     Flag to show terms and privacy      \
+    \                                             |\n  | showProgressBar         \
+    \ |   boolean             |     Flag to show the ProgressBar                 \
+    \                                  |\n  | maxRetriesBeforeNext          |   number\
+    \             |     Number of times to force users to retry before showing the\
+    \ Next button (Default: 0 - show Next button immediately) - Deprecated alias:\
+    \ idShowNext                                                    |\n  | [handoffView](#handoffview)\
+    \       | object       |  UI configurations for the handoff view.          |\n\
+    \  | locale          |   string             |     **Default**: `en` <br> **Enums**:\
+    \ `en`, `es`, `fr_CA`. Specify the language.                                 \
+    \                 |\n\n\n### content\n  | Property  <img width=1670/>    | Type\
+    \ <img width=1670/> | Description <img width=1670/>|\n  | ----------- | -----------\
+    \ | ----------- |\n  | success      | string       |  The messages posted after\
+    \ successful submission. <br> **Example**: `'Please close this window to return\
+    \ your online visit.'`.        |\n  | review      | string       |    Response\
+    \ to the user describing review of results.  <br> **Example**:<br> `'Thank you\
+    \ for providing your information. We will review and get back to you.'`.     \
+    \  |\n  | crossDeviceSuccess      | string       | Message posted after the crossDevice\
+    \ verification success.    <br> **Example**: `'Verification is complete, continue\
+    \ on your desktop.'`.      |\n  | crossDeviceInstructions      | string      \
+    \ | Instructions and requirements for crossDevice. <br>**Example**: <br> `'We\
+    \ need to verify your identity. This requires government-issued photo ID as well\
+    \ as selfie. Please follow the instructions below to continue the verification\
+    \ process on your phone:'` <br> `1. Open the Camera App from your phone`. <br>\
+    \ `2. Hold the device so the QR Code appears in the viewfinder`. <br> `3. Click\
+    \ on notification to open the verification link`.            |\n  | crossDeviceTitle\
+    \      | string       | Title for crossDevice. <br> **Example**: `'Identity Verification'`.\
+    \        |\n  | crossDeviceShowOff      | boolean       |     Allows Handoff to\
+    \ continue on Desktop.        |\n  | upperStartInstructions      | string    \
+    \   |     Upper Instructions on Start Screen.        |\n  | middleStartInstructions\
+    \      | string       |      Middle Instructions on Start Screen.       |\n  |\
+    \ lowerStartInstructions      | string       |      Lower Instructions on Start\
+    \ Screen.       |\n  | upperIdInstructions      | string       |   Upper Instructions\
+    \ on ID Screen.          |\n  | lowerIdInstructions      | string       |    Lower\
+    \ Instructions on ID Screen. <br> **Example**: `\"You can either upload a photo\
+    \ you've already taken, or take a photo of your ID now.\"`.        |\n  | upperBackIdInstructions\
+    \      | string       |   Upper Instructions on Back ID Screen.          |\n \
+    \ | lowerBackIdInstructions      | string       |   Lower Instructions on Back\
+    \ ID Screen.          |\n  | upperFaceInstructions      | string       |     Upper\
+    \ Instructions on Face Screen.        |\n  | lowerFaceInstructions      | string\
+    \       |      Lower Instructions on Face Screen.       |\n  | lowestFaceInstructions\
+    \      | string       |      Lowest Instructions on Face Screen.       |\n  |\
+    \ upperIdCapturedInstructions      | string       |      Upper Instructions on\
+    \ ID Captured Screen.       |\n  | middleIdCapturedInstructions      | string\
+    \       |      Middle Instructions on ID Captured Screen.       |\n  | lowerIdCapturedInstructions\
+    \      | string       |      Lower Instructions on ID Captured Screen.       |\n\
+    \  | cameraIDButton      | string       |      String text for camera button on\
+    \ ID Screen.       |\n  | cameraFaceButton      | string       |      String text\
+    \ for camera button on Face Screen.       |\n  | upperSuccess      | string  \
+    \     |     Success message at the top. <br> **Example**: `'Your photo uploads\
+    \ are complete!'`.        |\n  | lowerSuccess      | string       |    Success\
+    \ message at the bottom. <br> **Example**: `'Thank you.'`.       |\n  | upperFailure\
+    \      | string       |     Failure message at the top.  <br> **Example**: `'Try\
+    \ Again'`.     |\n  | lowerFailure      | string       |     Failure message at\
+    \ the bottom.  <br> **Example**: `\"The photo you shared can't be used for validation.\
+    \ Please take another picture, making sure the image of your face or your ID is\
+    \ clear.\"`.     |\n  | verifyPass      | string       |    The verification passed.\
+    \  <br> **Example**: `'Everything looks good to us. Check your information and\
+    \ click next.'`.     |\n  | verifyFail      | \tstring       |    The verification\
+    \ failed.  <br> **Example**: `\"We couldn't verify you. If you disagree, update\
+    \ your information and click next.\"`.    |\n  | qrHandoffInstructions      |\
+    \ string       |    Optional bottom Handoff Instructions.         |\n  | qrDesktopInstructions\
+    \      | string       |    Instructions for crossDeviceShowoff. qrDesktopInstructions\
+    \ is the instructions and needs to have '{qrDesktopLink}' to inject text for the\
+    \ link. <br> **Example**: `'Alternatively, you can {qrDesktopLink} if you have\
+    \ a good desktop camera.'`.          |\n  | qrDesktopLink      | string      \
+    \ |    String text used in qrDesktopInstructions to replace {qrDesktopLink}. qrDesktopLink\
+    \ becomes the link text. <br> **Example**: Continuing the example above, if qrDesktopLink\
+    \ = 'continue', qrDesktopInstructions becomes `'Alternatively, you can continue\
+    \ if you have a good desktop camera.'`.           |\n  | startCompanyInstructions\
+    \      | string       |     Optional Start Screen Instruction.        |\n  | carouselCompanyText\
+    \      | array of strings       |    Array of strings where string at each index\
+    \ make up the Carousel Slide.         |\n  | carouselCompanyImg      | array of\
+    \ strings       |     Array of strings (image URL) where image at each index make\
+    \ up the Carousel Slide.        |\n  | progressIndicatorLoading      | string\
+    \       |   String that would replace term 'loading' in the Progress Indicator.\
+    \          |\n  | progressIndicatorVouching      | string       |   String that\
+    \ would replace term 'vouching' in the Progress Indicator.          |\n  | surveyButtonLabel\
+    \      | string       |   Optional string to override the text in the survey submit\
+    \ button          |\n  | overlayHeader      | string       |   Optional string\
+    \ to override the header text in the Avant CameraScreen Overlay          |\n \
+    \ | startScreenButtonLabel      | string       |   Optional string to override\
+    \ the button text in the Avant Start screen         |\n  | cameraTopIDDirections\
+    \      | string       |   Optional string to override the top text in the Avant\
+    \ ID Camera screen         |\n  | cameraTopBackIdDirections      | string    \
+    \   |   Optional string to override the top text in the Avant Back ID Camera screen\
+    \         |\n  | cameraTopFaceDirections      | string       |   Optional string\
+    \ to override the top text in the Avant Face Camera screen         |\n  | cameraButtonLabelContinueSelfie\
+    \      | string       |   Optional string to override the button text in the Avant\
+    \ ID Captured screen         |\n  | retryMessageInvalidIdPhoto          |   string\
+    \             |     **Default**: `We could not recognize the ID` <br> Optional\
+    \ prop to override the first line of the retry message in the ID screen.     \
+    \                                              |\n  | retryMessageInvalidUserPhoto\
+    \          |   string             |     **Default**: `We could not recognize the\
+    \ selfie` <br> Optional prop to override the first line of the retry message in\
+    \ the Face screen.                                                  |\n  | cameraScreenLabelFrontId\
+    \          |   string             |     Optional prop to override the initial\
+    \ camera labels in the FrontID Camera Screen.                                \
+    \                  |\n  | cameraScreenLabelBackId          |   string        \
+    \     |     Optional prop to override the initial camera labels in the BackID\
+    \ Camera Screen.                                                  |\n  | cameraFaceLabelShowFace\
+    \          |   string             |     Optional prop to override the initial\
+    \ camera labels in the Face Camera Screen.                                   \
+    \               |\n  | mobileHandoffDoneMessage          |   string          \
+    \   |     Optional prop for extra text on the Done Screen when doing Handoff on\
+    \ Mobile                                                  |\n  \n### verification\n\
+    \  | Property  <img width=1670/>    | Type <img width=1670/> | Description <img\
+    \ width=1670/> |\n  | ----------- | ----------- | ----------- |\n  | firstName\
+    \     | string       |   **Example**: `Jerry`          |\n  | lastName      |\
+    \ string       |   **Example**: `Lawson`          |\n  | birthDate      | string\
+    \       |  **Example**: `12/01/1940`           |\n  | email      | string    \
+    \   |    Used for crosschecking identity.         |\n  | phone      | string \
+    \      |    Used for crosschecking identity.         |\n  | enableIPAddress  \
+    \     | boolean | Enable IP Adddress inspection. |\n  | enablePhysicalAddress\
+    \       | boolean | Enable Physical Adddress check. |\n  | enableDarkWeb     \
+    \  | boolean | Enable Darkweb check. |\n  | enableCrossCheck       | boolean |\
+    \ Enable phone, email and address crosscheck. |\n  | enableAAMVA       | boolean\
+    \ | Enable aamva check on the ID. |      \n\n### stepTitles\n  | Property  <img\
+    \ width=1670/>   | Type <img width=1670/> | Description <img width=1670/> |\n\
+    \  | ----------- | ----------- | ----------- |\n  | FrontId <br> `Required`  \
+    \    | string       |   The message shown on the ID screen. <br> **Example**:\
+    \ `\"Front ID\"`.         |\n  | Face <br> `Required`     | string       |   \
+    \ The message shown on the face screen. <br> **Example**: `\"Face\"`.        |\n\
+    \  | Done <br> `Required`     | string       |    The message shown on the completion\
+    \ screen. <br> **Example**:`\"Done verifying\"`.        |\n\n### theme\n  | Property\
+    \   <img width=1670/>   | Type <img width=1670/> | Description <img width=1670/>\
+    \ |\n  | ----------- | ----------- | ----------- |\n  | name      | string   \
+    \    |   Compatible with theme: `verbose`, `avant` <br> **Enums**: `classic` ,\
+    \ `verbose` , `avant`       |\n  | iconLabelColor      | string       |    Icon\
+    \ Label color. <br> Compatible with theme: `verbose` <br> **Example**: `'#413d3a'`.\
+    \        |\n  | bgColor      | string       |    Background color. <br> Compatible\
+    \ with theme: `verbose`        |\n  | logo     | string       |      Logo. <br>\
+    \ Compatible with theme: `verbose`, `avant` <br> **Example**: <br> `src: 'https://www.vouched.id/wp-content/uploads/2020/11/vouched_logo_hi_res.png',\
+    \ <br> style: { maxWidth: 150, marginBottom: 30 }`.       |\n  | navigationActiveText\
+    \      | string       | Compatible with theme: `verbose`  <br> **Example**: `'#413d3a'`.\
+    \          |\n  | iconColor     | string       |    Icon color.  <br> Compatible\
+    \ with theme: `verbose` <br> **Example**: `'#f6f5f3'`.       |\n  | iconBackground\
+    \      | string       |    Icon Background. <br> Compatible with theme: `verbose`\
+    \ <br> **Example**: `'#c8ae8f'`.        |\n  | baseColor      | string       |\
+    \    Main color.  <br> Compatible with theme: `verbose`, `avant` <br> **Example**:\
+    \ `'#4d7279'`.        |\n  | fontColor      | string       |    Font color.  <br>\
+    \ Compatible with theme: `verbose` <br> **Example**: `'#413d3a'`.       |\n  |\
+    \ font      | string       |    Font Family. <br> Compatible with theme: `verbose`,\
+    \ `avant` <br> **Example**: `'Open Sans'`.        |\n  | navigationActiveBackground\
+    \      | string       |    Background of active breadcrumbs. <br> Compatible with\
+    \ theme: `verbose` <br> **Example**: `'#bacbd1'`.        |\n  | navigationDisabledBackground\
+    \      | string       |    Background of disabled breadcrumbs. <br> Compatible\
+    \ with theme: `verbose` <br> **Example**: `'#bacbd1'`.        |\n  | navigationDisabledText\
+    \      | string       |    Text color on disabled breadcrumbs. <br> Compatible\
+    \ with theme: `verbose` <br> **Example**: `'#4d7279'`.        |\n  | secondaryButtonColor\
+    \      | string       |    Color of the secondary buttons (Grey Retry Next button,\
+    \ Survey Button). **Default**: `'rgb(216, 216, 216)'`       |\n  | handoffLinkColor\
+    \      | string       |    Text color for the Handoff verification link. **Default**:\
+    \ `'#40a1ed'`       |\n\n### JobProperty\n  | Property   <img width=1670/>   |\
+    \ Type <img width=1670/> | Description <img width=1670/> |\n  | ----------- |\
+    \ ----------- | ----------- |\n  | name      | string       |   Property name\
+    \        |\n  | value    | string       |    Property value       |\n\n### HandoffView\n\
+    \  | Property   <img width=1670/>   | Type <img width=1670/> | Description <img\
+    \ width=1670/> |\n  | ----------- | ----------- | ----------- |\n  | qRCodeSize\
+    \     | number  |  **Default**: `undefined` <br/> The QR Code canvas element size\
+    \ in pixels. <br/> When `undefined` the size will be determined.   |\n  | onlyShowQRCode\
+    \ | boolean |  **Default**: `false` <br/> Only shows the QR code.  |\n\n### Unmount\
+    \ JS Plugin\n\n```\nvouched.unmount('#vouched-element')\n```\n\n## iOS\n\n1. [Create\
+    \ a public key](#section/Dashboard/Manage-keys)\n2. [Download the mobile assets](#section/Dashboard/Mobile-Assets)\n\
+    3. Follow the steps in the [iOS README](https://github.com/vouched/vouched-ios)\n\
+    \n## Android\n\n1. [Create a public key](#section/Dashboard/Manage-keys)\n2. [Download\
+    \ the mobile assets](#section/Dashboard/Mobile-Assets)\n3. Follow the steps in\
+    \ the [Android README](https://github.com/vouched/vouched-android)\n\n## React\
+    \ Native\n\n1. [Create a public key](#section/Dashboard/Manage-keys)\n2. [Download\
+    \ the mobile assets](#section/Dashboard/Mobile-Assets)\n3. Follow the steps in\
+    \ the [React Native README](https://github.com/vouched/vouched-react-native)\n\
+    \n# Sandbox\n\nSandbox mode enables you to make requests to the Vouched API without\
+    \ having to incur any usage costs.\n\nSandbox mode will accept the same parameters\
+    \ as live mode requests but will not perform any actual validation on the submitted\
+    \ IDs.\nInstead, a predefined response that returns the same model definition\
+    \ will be returned.\nSince there is no validation occurring, jobs that are generated\
+    \ through sandbox mode should not be considered as validations of the submitted\
+    \ data.\n\n\nSandbox mode should only be used for testing purposes.\n\n\nThe sandbox\
+    \ mode feature is still in development so as of right now it is only available\
+    \ for integrations to the [submitJob](/#operation/SubmitJob) REST API endpoint.\n\
+    More endpoints will be enabled for sandbox mode in the future but for now, you\
+    \ can only use it to test if you are integrating through the REST API.\n\n\nIn\
+    \ order to submit a sandbox job you can:\n\n1. Head to the keys page and generate\
+    \ a new \"Sandbox Private Key\"\n\n2. Using the sandbox url, https://sandbox.vouched.id,\
+    \ and Postman or cURL, create a POST request to the [submitJob](/#operation/SubmitJob)\
+    \ endpoint. Make sure to use the sandbox url. Any jobs that are created through\
+    \ the live URL are billable!\n\n3. Set the following headers for your request\n\
+    \n- X-API-Key: ${Your generated sandbox private key}\n\n- Content-Type: application/json\n\
+    \n4. Submit your request\n\n5. You should receive a response back from the sandbox\
+    \ server with the result of the request.\n  Additionally, you can head over the\
+    \ the jobs page on the dashboard and view your job result by toggling the \"View\
+    \ Sandbox Data\" switch on the navigation sidebar\n\n# Support \n\nFor questions\
+    \ and feedback, contact us at [support@vouched.id](mailto:support@vouched.id).\n\
+    <br>\n<br>\nFor status updates or incident reports on services that are a part\
+    \ of Vouched, view our Status Dashboard at [https://status.vouched.id/](https://status.vouched.id/).\n"
+  version: 1.0.0
+  x-logo:
+    url: https://i.pinimg.com/originals/88/29/2f/88292f8ffd6231d0c41634f2e707c34a.png
+    altText: Vouched logo
+servers:
+- url: https://verify.vouched.id
+tags:
+- name: crosscheck
+  description: This is the section where you will do actions for all things related
+    to CrossCheck.
+- name: jobs
+  description: "This is the section where you will do actions for all things related\
+    \ to running, completing, and getting the results of Jobs."
+- name: aamva
+  description: This is the section where you will complete all things related to Aamva.
+- name: invites
+  description: This is the section where you can complete and send Invites to users.
+- name: models
+  x-displayName: All models
+- name: job model
+  description: |
+    <SchemaDefinition schemaRef="#/components/schemas/response_1" />
+  x-displayName: job
+- name: aamva identity model
+  description: |
+    <SchemaDefinition schemaRef="#/components/schemas/aamva_identity_result" />
+  x-displayName: aamva
+- name: crosscheck model
+  description: |
+    <SchemaDefinition schemaRef="#/components/schemas/identity_crosscheck" />
+  x-displayName: crosscheck
+- name: invite model
+  description: |
+    <SchemaDefinition schemaRef="#/components/schemas/send_invite" />
+  x-displayName: invite
+- name: error model
+  description: "<SchemaDefinition schemaRef=\"#/components/schemas/error\" />    \
+    \  \n"
+  x-displayName: error
+paths:
+  /api/jobs:
+    get:
+      tags:
+      - jobs
+      summary: Find jobs
+      description: Return paginated jobs
+      operationId: findJobs
+      parameters:
+      - name: id
+        in: query
+        description: Filter by job ID.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: type
+        in: query
+        description: Type of job.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          enum:
+          - id-verification
+          - id-crosscheck
+          - id-aamva
+      - name: ids
+        in: query
+        description: Filter by a list of job IDs.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+        example:
+        - AteDNdD
+        - jiorhBJDs
+      - name: token
+        in: query
+        description: The time limited session token from the web client.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: page
+        in: query
+        description: Paginate list by page.
+        required: false
+        style: form
+        explode: true
+        schema:
+          minimum: 1
+          type: integer
+          default: 1
+      - name: pageSize
+        in: query
+        description: The number of items for a page.
+        required: false
+        style: form
+        explode: true
+        schema:
+          maximum: 1000
+          type: integer
+          default: 100
+      - name: sortBy
+        in: query
+        description: Selection to sort list from.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          enum:
+          - submitted
+          - updated
+          - status
+      - name: sortOrder
+        in: query
+        description: Order the sort.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+      - name: status
+        in: query
+        description: Filter by status.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          enum:
+          - active
+          - completed
+      - name: from
+        in: query
+        description: "Filter by submitted/updatedAt from the [ISO8601 date](https://en.wikipedia.org/wiki/ISO_8601)."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+        example: 2019-09-07T15:50-04:00
+      - name: to
+        in: query
+        description: "Filter by submitted/updatedAt to the [ISO8601 date](https://en.wikipedia.org/wiki/ISO_8601)."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+        example: 2019-09-07T15:50-04:00
+      - name: toFrom
+        in: query
+        description: Filter to and from.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          default: submitted
+          enum:
+          - submitted
+          - updatedAt
+      - name: withPhotos
+        in: query
+        description: Job will contain idPhoto and userPhoto photos.
+        required: false
+        style: form
+        explode: true
+        schema:
+          maximum: 100
+          type: boolean
+          default: false
+      - name: withPhotoUrls
+        in: query
+        description: Job will contain idPhotoUrl and userPhotoUrl signed.
+        required: false
+        style: form
+        explode: true
+        schema:
+          maximum: 100
+          type: boolean
+          default: false
+      responses:
+        "200":
+          description: Provide Results on Jobs.
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/result_jobs'
+        "400":
+          description: InvalidRequestError - The request is invalid.
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "401":
+          description: AuthenticationError - The request could not be authenticated.
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "404":
+          description: ConnectionError - A connection error occurred while communicating
+            to the Vouched service.
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "500":
+          description: UnknownSystemError - A unknown system error occurred.
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+      security:
+      - X-API-Key: []
+      x-swagger-router-controller: Jobs
+    post:
+      tags:
+      - jobs
+      summary: Submit job
+      description: Submit a verification job.
+      operationId: SubmitJob
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/body_4'
+            examples:
+              "0":
+                value:
+                  type: id-verification
+                  callbackURL: https://yourwebsite.com
+                  properties:
+                  - name: propertiesName
+                    value: propertiesValue
+                  params:
+                    userPhoto: string
+                    idPhoto: string
+                    enableCrossCheck: false
+                    enableDarkWeb: false
+                    enableIPAddress: false
+                    enablePhysicalAddress: false
+                    enableAAMVA: false
+                    callback:
+                      aamva: false
+      responses:
+        "200":
+          description: Running a Job through Vouched.
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/response_1-2'
+        "400":
+          description: InvalidRequestError - The request is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "401":
+          description: AuthenticationError - The request could not be authenticated.
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "404":
+          description: ConnectionError - A connection error occurred while communicating
+            to the Vouched service.
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "500":
+          description: UnknownSystemError - A unknown system error occurred.
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+      security:
+      - X-API-Key: []
+      x-swagger-router-controller: Jobs
+    servers:
+    - url: https://verify.vouched.id
+  /api/jobs/{id}:
+    delete:
+      tags:
+      - jobs
+      summary: Remove job
+      description: Delete a job.
+      operationId: deleteJob
+      parameters:
+      - name: id
+        in: path
+        description: The job ID.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Remove a Job
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/response_1-2'
+        "400":
+          description: InvalidRequestError - The request is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "401":
+          description: AuthenticationError - The request could not be authenticated
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "404":
+          description: ConnectionError - A connection error occurred while communicating
+            to the Vouched service
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "500":
+          description: UnknownSystemError - A unknown system error occurred
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+      security:
+      - X-API-Key: []
+      x-swagger-router-controller: Jobs
+    servers:
+    - url: https://verify.vouched.id
+  /api/jobs/{id}/review:
+    put:
+      tags:
+      - jobs
+      summary: Update Review
+      description: Update Job with Verified Results
+      operationId: UpdateJob
+      parameters:
+      - name: id
+        in: path
+        description: The job ID.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/updatejob_inputs'
+      responses:
+        "200":
+          description: Update Review of a Job
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/response_1-2'
+        "400":
+          description: InvalidRequestError - The request is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "401":
+          description: AuthenticationError - The request could not be authenticated
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "404":
+          description: ConnectionError - A connection error occurred while communicating
+            to the Vouched service
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "500":
+          description: UnknownSystemError - A unknown system error occurred
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+      security:
+      - X-API-Key: []
+      servers:
+      - url: https://verify.vouched.id
+      x-swagger-router-controller: Jobs
+    servers:
+    - url: https://verify.vouched.id
+  /api/jobs/{id}/download:
+    get:
+      tags:
+      - jobs
+      summary: Download Job PDF
+      description: Download a pdf representation of the job.
+      operationId: downloadJobPDF
+      parameters:
+      - name: id
+        in: path
+        description: The job ID.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: confidences
+        in: query
+        description: Include Confidence Scores in the PDF.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: boolean
+          default: true
+      responses:
+        "200":
+          description: Download a Job
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_200'
+        "400":
+          description: InvalidRequestError - The request is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "401":
+          description: AuthenticationError - The request could not be authenticated
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "404":
+          description: ConnectionError - A connection error occurred while communicating
+            to the Vouched service
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "500":
+          description: UnknownSystemError - A unknown system error occurred
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+      security:
+      - X-API-Key: []
+      servers:
+      - url: https://verify.vouched.id
+      x-swagger-router-controller: Jobs
+  /api/identity/aamva:
+    post:
+      tags:
+      - aamva
+      summary: Submit Aamva Job
+      description: "Creates a standalone aamva job based on provided user details.\
+        \ License Number, country, state are mandatory fields. The result of the job\
+        \ will be posted to the endpoint specified by `callbackURL`. The schema of\
+        \ the post data to the `callbackURL` can be viewed [AAMVA request](/#operation/submitAamva)"
+      operationId: submitAamva
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/body_1'
+            examples:
+              "0":
+                value:
+                  licenseNumber: 520AS4197
+                  country: US
+                  lastName: Testesraet
+                  idType: drivers-license
+                  state: IA
+                  dob: 06/11/1975
+                  issueDate: 05/29/1988
+                  expirationDate: 05/29/1988
+                  callbackURL: https://yourwebsite.com
+      responses:
+        "200":
+          description: AAMVA job submission
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_1'
+        "400":
+          description: InvalidRequestError - The request is invalid.
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "401":
+          description: AuthenticationError - The request could not be authenticated.
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "404":
+          description: ConnectionError - A connection error occurred while communicating
+            to the Vouched service.
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "500":
+          description: UnknownSystemError - A unknown system error occurred.
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+      security:
+      - X-API-Key: []
+      servers:
+      - url: https://verify.vouched.id
+      x-swagger-router-controller: Aamva
+    servers:
+    - url: https://verify.vouched.id
+  /api/invites:
+    post:
+      tags:
+      - invites
+      summary: Send Invite
+      description: Send Vouched Now invite.
+      operationId: sendInvites
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/body_2'
+            examples:
+              "0":
+                value:
+                  email: test@test.acme.com
+                  firstName: John
+                  lastName: Bao
+                  phone: "0004007007"
+                  contact: email
+      responses:
+        "200":
+          description: Send an invite to use Vouched
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_2'
+        "400":
+          description: InvalidRequestError - The request is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "401":
+          description: AuthenticationError - The request could not be authenticated
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "404":
+          description: ConnectionError - A connection error occurred while communicating
+            to the Vouched service
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "500":
+          description: UnknownSystemError - A unknown system error occurred
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+      security:
+      - X-API-Key: []
+      servers:
+      - url: https://verify.vouched.id
+      x-swagger-router-controller: Invites
+    servers:
+    - url: https://verify.vouched.id
+  /api/invites/{id}/resend:
+    post:
+      tags:
+      - invites
+      summary: Resend Invite
+      description: Resend Vouched Now invite.
+      operationId: resendInvites
+      parameters:
+      - name: id
+        in: path
+        description: The invite id.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Resend Invite to use Vouched
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_2'
+        "400":
+          description: InvalidRequestError - The request is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "401":
+          description: AuthenticationError - The request could not be authenticated
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "404":
+          description: ConnectionError - A connection error occurred while communicating
+            to the Vouched service
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "500":
+          description: UnknownSystemError - A unknown system error occurred
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+      security:
+      - X-API-Key: []
+      servers:
+      - url: https://verify.vouched.id
+      x-swagger-router-controller: Invites
+  /api/invites/:
+    get:
+      tags:
+      - invites
+      summary: List Invites
+      description: List of Vouched Now invites.
+      operationId: listInvites
+      parameters:
+      - name: id
+        in: query
+        description: The invite id.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: page
+        in: query
+        description: Paginate list by page.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: pageSize
+        in: query
+        description: The number of items for a page.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: List of Vouched Now Invites
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_3'
+        "400":
+          description: InvalidRequestError - The request is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "401":
+          description: AuthenticationError - The request could not be authenticated
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "404":
+          description: ConnectionError - A connection error occurred while communicating
+            to the Vouched service
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "500":
+          description: UnknownSystemError - A unknown system error occurred
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+      security:
+      - X-API-Key: []
+      servers:
+      - url: https://verify.vouched.id
+      x-swagger-router-controller: Invites
+  /api/identity/crosscheck:
+    post:
+      tags:
+      - crosscheck
+      summary: Submit Identity CrossCheck
+      description: "Provides a crosscheck of matching identities based on provided\
+        \ name, email, phone number, address, and IP address. The crosscheck is performed\
+        \ across a network of enriched data sources."
+      operationId: crossCheck
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/crosscheck_request'
+            examples:
+              "0":
+                value:
+                  firstName: John
+                  lastName: Bao
+                  email: test@test.acme.com
+                  phone: 000-111-2222
+                  ipAddress: 73.19.102.110
+                  address:
+                    unit: ""
+                    streetAddress: 123 Elmo Avenue
+                    city: Seattle
+                    state: WA
+                    postalCode: "98109"
+                    country: US
+      responses:
+        "200":
+          description: Crosschecking a job
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/identity_crosscheck-2'
+        "400":
+          description: InvalidRequestError - The request is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "401":
+          description: AuthenticationError - The request could not be authenticated
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "404":
+          description: ConnectionError - A connection error occurred while communicating
+            to the Vouched service
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "500":
+          description: UnknownSystemError - A unknown system error occurred
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+      security:
+      - X-API-Key: []
+      servers:
+      - url: https://verify.vouched.id
+      x-swagger-router-controller: Crosscheck
+    servers:
+    - url: https://verify.vouched.id
+  /api/identity/documents:
+    get:
+      tags:
+      - jobs
+      summary: Get Supported ID Documents
+      description: Get a list of supported id documents.
+      operationId: getDocs
+      responses:
+        "200":
+          description: Get Supported ID Documents
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_4'
+        "400":
+          description: InvalidRequestError - The request is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "401":
+          description: AuthenticationError - The request could not be authenticated
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "404":
+          description: ConnectionError - A connection error occurred while communicating
+            to the Vouched service
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "500":
+          description: UnknownSystemError - A unknown system error occurred
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+      security:
+      - X-API-Key: []
+      servers:
+      - url: https://verify.vouched.id
+      x-swagger-router-controller: Jobs
+    servers:
+    - url: https://verify.vouched.id
+  /api/identity/authenticate:
+    post:
+      tags:
+      - jobs
+      summary: Authenticate Job
+      description: Authenticate by performing face match between a verified selfie
+        and a new selfie.
+      operationId: authenticateJob
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/authenticate_inputs'
+      responses:
+        "200":
+          description: Authenticate a Job
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_5'
+        "400":
+          description: InvalidRequestError - The request is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "401":
+          description: AuthenticationError - The request could not be authenticated
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "404":
+          description: ConnectionError - A connection error occurred while communicating
+            to the Vouched service
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "500":
+          description: UnknownSystemError - A unknown system error occurred
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+      security:
+      - X-API-Key: []
+      servers:
+      - url: https://verify.vouched.id
+      x-swagger-router-controller: Jobs
+    servers:
+    - url: https://verify.vouched.id
+components:
+  schemas:
+    response_1:
+      title: jobs
+      type: object
+      properties:
+        id:
+          type: string
+          description: The job ID.
+        completed:
+          type: boolean
+          description: The job is completed.
+        status:
+          type: string
+          description: The job status.
+          enum:
+          - active
+          - removed
+          - completed
+        submitted:
+          type: string
+          description: "The submitted date [ISO8601 date](https://en.wikipedia.org/wiki/ISO_8601)."
+          example: 2019-09-07T15:50-04:00
+        updatedAt:
+          type: string
+          description: "The last updated date [ISO8601 date](https://en.wikipedia.org/wiki/ISO_8601)."
+          example: 2019-09-07T15:50-04:00
+        reviewAt:
+          type: string
+          description: "The last updated review [ISO8601 date](https://en.wikipedia.org/wiki/ISO_8601)."
+          example: 2019-09-07T15:50-04:00
+        reviewSuccess:
+          type: boolean
+          description: Review indicates the verification pass or failed.
+        review:
+          type: boolean
+          description: Review override object.
+        surveyPoll:
+          maximum: 5
+          minimum: 1
+          type: integer
+          description: User survey rating.
+        surveyMessage:
+          type: string
+          description: User survey message.
+        surveyAt:
+          type: string
+          description: "The [ISO8601 date](https://en.wikipedia.org/wiki/ISO_8601)."
+          example: 2019-09-07T15:50-04:00
+        request:
+          $ref: '#/components/schemas/request'
+        result:
+          $ref: '#/components/schemas/result'
+        errors:
+          type: array
+          description: List of errors for unsuccessful completed jobs.
+          items:
+            $ref: '#/components/schemas/error-2'
+        signals:
+          type: array
+          description: "List of signals affecting id, backId, selfie and faceMatch\
+            \ scores.\n\n\n   | Property  <img width=1670/>    |  Associated Message\
+            \ <img width=1670/> |\n   | ----------- |  ----------- |\n   | quality\
+            \     |   ID/Selfie image is blurry          |\n   | brightness      |\
+            \  ID/Selfie image is dark          |\n   | nonglare      |   ID/Selfie\
+            \ image has glare           |\n   | glasses      |   Sunglass/Eyeglass\
+            \ worn by user         |\n   | face      |     Required visual markers\
+            \ could not be detected         |\n   | fraud       |  Found visual inconsistencies\
+            \ |\n   | barcode       |  Barcode data does not match extracted data,\
+            \ Barcode process was skipped, Unknown Barcode Error |\n   | fieldConfidence\
+            \       |  Field/Fields with low confidence: |\n   | missingName     \
+            \  |  Missing Field/Fields: |\n   | deviceInfo       |  Device Info: |\n\
+            \   | sticker       |  Property/Properties obscured by foreign material:\
+            \ |"
+          items:
+            $ref: '#/components/schemas/signals'
+    send_invite:
+      title: invites
+      type: object
+      properties:
+        id:
+          type: string
+          description: Invite id.
+        qrCode:
+          type: string
+          description: Base64 Data Url image for the invite link.
+        phone:
+          type: string
+          description: Phone number with the country code.
+        email:
+          type: string
+          description: Email address.
+        send:
+          type: boolean
+          description: Send an message via the contact method.
+          default: true
+        url:
+          type: string
+          description: The verification link sent to the user.
+        contact:
+          type: string
+          description: The contact used to send the invite.
+        jobId:
+          type: string
+          description: The associated job id if the status is active or completed.
+        firstName:
+          type: string
+          description: The contact's first name.
+        lastName:
+          type: string
+          description: The contact's last name.
+        updatedAt:
+          type: string
+          description: "The [ISO8601 date](https://en.wikipedia.org/wiki/ISO_8601)."
+          example: 2019-09-07T15:50-04:00
+        createdAt:
+          type: string
+          description: "The [ISO8601 date](https://en.wikipedia.org/wiki/ISO_8601)."
+          example: 2019-09-07T15:50-04:00
+        status:
+          type: string
+          description: send status
+          enum:
+          - accepted
+          - queued
+          - sending
+          - sent
+          - failed
+          - delivered
+          - undelivered
+          - receiving
+          - received
+          - read (WhatsApp only)
+          - completed
+          - active
+    aamva_identity_result:
+      title: aamva
+      type: object
+      properties:
+        job_status:
+          type: string
+          description: Status of the job.
+        aamva_status:
+          type: string
+          description: Status of the request sent to AAMVA.
+        job_type:
+          type: string
+          description: Type of job the request was sent as a part of.
+    identity_crosscheck:
+      title: crosscheck
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID of the request.
+        request:
+          $ref: '#/components/schemas/crosscheck_request'
+        result:
+          $ref: '#/components/schemas/crosscheck_result'
+    error:
+      title: error
+      type: object
+      properties:
+        type:
+          type: string
+          description: "\nError type code.\n- InvalidRequestError - The request is\
+            \ invalid.\n\n  - Parameters sent in the request are invalid.\n\n\n- FaceMatchError\
+            \ - Face match felled below the threshold.\n\n  - Category: faceMatch\n\
+            \n  - Faces obtained from the ID and Selfie images do not match.\n\n\n\
+            - NameMatchError - Name match felled below the threshold.\n\n  - The name\
+            \ provided by the user and the name extracted from the ID do not match.\n\
+            \n  - Eg: User Provided Name - Dave Smith, Extracted Name - David Smith\n\
+            \n\n- BarcodeMatchError - Barcode match felled below the threshold.\n\n\
+            \  - The data provided by the user and the data extracted from the barcode\
+            \ do not match. \n\n  - Eg: User Provided Name - Dave Smith, Extracted\
+            \ Name - David Smith\n\n\n- BirthDateMatchError - Birth date match felled\
+            \ below the threshold.\n\n  - The birth date provided by the user and\
+            \ the data extracted from the ID do not match.\n\n  - Eg: User Provided\
+            \ DOB - 01/09/1992, Extracted DOB - 09/01/1992\n\n  - Eg: User Provided\
+            \ DOB - 11/09/1992, Extracted DOB - 12/09/1992\n\n\n- ExpiredIdError -\
+            \ The ID’s expiration date has passed.\n\n  - The expiration date extracted\
+            \ from the ID indicates that it has expired.\n\n\n- InvalidIdPhotoError\
+            \ - The ID is invalid.\n\n  - Category: id\n\n  - The image submitted\
+            \ does not qualify as an ID.\n\n\n- InvalidUserPhotoError - The user photo\
+            \ (selfie) is invalid.\n\n  - Category: selfie\n\n  - The image submitted\
+            \ does not qualify as a selfie.\n\n\n- AuthenticationError - The request\
+            \ could not be authenticated.\n\n  - The key could not be verified.\n\n\
+            \n- ConnectionError - A connection error occurred while communicating\
+            \ to the Vouched service.\n\n- UnknownSystemError - A unknown system error\
+            \ occurred.\n\n- InvalidIdError - The ID is invalid .   \n\n  - Category:\
+            \ id       "
+          enum:
+          - InvalidRequestError
+          - FaceMatchError
+          - NameMatchError
+          - BarcodeMatchError
+          - BirthDateMatchError
+          - ExpiredIdError
+          - InvalidIdPhotoError
+          - InvalidUserPhotoError
+          - AuthenticationError
+          - ConnectionError
+          - UnknownSystemError
+          - InvalidIdError
+        message:
+          type: string
+          description: Details on the occurring error.
+        warning:
+          type: boolean
+          description: Is this a warning?
+        suggestion:
+          type: string
+          description: A suggestion for matching name.
+          example: John Smith
+    request_info:
+      type: object
+      properties:
+        ipaddress:
+          type: string
+          description: The user's IP address.
+        useragent:
+          type: string
+          description: The user's browser agent.
+        referer:
+          type: string
+          description: The refering browser location.
+      example:
+        ipaddress: ipaddress
+        referer: referer
+        useragent: useragent
+    job_parameters:
+      type: object
+      properties:
+        idPhoto:
+          type: string
+          description: The user's official identification photo in base64.
+        idPhotoUrl:
+          type: string
+          description: The user's id photo as a timed (15 min) signed url.
+        idPhotoDetect:
+          type: string
+          description: A cropped aligned version of the id photo in base64.
+        idPhotoDetectUrl:
+          type: string
+          description: A cropped aligned version of the id photo as timed (15 min)
+            signed url.
+        idPhotoDetectDimensions:
+          $ref: '#/components/schemas/job_parameters_idPhotoDetectDimensions'
+        idPhotoDimensions:
+          $ref: '#/components/schemas/job_parameters_idPhotoDetectDimensions'
+        backIdPhoto:
+          type: string
+          description: The back of the user's official identification photo in base64.
+        backIdPhotoUrl:
+          type: string
+          description: The back of the user's id photo as a timed (15 min) signed
+            url.
+        backIdPhotoDimensions:
+          $ref: '#/components/schemas/job_parameters_idPhotoDetectDimensions'
+        userPhoto:
+          type: string
+          description: The user's selfie photo in base64.
+        userPhotoUrl:
+          type: string
+          description: The user's selfie photo as a timed (15 min) signed url.
+        userPhotoDetect:
+          type: string
+          description: A cropped aligned version of the selfie photo in base64.
+        userPhotoDetectUrl:
+          type: string
+          description: A cropped aligned version of the selfie photo as timed (15
+            min) signed url.
+        userPhotoDetectDimensions:
+          $ref: '#/components/schemas/job_parameters_idPhotoDetectDimensions'
+        userPhotoDimensions:
+          $ref: '#/components/schemas/job_parameters_idPhotoDetectDimensions'
+        email:
+          type: string
+          description: Used for crosschecking identity.
+        phone:
+          type: string
+          description: Used for crosschecking identity.
+          example: 000-111-2222
+        dob:
+          pattern: ' MM/DD/YYYY'
+          type: string
+          description: Date
+          example: 08/23/1991
+        firstName:
+          type: string
+          description: The user's first name.
+        lastName:
+          type: string
+          description: The user's last name.
+      example:
+        lastName: lastName
+        userPhoto: userPhoto
+        backIdPhoto: backIdPhoto
+        idPhotoDimensions: null
+        userPhotoUrl: userPhotoUrl
+        userPhotoDetect: userPhotoDetect
+        firstName: firstName
+        backIdPhotoDimensions: null
+        phone: 000-111-2222
+        backIdPhotoUrl: backIdPhotoUrl
+        dob: 08/23/1991
+        idPhotoUrl: idPhotoUrl
+        idPhotoDetectUrl: idPhotoDetectUrl
+        userPhotoDetectUrl: userPhotoDetectUrl
+        idPhoto: idPhoto
+        idPhotoDetectDimensions:
+          width: 6
+          height: 1
+        userPhotoDetectDimensions: null
+        userPhotoDimensions: null
+        idPhotoDetect: idPhotoDetect
+        email: email
+    request:
+      type: object
+      properties:
+        type:
+          type: string
+          description: Job type
+          enum:
+          - drivers-license
+          - identification
+          - passport
+          - handgun
+          - residence
+          - global-entry
+          - employment
+          - drivers-license-permit
+          - nexus
+          - indian
+          - health-insurance
+          - commercial-license
+        callbackURL:
+          type: string
+          description: "Upon the job's completion, Vouched will POST the job results\
+            \ to the defined [webhook](/#section/After-Verification/Webhook)."
+        requestInfo:
+          $ref: '#/components/schemas/request_info'
+        parameters:
+          $ref: '#/components/schemas/job_parameters'
+      example:
+        callbackURL: callbackURL
+        requestInfo:
+          ipaddress: ipaddress
+          referer: referer
+          useragent: useragent
+        type: drivers-license
+        parameters:
+          lastName: lastName
+          userPhoto: userPhoto
+          backIdPhoto: backIdPhoto
+          idPhotoDimensions: null
+          userPhotoUrl: userPhotoUrl
+          userPhotoDetect: userPhotoDetect
+          firstName: firstName
+          backIdPhotoDimensions: null
+          phone: 000-111-2222
+          backIdPhotoUrl: backIdPhotoUrl
+          dob: 08/23/1991
+          idPhotoUrl: idPhotoUrl
+          idPhotoDetectUrl: idPhotoDetectUrl
+          userPhotoDetectUrl: userPhotoDetectUrl
+          idPhoto: idPhoto
+          idPhotoDetectDimensions:
+            width: 6
+            height: 1
+          userPhotoDetectDimensions: null
+          userPhotoDimensions: null
+          idPhotoDetect: idPhotoDetect
+          email: email
+    gender_distribution:
+      type: object
+      properties:
+        man:
+          maximum: 100
+          minimum: 0
+          type: integer
+          description: frequency with a range 0-100 of the first name in men with
+            a mininum found frequency of 0.0001
+        woman:
+          maximum: 100
+          minimum: 0
+          type: integer
+          description: frequency with a range 0-100 of the first name in women with
+            a mininum found frequency of 0.0001
+    gender_info:
+      type: object
+      properties:
+        gender:
+          type: string
+          description: man or woman based on extracted fields from the ID.
+          enum:
+          - man
+          - woman
+        genderDistribution:
+          $ref: '#/components/schemas/gender_distribution'
+      example:
+        genderDistribution: genderDistribution
+        gender: man
+    ipFraudCheck:
+      type: object
+      properties:
+        ipFraud:
+          type: boolean
+          description: A boolean determining whether or not the ipAddress for the
+            job was flagged as fraudulent.
+        count:
+          type: integer
+          description: Represents the number of jobs with the same IP address.
+        jobIdList:
+          type: array
+          description: List of job ids with the same IP address. Provides a maximum
+            of 10 job IDs linked to the IP address.
+          items:
+            type: string
+      description: Indicator of IP address fraud. The max attempts (default - 4) before
+        a fraud check is triggered and the time range (default - 60 minutes) for the
+        inspection is configurable.
+      example:
+        ipFraud: true
+        jobIdList:
+        - jobIdList
+        - jobIdList
+        count: 5
+    address:
+      type: object
+      properties:
+        unit:
+          type: string
+          description: Unit number.
+        streetNumber:
+          type: string
+        street:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+          description: "The [ISO 3166-2 state/province/territory code](https://en.wikipedia.org/wiki/ISO_3166-2)."
+        postalCode:
+          type: string
+        postalCodeSuffix:
+          type: string
+        country:
+          type: string
+          description: "The [ISO 3166-1 country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)."
+      example:
+        country: country
+        unit: unit
+        streetNumber: streetNumber
+        city: city
+        street: street
+        postalCode: postalCode
+        state: state
+        postalCodeSuffix: postalCodeSuffix
+    crosscheck_identity_errors:
+      type: object
+      properties:
+        type:
+          type: string
+          description: Type of error encountered.
+        warnings:
+          type: boolean
+          description: Is this a warning?
+        message:
+          type: string
+          description: Details on the occurring error.
+        suggestion:
+          type: string
+          description: A suggestion for matching name.
+          example: John Smith
+      example:
+        warnings: true
+        suggestion: John Smith
+        type: type
+        message: message
+    crosscheck_age_range:
+      type: object
+      properties:
+        from:
+          type: integer
+          description: From age
+        to:
+          type: integer
+          description: To age
+      example:
+        from: 5
+        to: 2
+    crosscheck_identity_address:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/crosscheck_identity_errors'
+        warnings:
+          type: array
+          items:
+            $ref: '#/components/schemas/crosscheck_identity_errors'
+        isValid:
+          type: boolean
+          description: The address is a verified address.
+        isMatch:
+          type: boolean
+          description: The name on the address matches the user.
+        name:
+          type: string
+          description: The recorded name of the identity.
+        ageRange:
+          $ref: '#/components/schemas/crosscheck_age_range'
+        isForwarder:
+          type: boolean
+          description: The address is a freight forwarding address.
+        isCommercial:
+          type: boolean
+          description: The address is associated with a business.
+        type:
+          type: string
+          enum:
+          - incomplete-address
+          - po-box
+          - multi-unit
+          - single-unit
+          - commercial-mail-drop
+          - po-box-forward
+          - other
+      example:
+        ageRange:
+          from: 5
+          to: 2
+        warnings:
+        - null
+        - null
+        isValid: true
+        isCommercial: true
+        name: name
+        type: incomplete-address
+        isMatch: true
+        errors:
+        - warnings: true
+          suggestion: John Smith
+          type: type
+          message: message
+        - warnings: true
+          suggestion: John Smith
+          type: type
+          message: message
+        isForwarder: true
+    crosscheck_identity_email:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/crosscheck_identity_errors'
+        warnings:
+          type: array
+          items:
+            $ref: '#/components/schemas/crosscheck_identity_errors'
+        isValid:
+          type: boolean
+          description: The email is a valid email address.
+        isMatch:
+          type: boolean
+          description: The name associated with the email address matches the user.
+        name:
+          type: string
+          description: The recorded name of the identity.
+        ageRange:
+          $ref: '#/components/schemas/crosscheck_age_range'
+        isAutoGenerated:
+          type: boolean
+          description: Indicates the email address was generated automatically.
+        isDisposable:
+          type: boolean
+          description: The email address is provided by a disposable email provider.
+        daysFirstSeen:
+          type: integer
+          description: The number of days since the email address was first seen in
+            the data network.
+      example:
+        ageRange: null
+        isDisposable: true
+        warnings:
+        - null
+        - null
+        isValid: true
+        daysFirstSeen: 7
+        name: name
+        isMatch: true
+        isAutoGenerated: true
+        errors:
+        - null
+        - null
+    crosscheck_identity_phone:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/crosscheck_identity_errors'
+        warnings:
+          type: array
+          items:
+            $ref: '#/components/schemas/crosscheck_identity_errors'
+        isValid:
+          type: boolean
+          description: The phone number is valid.
+        isMatch:
+          type: boolean
+          description: The name associated with the phone number matches the user.
+        name:
+          type: string
+          description: The recorded name of the identity.
+        type:
+          type: string
+          enum:
+          - fixed-voip
+          - landline
+          - mobile
+          - non-fixed-voip
+          - premium-rate
+          - tollfree
+          - voicemail
+          - other
+        ageRange:
+          $ref: '#/components/schemas/crosscheck_age_range'
+        carrier:
+          type: string
+          description: The phone provider.
+        isPrepaid:
+          type: boolean
+          description: The phone number is on a prepaid plan.
+        isDisposable:
+          type: boolean
+          description: The phone number is disposable.
+        isCommercial:
+          type: boolean
+          description: The phone number is associated with a business.
+      example:
+        ageRange: null
+        carrier: carrier
+        isPrepaid: true
+        isDisposable: true
+        warnings:
+        - null
+        - null
+        isValid: true
+        isCommercial: true
+        name: name
+        type: fixed-voip
+        isMatch: true
+        errors:
+        - null
+        - null
+    location:
+      type: object
+      properties:
+        latitude:
+          type: integer
+        longitude:
+          type: integer
+      example:
+        latitude: 9
+        longitude: 3
+    ip_address:
+      type: object
+      properties:
+        city:
+          type: string
+          description: Originating City.
+        state:
+          type: string
+          description: "Originating State/Province/Territory in [ISO 3166-2 code](https://en.wikipedia.org/wiki/ISO_3166-2)."
+        country:
+          type: string
+          description: "Originating Country in [ISO 3166-1 code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)."
+        postalCode:
+          type: string
+          description: postal code.
+        location:
+          $ref: '#/components/schemas/location'
+        isp:
+          type: string
+          description: Name of the isp.
+        organization:
+          type: string
+          description: Name of the organization associated with the IP address.
+        isAnonymous:
+          type: boolean
+          description: Is the IP address part of an anonymous network.
+        isAnonymousVpn:
+          type: boolean
+          description: Is the IP address part of an anonymous vpn network.
+        isAnonymousHosting:
+          type: boolean
+          description: Is the IP address part of an anonymous hosting network.
+        userType:
+          type: string
+          description: A description of the internet access point.
+          enum:
+          - business - the IP address belongs to a business ISP or a corporation.
+          - cafe - an internet cafe or similar location.
+          - cellular - the IP address is used to route traffic from devices connected
+            to a cellular network.
+          - "college - the IP address belongs to a college, university, or similar\
+            \ institute of higher education."
+          - "content_delivery_network - belongs to a CDN (Akamai, Cloudflare, Google\
+            \ Cloud, etc.)."
+          - dialup - belongs to a dial-up ISP.
+          - government - the IP address belongs to a government organization.
+          - hosting -- a commercial hosting provider.
+          - library - used in a library.
+          - military - used on a military base or similar.
+          - residential - the IP address belongs to a residential ISP or is otherwise
+            primarily used by home users.
+          - router - a backbone or infrastructure router.
+          - school - primary or secondary education.
+          - "search_engine_spider - a crawler or indexer for a search engine (Google,\
+            \ Bing, Yahoo, etc.)."
+          - "traveler - the IP address is used at an airport, hotel, or similar location\
+            \ where the users are generally traveling from their primary residence."
+      example:
+        country: country
+        isAnonymous: true
+        city: city
+        postalCode: postalCode
+        isp: isp
+        organization: organization
+        isAnonymousHosting: true
+        isAnonymousVpn: true
+        location:
+          latitude: 9
+          longitude: 3
+        state: state
+        userType: business - the IP address belongs to a business ISP or a corporation.
+    crosscheck_darkweb:
+      type: object
+      properties:
+        criminalCount:
+          type: integer
+          description: Count of instances email was observed to have been used in
+            DarkWeb data collections.
+        criminalLastSeen:
+          type: string
+          description: Last observed time email was observed to have been used in
+            DarkWeb collections.
+        criminalMaxScore:
+          maximum: 5
+          minimum: 0
+          type: integer
+          description: "0-low risk, 5-critical risk."
+      example:
+        criminalMaxScore: 2
+        criminalCount: 2
+        criminalLastSeen: criminalLastSeen
+    crosscheck_confidences:
+      type: object
+      properties:
+        identity:
+          maximum: 1
+          minimum: 0
+          type: integer
+          description: "Overall identity risk confidence. The identity score is a\
+            \ risk score assigned to the user based on their address, email, and phone\
+            \ details. These details are cross-referenced against the data provided\
+            \ by the user or the extracted from their ID.\n\n\n  | Score  <img width=1670/>\
+            \    |  Risk <img width=1670/> |\n  | ----------- |  ----------- |\n \
+            \ | >= 0.50     |   low        |\n  | > 0.2       |   medium     |\n \
+            \ | > 0.1       |   high       |\n  | <= 0.1      |   critical   | "
+        activity:
+          type: integer
+          description: "Overall activity risk confidence, high: <= 0.1"
+      example:
+        activity: 1
+        identity: 0
+    crosscheck_result:
+      type: object
+      properties:
+        address:
+          $ref: '#/components/schemas/crosscheck_identity_address'
+        email:
+          $ref: '#/components/schemas/crosscheck_identity_email'
+        phone:
+          $ref: '#/components/schemas/crosscheck_identity_phone'
+        gender:
+          $ref: '#/components/schemas/gender_distribution'
+        ageRange:
+          $ref: '#/components/schemas/crosscheck_age_range'
+        ipAddress:
+          $ref: '#/components/schemas/ip_address'
+        darkWeb:
+          $ref: '#/components/schemas/crosscheck_darkweb'
+        confidences:
+          $ref: '#/components/schemas/crosscheck_confidences'
+      description: CrossCheck Result
+      example:
+        ageRange: null
+        address:
+          ageRange:
+            from: 5
+            to: 2
+          warnings:
+          - null
+          - null
+          isValid: true
+          isCommercial: true
+          name: name
+          type: incomplete-address
+          isMatch: true
+          errors:
+          - warnings: true
+            suggestion: John Smith
+            type: type
+            message: message
+          - warnings: true
+            suggestion: John Smith
+            type: type
+            message: message
+          isForwarder: true
+        darkWeb:
+          criminalMaxScore: 2
+          criminalCount: 2
+          criminalLastSeen: criminalLastSeen
+        gender: null
+        phone:
+          ageRange: null
+          carrier: carrier
+          isPrepaid: true
+          isDisposable: true
+          warnings:
+          - null
+          - null
+          isValid: true
+          isCommercial: true
+          name: name
+          type: fixed-voip
+          isMatch: true
+          errors:
+          - null
+          - null
+        confidences:
+          activity: 1
+          identity: 0
+        ipAddress:
+          country: country
+          isAnonymous: true
+          city: city
+          postalCode: postalCode
+          isp: isp
+          organization: organization
+          isAnonymousHosting: true
+          isAnonymousVpn: true
+          location:
+            latitude: 9
+            longitude: 3
+          state: state
+          userType: business - the IP address belongs to a business ISP or a corporation.
+        email:
+          ageRange: null
+          isDisposable: true
+          warnings:
+          - null
+          - null
+          isValid: true
+          daysFirstSeen: 7
+          name: name
+          isMatch: true
+          isAutoGenerated: true
+          errors:
+          - null
+          - null
+    aamva:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          description: A boolean determining whether or not AAMVA is enabled for the
+            account this job ran under.
+        hasErrors:
+          type: boolean
+          description: Representing if AAMVA returned any matching errors.
+        hasWarnings:
+          type: boolean
+          description: Representing if there are any warnings on the AAMVA request.
+        createdAt:
+          type: string
+          description: "Representing when the AAMVA request was created as a [ISO8601\
+            \ date](https://en.wikipedia.org/wiki/ISO_8601)."
+        updatedAt:
+          type: string
+          description: "Representing the last time the AAMVA verification data was\
+            \ updated as a [ISO8601 date](https://en.wikipedia.org/wiki/ISO_8601)."
+        status:
+          type: string
+          description: Representing the state of the AAMVA verification request.
+          enum:
+          - Pending
+          - In Progress
+          - Error
+          - Not Applicable
+          - Completed
+        statusMessage:
+          type: string
+          description: A message that provides additional information about the status
+            of the verification request.
+        completedAt:
+          type: string
+          description: "Representing the time the verification request was completed\
+            \ as a [ISO8601 date](https://en.wikipedia.org/wiki/ISO_8601)."
+      example:
+        createdAt: createdAt
+        completedAt: completedAt
+        hasErrors: true
+        hasWarnings: true
+        enabled: true
+        statusMessage: statusMessage
+        updatedAt: updatedAt
+        status: Pending
+    id_watchlist:
+      type: object
+      properties:
+        data:
+          type: array
+          description: list of matched results
+          items:
+            $ref: '#/components/schemas/id_watchlist_data'
+        confidence:
+          $ref: '#/components/schemas/id_watchlist_confidence'
+      description: Watchlist Result
+      example:
+        data:
+        - attributes:
+            score: score
+            country_territory_name: country_territory_name
+            gender: gender
+            date_of_birth:
+            - month: month
+              year: year
+              day: day
+            - month: month
+              year: year
+              day: day
+            primary_name: primary_name
+            icon_hints:
+            - icon_hints
+            - icon_hints
+            type: type
+            title: title
+            countries_territories:
+            - iso_alpha2: iso_alpha2
+              code: code
+              iso_alpha3: iso_alpha3
+              type: type
+            - iso_alpha2: iso_alpha2
+              code: code
+              iso_alpha3: iso_alpha3
+              type: type
+            country_territory_code: country_territory_code
+            is_subsidiary: true
+          id: id
+          type: type
+        - attributes:
+            score: score
+            country_territory_name: country_territory_name
+            gender: gender
+            date_of_birth:
+            - month: month
+              year: year
+              day: day
+            - month: month
+              year: year
+              day: day
+            primary_name: primary_name
+            icon_hints:
+            - icon_hints
+            - icon_hints
+            type: type
+            title: title
+            countries_territories:
+            - iso_alpha2: iso_alpha2
+              code: code
+              iso_alpha3: iso_alpha3
+              type: type
+            - iso_alpha2: iso_alpha2
+              code: code
+              iso_alpha3: iso_alpha3
+              type: type
+            country_territory_code: country_territory_code
+            is_subsidiary: true
+          id: id
+          type: type
+        confidence:
+          normalized: true
+    confidences:
+      type: object
+      properties:
+        id:
+          maximum: 1
+          minimum: 0
+          type: integer
+          description: Confidence score for an id photo.
+        idQuality:
+          maximum: 1
+          minimum: 0
+          type: integer
+          description: Confidence score for image quality of the id.
+        idGlareQuality:
+          maximum: 1
+          minimum: 0
+          type: integer
+          description: Confidence score for image quality of the id.
+        selfie:
+          maximum: 1
+          minimum: 0
+          type: integer
+          description: Confidence score for a selfie photo.
+        idMatch:
+          maximum: 1
+          minimum: 0
+          type: integer
+          description: Confidence score for matching data on the id.
+        idExpired:
+          maximum: 1
+          minimum: 0
+          type: integer
+          description: Confidence score for id expiration date.
+        faceMatch:
+          maximum: 1
+          minimum: 0
+          type: integer
+          description: Confidence score for matching faces.
+        birthDateMatch:
+          maximum: 1
+          minimum: 0
+          type: integer
+          description: Confidence score for matching birth dates.
+        nameMatch:
+          maximum: 1
+          minimum: 0
+          type: integer
+          description: Confidence score for matching names.
+        selfieSunglasses:
+          maximum: 1
+          minimum: 0
+          type: integer
+          description: Confidence score for selfie with sunglasses.
+        selfieEyeglasses:
+          maximum: 1
+          minimum: 0
+          type: integer
+          description: Confidence score for selfie with eyeglasses.
+      example:
+        selfieSunglasses: 0
+        idQuality: 0
+        birthDateMatch: 0
+        selfie: 0
+        idMatch: 0
+        idGlareQuality: 0
+        selfieEyeglasses: 0
+        id: 0
+        faceMatch: 0
+        idExpired: 0
+        nameMatch: 0
+    result:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Did the id verification completed successfully with no errors?
+            The verification could have warnings.
+        warnings:
+          type: boolean
+          description: Does the completed verification contain warnings.
+        gender:
+          $ref: '#/components/schemas/gender_info'
+        type:
+          type: string
+          description: "The detected [id type](https://docs.vouched.id/#section/Overview/Recognized-IDs).\
+            \ For unrecognized ids, the type will be `other`."
+        state:
+          type: string
+          description: "The issuing state/province/territory of the id as a [ISO 3166-2\
+            \ code](https://en.wikipedia.org/wiki/ISO_3166-2)."
+        country:
+          type: string
+          description: "The issuing country of the id in [ISO 3166-1 format](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)."
+        id:
+          type: string
+          description: The verified id number of the id.
+        expireDate:
+          pattern: ' MM/DD/YYYY'
+          type: string
+          description: The verified expired date.
+        issueDate:
+          pattern: ' MM/DD/YYYY'
+          type: string
+          description: The verified issued date.
+        unverifiedIdAddress:
+          type: array
+          description: Unverified list of extracted address fields from the ID.
+          items:
+            type: string
+        idType:
+          type: string
+          description: Any additional id type information available on the card.
+        ipFraudCheck:
+          $ref: '#/components/schemas/ipFraudCheck'
+        idAddress:
+          $ref: '#/components/schemas/address'
+        crosscheck:
+          $ref: '#/components/schemas/crosscheck_result'
+        aamva:
+          $ref: '#/components/schemas/aamva'
+        ipAddress:
+          $ref: '#/components/schemas/ip_address'
+        idWatchlist:
+          $ref: '#/components/schemas/id_watchlist'
+        class:
+          type: string
+          description: The ID class value.
+        idFields:
+          type: array
+          description: Array of objects containing available ID fields.
+          items:
+            $ref: '#/components/schemas/result_idFields'
+        endorsements:
+          type: string
+          description: The id endorsements.
+        motorcycle:
+          type: string
+          description: The motorcycle property.
+        birthDate:
+          pattern: ' MM/DD/YYYY'
+          type: string
+          description: The verified date.
+        firstName:
+          type: string
+          description: The user's verified first name.
+        middleName:
+          type: string
+          description: The user's verified middle name.
+        lastName:
+          type: string
+          description: The user's verified last name.
+        confidences:
+          $ref: '#/components/schemas/confidences'
+      example:
+        idFields:
+        - name: name
+        - name: name
+        country: country
+        ipFraudCheck:
+          ipFraud: true
+          jobIdList:
+          - jobIdList
+          - jobIdList
+          count: 5
+        lastName: lastName
+        gender:
+          genderDistribution: genderDistribution
+          gender: man
+        type: type
+        idAddress:
+          country: country
+          unit: unit
+          streetNumber: streetNumber
+          city: city
+          street: street
+          postalCode: postalCode
+          state: state
+          postalCodeSuffix: postalCodeSuffix
+        motorcycle: motorcycle
+        idWatchlist:
+          data:
+          - attributes:
+              score: score
+              country_territory_name: country_territory_name
+              gender: gender
+              date_of_birth:
+              - month: month
+                year: year
+                day: day
+              - month: month
+                year: year
+                day: day
+              primary_name: primary_name
+              icon_hints:
+              - icon_hints
+              - icon_hints
+              type: type
+              title: title
+              countries_territories:
+              - iso_alpha2: iso_alpha2
+                code: code
+                iso_alpha3: iso_alpha3
+                type: type
+              - iso_alpha2: iso_alpha2
+                code: code
+                iso_alpha3: iso_alpha3
+                type: type
+              country_territory_code: country_territory_code
+              is_subsidiary: true
+            id: id
+            type: type
+          - attributes:
+              score: score
+              country_territory_name: country_territory_name
+              gender: gender
+              date_of_birth:
+              - month: month
+                year: year
+                day: day
+              - month: month
+                year: year
+                day: day
+              primary_name: primary_name
+              icon_hints:
+              - icon_hints
+              - icon_hints
+              type: type
+              title: title
+              countries_territories:
+              - iso_alpha2: iso_alpha2
+                code: code
+                iso_alpha3: iso_alpha3
+                type: type
+              - iso_alpha2: iso_alpha2
+                code: code
+                iso_alpha3: iso_alpha3
+                type: type
+              country_territory_code: country_territory_code
+              is_subsidiary: true
+            id: id
+            type: type
+          confidence:
+            normalized: true
+        confidences:
+          selfieSunglasses: 0
+          idQuality: 0
+          birthDateMatch: 0
+          selfie: 0
+          idMatch: 0
+          idGlareQuality: 0
+          selfieEyeglasses: 0
+          id: 0
+          faceMatch: 0
+          idExpired: 0
+          nameMatch: 0
+        crosscheck:
+          ageRange: null
+          address:
+            ageRange:
+              from: 5
+              to: 2
+            warnings:
+            - null
+            - null
+            isValid: true
+            isCommercial: true
+            name: name
+            type: incomplete-address
+            isMatch: true
+            errors:
+            - warnings: true
+              suggestion: John Smith
+              type: type
+              message: message
+            - warnings: true
+              suggestion: John Smith
+              type: type
+              message: message
+            isForwarder: true
+          darkWeb:
+            criminalMaxScore: 2
+            criminalCount: 2
+            criminalLastSeen: criminalLastSeen
+          gender: null
+          phone:
+            ageRange: null
+            carrier: carrier
+            isPrepaid: true
+            isDisposable: true
+            warnings:
+            - null
+            - null
+            isValid: true
+            isCommercial: true
+            name: name
+            type: fixed-voip
+            isMatch: true
+            errors:
+            - null
+            - null
+          confidences:
+            activity: 1
+            identity: 0
+          ipAddress:
+            country: country
+            isAnonymous: true
+            city: city
+            postalCode: postalCode
+            isp: isp
+            organization: organization
+            isAnonymousHosting: true
+            isAnonymousVpn: true
+            location:
+              latitude: 9
+              longitude: 3
+            state: state
+            userType: business - the IP address belongs to a business ISP or a corporation.
+          email:
+            ageRange: null
+            isDisposable: true
+            warnings:
+            - null
+            - null
+            isValid: true
+            daysFirstSeen: 7
+            name: name
+            isMatch: true
+            isAutoGenerated: true
+            errors:
+            - null
+            - null
+        expireDate: expireDate
+        state: state
+        id: id
+        issueDate: issueDate
+        class: class
+        unverifiedIdAddress:
+        - unverifiedIdAddress
+        - unverifiedIdAddress
+        idType: idType
+        warnings: true
+        ipAddress: null
+        birthDate: birthDate
+        firstName: firstName
+        success: true
+        endorsements: endorsements
+        middleName: middleName
+        aamva:
+          createdAt: createdAt
+          completedAt: completedAt
+          hasErrors: true
+          hasWarnings: true
+          enabled: true
+          statusMessage: statusMessage
+          updatedAt: updatedAt
+          status: Pending
+    error-2:
+      type: object
+      properties:
+        type:
+          type: string
+          description: "\nError type code.\n- InvalidRequestError - The request is\
+            \ invalid.\n\n  - Parameters sent in the request are invalid.\n\n\n- FaceMatchError\
+            \ - Face match felled below the threshold.\n\n  - Category: faceMatch\n\
+            \n  - Faces obtained from the ID and Selfie images do not match.\n\n\n\
+            - NameMatchError - Name match felled below the threshold.\n\n  - The name\
+            \ provided by the user and the name extracted from the ID do not match.\n\
+            \n  - Eg: User Provided Name - Dave Smith, Extracted Name - David Smith\n\
+            \n\n- BarcodeMatchError - Barcode match felled below the threshold.\n\n\
+            \  - The data provided by the user and the data extracted from the barcode\
+            \ do not match. \n\n  - Eg: User Provided Name - Dave Smith, Extracted\
+            \ Name - David Smith\n\n\n- BirthDateMatchError - Birth date match felled\
+            \ below the threshold.\n\n  - The birth date provided by the user and\
+            \ the data extracted from the ID do not match.\n\n  - Eg: User Provided\
+            \ DOB - 01/09/1992, Extracted DOB - 09/01/1992\n\n  - Eg: User Provided\
+            \ DOB - 11/09/1992, Extracted DOB - 12/09/1992\n\n\n- ExpiredIdError -\
+            \ The ID’s expiration date has passed.\n\n  - The expiration date extracted\
+            \ from the ID indicates that it has expired.\n\n\n- InvalidIdPhotoError\
+            \ - The ID is invalid.\n\n  - Category: id\n\n  - The image submitted\
+            \ does not qualify as an ID.\n\n\n- InvalidUserPhotoError - The user photo\
+            \ (selfie) is invalid.\n\n  - Category: selfie\n\n  - The image submitted\
+            \ does not qualify as a selfie.\n\n\n- AuthenticationError - The request\
+            \ could not be authenticated.\n\n  - The key could not be verified.\n\n\
+            \n- ConnectionError - A connection error occurred while communicating\
+            \ to the Vouched service.\n\n- UnknownSystemError - A unknown system error\
+            \ occurred.\n\n- InvalidIdError - The ID is invalid .   \n\n  - Category:\
+            \ id         "
+          enum:
+          - InvalidRequestError
+          - FaceMatchError
+          - NameMatchError
+          - BarcodeMatchError
+          - BirthDateMatchError
+          - ExpiredIdError
+          - InvalidIdPhotoError
+          - InvalidUserPhotoError
+          - AuthenticationError
+          - ConnectionError
+          - UnknownSystemError
+          - InvalidIdError
+        message:
+          type: string
+          description: Details on the occurring error.
+        warning:
+          type: boolean
+          description: Is this a warning?
+        suggestion:
+          type: string
+          description: A suggestion for matching name.
+          example: John Smith
+      example:
+        suggestion: John Smith
+        warning: true
+        type: InvalidRequestError
+        message: message
+    signals:
+      type: object
+      properties:
+        category:
+          type: string
+          description: "Affected verification category.\n\nid: The id verification\
+            \ category scores indicate the value assigned(`result.confidences.id`)\
+            \ to the uploaded or capture ID image.\n\nselfie: The selfie verification\
+            \ category scores indicate the value assigned(`result.confidences.selfie`)\
+            \ to the uploaded or capture selfie image.\n\nfaceMatch: The faceMatch\
+            \ category score indicates the value assigned(`result.confidences.faceMatch`)\
+            \ to the face match between the ID and selfie images.\n\nbackId: The backId\
+            \ category score indicates the value assigned(`result.confidences.barcode`)\
+            \ to the uploaded or captured back ID image."
+          enum:
+          - faceMatch
+          - id
+          - selfie
+          - backId
+        message:
+          type: string
+          description: Message associated with the signal.
+        type:
+          type: string
+          description: "Signals affecting the score of the associated verification\
+            \ category. \n\nquality: Indicates the quality/bluriness of the image.\n\
+            \nbrightness: Indicates an image with low brightness. \n\nnonglare: Indicates\
+            \ an image with significant glare. \n\nglasses: Selfie image with the\
+            \ user wearing glasses affecting the face match score.\n\nface: Indicator\
+            \ of a face not being found in the image. \n\nfraud: Indicator of visual\
+            \ inconsistencies being found in the image.\n\nbarcode: Indicates a potential\
+            \ error/warning for the barcode scan.\n\nfieldConfidence: Indicates a\
+            \ lower confidence in the extracted values for the field/fields.\n\nmissingName:\
+            \ Indicates the missing field/fields.\n\ndeviceInfo: Provides information\
+            \ about the device used to capture or upload the image.\n\nsticker: Indicates\
+            \ a sticker obscuring the first/last name fields."
+          enum:
+          - quality
+          - brightness
+          - nonglare
+          - glasses
+          - face
+          - fraud
+          - barcode
+          - fieldConfidence
+          - missingName
+          - deviceInfo
+          - sticker
+        fields:
+          type: array
+          description: An array of strings of the affected fields.
+        property:
+          type: string
+          description: Property of the Signal.
+          enum:
+          - private
+          - public
+      example:
+        property: private
+        category: faceMatch
+        message: message
+        type: quality
+        fields: ""
+    response_1-2:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The job ID.
+        completed:
+          type: boolean
+          description: The job is completed.
+        status:
+          type: string
+          description: The job status
+          enum:
+          - active
+          - removed
+          - completed
+        submitted:
+          type: string
+          description: "The submitted date [ISO8601 date](https://en.wikipedia.org/wiki/ISO_8601)."
+          example: 2019-09-07T15:50-04:00
+        updatedAt:
+          type: string
+          description: "The last updated date [ISO8601 date](https://en.wikipedia.org/wiki/ISO_8601)."
+          example: 2019-09-07T15:50-04:00
+        reviewAt:
+          type: string
+          description: "The last updated review [ISO8601 date](https://en.wikipedia.org/wiki/ISO_8601)."
+          example: 2019-09-07T15:50-04:00
+        reviewSuccess:
+          type: boolean
+          description: Review indicates the verification pass or failed.
+        review:
+          type: object
+          description: Review override object.
+        surveyPoll:
+          maximum: 5
+          minimum: 1
+          type: integer
+          description: User survey rating.
+        surveyMessage:
+          type: string
+          description: User survey message.
+        surveyAt:
+          type: string
+          description: "The [ISO8601 date](https://en.wikipedia.org/wiki/ISO_8601)."
+          example: 2019-09-07T15:50-04:00
+        request:
+          $ref: '#/components/schemas/request'
+        result:
+          $ref: '#/components/schemas/result'
+        errors:
+          type: array
+          description: List of errors for unsuccessful completed jobs.
+          items:
+            $ref: '#/components/schemas/error-2'
+        signals:
+          type: array
+          description: "List of signals affecting id, backId, selfie and faceMatch\
+            \ scores.\n\n\n   | Property  <img width=1670/>    |  Associated Message\
+            \ <img width=1670/> |\n   | ----------- |  ----------- |\n   | quality\
+            \     |   ID/Selfie image is blurry          |\n   | brightness      |\
+            \  ID/Selfie image is dark          |\n   | nonglare      |   ID/Selfie\
+            \ image has glare           |\n   | glasses      |   Sunglass/Eyeglass\
+            \ worn by user         |\n   | face      |     Required visual markers\
+            \ could not be detected         |\n   | fraud       |  Found visual inconsistencies\
+            \ |\n   | barcode       |  Barcode data does not match extracted data,\
+            \ Barcode process was skipped, Unknown Barcode Error |\n   | fieldConfidence\
+            \       |  Field/Fields with low confidence: |\n   | missingName     \
+            \  |  Missing Field/Fields: |\n   | deviceInfo       |  Device Info: |\n\
+            \   | sticker       |  Property/Properties obscured by foreign material:\
+            \ |"
+          items:
+            $ref: '#/components/schemas/signals'
+      example:
+        request:
+          callbackURL: callbackURL
+          requestInfo:
+            ipaddress: ipaddress
+            referer: referer
+            useragent: useragent
+          type: drivers-license
+          parameters:
+            lastName: lastName
+            userPhoto: userPhoto
+            backIdPhoto: backIdPhoto
+            idPhotoDimensions: null
+            userPhotoUrl: userPhotoUrl
+            userPhotoDetect: userPhotoDetect
+            firstName: firstName
+            backIdPhotoDimensions: null
+            phone: 000-111-2222
+            backIdPhotoUrl: backIdPhotoUrl
+            dob: 08/23/1991
+            idPhotoUrl: idPhotoUrl
+            idPhotoDetectUrl: idPhotoDetectUrl
+            userPhotoDetectUrl: userPhotoDetectUrl
+            idPhoto: idPhoto
+            idPhotoDetectDimensions:
+              width: 6
+              height: 1
+            userPhotoDetectDimensions: null
+            userPhotoDimensions: null
+            idPhotoDetect: idPhotoDetect
+            email: email
+        surveyMessage: surveyMessage
+        reviewAt: 2019-09-07T15:50-04:00
+        completed: true
+        surveyPoll: 1
+        result:
+          idFields:
+          - name: name
+          - name: name
+          country: country
+          ipFraudCheck:
+            ipFraud: true
+            jobIdList:
+            - jobIdList
+            - jobIdList
+            count: 5
+          lastName: lastName
+          gender:
+            genderDistribution: genderDistribution
+            gender: man
+          type: type
+          idAddress:
+            country: country
+            unit: unit
+            streetNumber: streetNumber
+            city: city
+            street: street
+            postalCode: postalCode
+            state: state
+            postalCodeSuffix: postalCodeSuffix
+          motorcycle: motorcycle
+          idWatchlist:
+            data:
+            - attributes:
+                score: score
+                country_territory_name: country_territory_name
+                gender: gender
+                date_of_birth:
+                - month: month
+                  year: year
+                  day: day
+                - month: month
+                  year: year
+                  day: day
+                primary_name: primary_name
+                icon_hints:
+                - icon_hints
+                - icon_hints
+                type: type
+                title: title
+                countries_territories:
+                - iso_alpha2: iso_alpha2
+                  code: code
+                  iso_alpha3: iso_alpha3
+                  type: type
+                - iso_alpha2: iso_alpha2
+                  code: code
+                  iso_alpha3: iso_alpha3
+                  type: type
+                country_territory_code: country_territory_code
+                is_subsidiary: true
+              id: id
+              type: type
+            - attributes:
+                score: score
+                country_territory_name: country_territory_name
+                gender: gender
+                date_of_birth:
+                - month: month
+                  year: year
+                  day: day
+                - month: month
+                  year: year
+                  day: day
+                primary_name: primary_name
+                icon_hints:
+                - icon_hints
+                - icon_hints
+                type: type
+                title: title
+                countries_territories:
+                - iso_alpha2: iso_alpha2
+                  code: code
+                  iso_alpha3: iso_alpha3
+                  type: type
+                - iso_alpha2: iso_alpha2
+                  code: code
+                  iso_alpha3: iso_alpha3
+                  type: type
+                country_territory_code: country_territory_code
+                is_subsidiary: true
+              id: id
+              type: type
+            confidence:
+              normalized: true
+          confidences:
+            selfieSunglasses: 0
+            idQuality: 0
+            birthDateMatch: 0
+            selfie: 0
+            idMatch: 0
+            idGlareQuality: 0
+            selfieEyeglasses: 0
+            id: 0
+            faceMatch: 0
+            idExpired: 0
+            nameMatch: 0
+          crosscheck:
+            ageRange: null
+            address:
+              ageRange:
+                from: 5
+                to: 2
+              warnings:
+              - null
+              - null
+              isValid: true
+              isCommercial: true
+              name: name
+              type: incomplete-address
+              isMatch: true
+              errors:
+              - warnings: true
+                suggestion: John Smith
+                type: type
+                message: message
+              - warnings: true
+                suggestion: John Smith
+                type: type
+                message: message
+              isForwarder: true
+            darkWeb:
+              criminalMaxScore: 2
+              criminalCount: 2
+              criminalLastSeen: criminalLastSeen
+            gender: null
+            phone:
+              ageRange: null
+              carrier: carrier
+              isPrepaid: true
+              isDisposable: true
+              warnings:
+              - null
+              - null
+              isValid: true
+              isCommercial: true
+              name: name
+              type: fixed-voip
+              isMatch: true
+              errors:
+              - null
+              - null
+            confidences:
+              activity: 1
+              identity: 0
+            ipAddress:
+              country: country
+              isAnonymous: true
+              city: city
+              postalCode: postalCode
+              isp: isp
+              organization: organization
+              isAnonymousHosting: true
+              isAnonymousVpn: true
+              location:
+                latitude: 9
+                longitude: 3
+              state: state
+              userType: business - the IP address belongs to a business ISP or a corporation.
+            email:
+              ageRange: null
+              isDisposable: true
+              warnings:
+              - null
+              - null
+              isValid: true
+              daysFirstSeen: 7
+              name: name
+              isMatch: true
+              isAutoGenerated: true
+              errors:
+              - null
+              - null
+          expireDate: expireDate
+          state: state
+          id: id
+          issueDate: issueDate
+          class: class
+          unverifiedIdAddress:
+          - unverifiedIdAddress
+          - unverifiedIdAddress
+          idType: idType
+          warnings: true
+          ipAddress: null
+          birthDate: birthDate
+          firstName: firstName
+          success: true
+          endorsements: endorsements
+          middleName: middleName
+          aamva:
+            createdAt: createdAt
+            completedAt: completedAt
+            hasErrors: true
+            hasWarnings: true
+            enabled: true
+            statusMessage: statusMessage
+            updatedAt: updatedAt
+            status: Pending
+        submitted: 2019-09-07T15:50-04:00
+        signals:
+        - property: private
+          category: faceMatch
+          message: message
+          type: quality
+          fields: ""
+        - property: private
+          category: faceMatch
+          message: message
+          type: quality
+          fields: ""
+        review: {}
+        reviewSuccess: true
+        surveyAt: 2019-09-07T15:50-04:00
+        id: id
+        errors:
+        - suggestion: John Smith
+          warning: true
+          type: InvalidRequestError
+          message: message
+        - suggestion: John Smith
+          warning: true
+          type: InvalidRequestError
+          message: message
+        status: active
+        updatedAt: 2019-09-07T15:50-04:00
+    result_jobs:
+      type: object
+      properties:
+        items:
+          type: array
+          description: List of paginated jobs.
+          items:
+            $ref: '#/components/schemas/response_1-2'
+        totalPages:
+          minimum: 0
+          type: integer
+          description: Total number of pages of jobs.
+        pageSize:
+          minimum: 1
+          type: integer
+          description: The requested page size.
+        page:
+          minimum: 1
+          type: integer
+          description: The requested page.
+        total:
+          minimum: 0
+          type: integer
+          description: Total number of filtered jobs.
+      example:
+        total: 0
+        totalPages: 0
+        pageSize: 1
+        page: 1
+        items:
+        - request:
+            callbackURL: callbackURL
+            requestInfo:
+              ipaddress: ipaddress
+              referer: referer
+              useragent: useragent
+            type: drivers-license
+            parameters:
+              lastName: lastName
+              userPhoto: userPhoto
+              backIdPhoto: backIdPhoto
+              idPhotoDimensions: null
+              userPhotoUrl: userPhotoUrl
+              userPhotoDetect: userPhotoDetect
+              firstName: firstName
+              backIdPhotoDimensions: null
+              phone: 000-111-2222
+              backIdPhotoUrl: backIdPhotoUrl
+              dob: 08/23/1991
+              idPhotoUrl: idPhotoUrl
+              idPhotoDetectUrl: idPhotoDetectUrl
+              userPhotoDetectUrl: userPhotoDetectUrl
+              idPhoto: idPhoto
+              idPhotoDetectDimensions:
+                width: 6
+                height: 1
+              userPhotoDetectDimensions: null
+              userPhotoDimensions: null
+              idPhotoDetect: idPhotoDetect
+              email: email
+          surveyMessage: surveyMessage
+          reviewAt: 2019-09-07T15:50-04:00
+          completed: true
+          surveyPoll: 1
+          result:
+            idFields:
+            - name: name
+            - name: name
+            country: country
+            ipFraudCheck:
+              ipFraud: true
+              jobIdList:
+              - jobIdList
+              - jobIdList
+              count: 5
+            lastName: lastName
+            gender:
+              genderDistribution: genderDistribution
+              gender: man
+            type: type
+            idAddress:
+              country: country
+              unit: unit
+              streetNumber: streetNumber
+              city: city
+              street: street
+              postalCode: postalCode
+              state: state
+              postalCodeSuffix: postalCodeSuffix
+            motorcycle: motorcycle
+            idWatchlist:
+              data:
+              - attributes:
+                  score: score
+                  country_territory_name: country_territory_name
+                  gender: gender
+                  date_of_birth:
+                  - month: month
+                    year: year
+                    day: day
+                  - month: month
+                    year: year
+                    day: day
+                  primary_name: primary_name
+                  icon_hints:
+                  - icon_hints
+                  - icon_hints
+                  type: type
+                  title: title
+                  countries_territories:
+                  - iso_alpha2: iso_alpha2
+                    code: code
+                    iso_alpha3: iso_alpha3
+                    type: type
+                  - iso_alpha2: iso_alpha2
+                    code: code
+                    iso_alpha3: iso_alpha3
+                    type: type
+                  country_territory_code: country_territory_code
+                  is_subsidiary: true
+                id: id
+                type: type
+              - attributes:
+                  score: score
+                  country_territory_name: country_territory_name
+                  gender: gender
+                  date_of_birth:
+                  - month: month
+                    year: year
+                    day: day
+                  - month: month
+                    year: year
+                    day: day
+                  primary_name: primary_name
+                  icon_hints:
+                  - icon_hints
+                  - icon_hints
+                  type: type
+                  title: title
+                  countries_territories:
+                  - iso_alpha2: iso_alpha2
+                    code: code
+                    iso_alpha3: iso_alpha3
+                    type: type
+                  - iso_alpha2: iso_alpha2
+                    code: code
+                    iso_alpha3: iso_alpha3
+                    type: type
+                  country_territory_code: country_territory_code
+                  is_subsidiary: true
+                id: id
+                type: type
+              confidence:
+                normalized: true
+            confidences:
+              selfieSunglasses: 0
+              idQuality: 0
+              birthDateMatch: 0
+              selfie: 0
+              idMatch: 0
+              idGlareQuality: 0
+              selfieEyeglasses: 0
+              id: 0
+              faceMatch: 0
+              idExpired: 0
+              nameMatch: 0
+            crosscheck:
+              ageRange: null
+              address:
+                ageRange:
+                  from: 5
+                  to: 2
+                warnings:
+                - null
+                - null
+                isValid: true
+                isCommercial: true
+                name: name
+                type: incomplete-address
+                isMatch: true
+                errors:
+                - warnings: true
+                  suggestion: John Smith
+                  type: type
+                  message: message
+                - warnings: true
+                  suggestion: John Smith
+                  type: type
+                  message: message
+                isForwarder: true
+              darkWeb:
+                criminalMaxScore: 2
+                criminalCount: 2
+                criminalLastSeen: criminalLastSeen
+              gender: null
+              phone:
+                ageRange: null
+                carrier: carrier
+                isPrepaid: true
+                isDisposable: true
+                warnings:
+                - null
+                - null
+                isValid: true
+                isCommercial: true
+                name: name
+                type: fixed-voip
+                isMatch: true
+                errors:
+                - null
+                - null
+              confidences:
+                activity: 1
+                identity: 0
+              ipAddress:
+                country: country
+                isAnonymous: true
+                city: city
+                postalCode: postalCode
+                isp: isp
+                organization: organization
+                isAnonymousHosting: true
+                isAnonymousVpn: true
+                location:
+                  latitude: 9
+                  longitude: 3
+                state: state
+                userType: business - the IP address belongs to a business ISP or a
+                  corporation.
+              email:
+                ageRange: null
+                isDisposable: true
+                warnings:
+                - null
+                - null
+                isValid: true
+                daysFirstSeen: 7
+                name: name
+                isMatch: true
+                isAutoGenerated: true
+                errors:
+                - null
+                - null
+            expireDate: expireDate
+            state: state
+            id: id
+            issueDate: issueDate
+            class: class
+            unverifiedIdAddress:
+            - unverifiedIdAddress
+            - unverifiedIdAddress
+            idType: idType
+            warnings: true
+            ipAddress: null
+            birthDate: birthDate
+            firstName: firstName
+            success: true
+            endorsements: endorsements
+            middleName: middleName
+            aamva:
+              createdAt: createdAt
+              completedAt: completedAt
+              hasErrors: true
+              hasWarnings: true
+              enabled: true
+              statusMessage: statusMessage
+              updatedAt: updatedAt
+              status: Pending
+          submitted: 2019-09-07T15:50-04:00
+          signals:
+          - property: private
+            category: faceMatch
+            message: message
+            type: quality
+            fields: ""
+          - property: private
+            category: faceMatch
+            message: message
+            type: quality
+            fields: ""
+          review: {}
+          reviewSuccess: true
+          surveyAt: 2019-09-07T15:50-04:00
+          id: id
+          errors:
+          - suggestion: John Smith
+            warning: true
+            type: InvalidRequestError
+            message: message
+          - suggestion: John Smith
+            warning: true
+            type: InvalidRequestError
+            message: message
+          status: active
+          updatedAt: 2019-09-07T15:50-04:00
+        - request:
+            callbackURL: callbackURL
+            requestInfo:
+              ipaddress: ipaddress
+              referer: referer
+              useragent: useragent
+            type: drivers-license
+            parameters:
+              lastName: lastName
+              userPhoto: userPhoto
+              backIdPhoto: backIdPhoto
+              idPhotoDimensions: null
+              userPhotoUrl: userPhotoUrl
+              userPhotoDetect: userPhotoDetect
+              firstName: firstName
+              backIdPhotoDimensions: null
+              phone: 000-111-2222
+              backIdPhotoUrl: backIdPhotoUrl
+              dob: 08/23/1991
+              idPhotoUrl: idPhotoUrl
+              idPhotoDetectUrl: idPhotoDetectUrl
+              userPhotoDetectUrl: userPhotoDetectUrl
+              idPhoto: idPhoto
+              idPhotoDetectDimensions:
+                width: 6
+                height: 1
+              userPhotoDetectDimensions: null
+              userPhotoDimensions: null
+              idPhotoDetect: idPhotoDetect
+              email: email
+          surveyMessage: surveyMessage
+          reviewAt: 2019-09-07T15:50-04:00
+          completed: true
+          surveyPoll: 1
+          result:
+            idFields:
+            - name: name
+            - name: name
+            country: country
+            ipFraudCheck:
+              ipFraud: true
+              jobIdList:
+              - jobIdList
+              - jobIdList
+              count: 5
+            lastName: lastName
+            gender:
+              genderDistribution: genderDistribution
+              gender: man
+            type: type
+            idAddress:
+              country: country
+              unit: unit
+              streetNumber: streetNumber
+              city: city
+              street: street
+              postalCode: postalCode
+              state: state
+              postalCodeSuffix: postalCodeSuffix
+            motorcycle: motorcycle
+            idWatchlist:
+              data:
+              - attributes:
+                  score: score
+                  country_territory_name: country_territory_name
+                  gender: gender
+                  date_of_birth:
+                  - month: month
+                    year: year
+                    day: day
+                  - month: month
+                    year: year
+                    day: day
+                  primary_name: primary_name
+                  icon_hints:
+                  - icon_hints
+                  - icon_hints
+                  type: type
+                  title: title
+                  countries_territories:
+                  - iso_alpha2: iso_alpha2
+                    code: code
+                    iso_alpha3: iso_alpha3
+                    type: type
+                  - iso_alpha2: iso_alpha2
+                    code: code
+                    iso_alpha3: iso_alpha3
+                    type: type
+                  country_territory_code: country_territory_code
+                  is_subsidiary: true
+                id: id
+                type: type
+              - attributes:
+                  score: score
+                  country_territory_name: country_territory_name
+                  gender: gender
+                  date_of_birth:
+                  - month: month
+                    year: year
+                    day: day
+                  - month: month
+                    year: year
+                    day: day
+                  primary_name: primary_name
+                  icon_hints:
+                  - icon_hints
+                  - icon_hints
+                  type: type
+                  title: title
+                  countries_territories:
+                  - iso_alpha2: iso_alpha2
+                    code: code
+                    iso_alpha3: iso_alpha3
+                    type: type
+                  - iso_alpha2: iso_alpha2
+                    code: code
+                    iso_alpha3: iso_alpha3
+                    type: type
+                  country_territory_code: country_territory_code
+                  is_subsidiary: true
+                id: id
+                type: type
+              confidence:
+                normalized: true
+            confidences:
+              selfieSunglasses: 0
+              idQuality: 0
+              birthDateMatch: 0
+              selfie: 0
+              idMatch: 0
+              idGlareQuality: 0
+              selfieEyeglasses: 0
+              id: 0
+              faceMatch: 0
+              idExpired: 0
+              nameMatch: 0
+            crosscheck:
+              ageRange: null
+              address:
+                ageRange:
+                  from: 5
+                  to: 2
+                warnings:
+                - null
+                - null
+                isValid: true
+                isCommercial: true
+                name: name
+                type: incomplete-address
+                isMatch: true
+                errors:
+                - warnings: true
+                  suggestion: John Smith
+                  type: type
+                  message: message
+                - warnings: true
+                  suggestion: John Smith
+                  type: type
+                  message: message
+                isForwarder: true
+              darkWeb:
+                criminalMaxScore: 2
+                criminalCount: 2
+                criminalLastSeen: criminalLastSeen
+              gender: null
+              phone:
+                ageRange: null
+                carrier: carrier
+                isPrepaid: true
+                isDisposable: true
+                warnings:
+                - null
+                - null
+                isValid: true
+                isCommercial: true
+                name: name
+                type: fixed-voip
+                isMatch: true
+                errors:
+                - null
+                - null
+              confidences:
+                activity: 1
+                identity: 0
+              ipAddress:
+                country: country
+                isAnonymous: true
+                city: city
+                postalCode: postalCode
+                isp: isp
+                organization: organization
+                isAnonymousHosting: true
+                isAnonymousVpn: true
+                location:
+                  latitude: 9
+                  longitude: 3
+                state: state
+                userType: business - the IP address belongs to a business ISP or a
+                  corporation.
+              email:
+                ageRange: null
+                isDisposable: true
+                warnings:
+                - null
+                - null
+                isValid: true
+                daysFirstSeen: 7
+                name: name
+                isMatch: true
+                isAutoGenerated: true
+                errors:
+                - null
+                - null
+            expireDate: expireDate
+            state: state
+            id: id
+            issueDate: issueDate
+            class: class
+            unverifiedIdAddress:
+            - unverifiedIdAddress
+            - unverifiedIdAddress
+            idType: idType
+            warnings: true
+            ipAddress: null
+            birthDate: birthDate
+            firstName: firstName
+            success: true
+            endorsements: endorsements
+            middleName: middleName
+            aamva:
+              createdAt: createdAt
+              completedAt: completedAt
+              hasErrors: true
+              hasWarnings: true
+              enabled: true
+              statusMessage: statusMessage
+              updatedAt: updatedAt
+              status: Pending
+          submitted: 2019-09-07T15:50-04:00
+          signals:
+          - property: private
+            category: faceMatch
+            message: message
+            type: quality
+            fields: ""
+          - property: private
+            category: faceMatch
+            message: message
+            type: quality
+            fields: ""
+          review: {}
+          reviewSuccess: true
+          surveyAt: 2019-09-07T15:50-04:00
+          id: id
+          errors:
+          - suggestion: John Smith
+            warning: true
+            type: InvalidRequestError
+            message: message
+          - suggestion: John Smith
+            warning: true
+            type: InvalidRequestError
+            message: message
+          status: active
+          updatedAt: 2019-09-07T15:50-04:00
+    apijobs_properties:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the property
+        value:
+          type: string
+          description: Value of the property
+    apijobs_params:
+      type: object
+      properties:
+        userPhoto:
+          type: string
+          description: "The user's id comparison photo. Supported types are `image/png`,\
+            \ `image/jpeg`."
+        idPhoto:
+          type: string
+          description: "The user's official identification photo. Supported types\
+            \ are `image/png`, `image/jpeg`."
+        backIdPhoto:
+          type: string
+          description: "Photo of the back of the user's official identification. Supported\
+            \ types are `image/png`, `image/jpeg`."
+        enableCrossCheck:
+          type: boolean
+          description: Used to enable/disable crosscheck.
+        enableDarkWeb:
+          type: boolean
+          description: Used to enable/disable darkweb.
+        enableIPAddress:
+          type: boolean
+          description: Used to enable/disable ip address search.
+        enablePhysicalAddress:
+          type: boolean
+          description: Used to enable/disable address search.
+        enableAAMVA:
+          type: boolean
+          description: Used to enable/disable aamva search.
+        firstName:
+          type: string
+          description: The user's first name to verify.
+        lastName:
+          type: string
+          description: The user's last name to verify.
+        dob:
+          pattern: ' MM/DD/YYYY'
+          type: string
+          description: The user's dob to verify.
+          example: 07/02/1994
+        email:
+          type: string
+          description: The user's email to verify crosscheck identity.
+          example: test@gmail.com
+        phone:
+          type: string
+          description: The user's phone number to verify crosscheck identity.
+          example: 000-111-2222
+        ipaddress:
+          type: string
+          description: The user's IP address.
+      description: Object for verification
+    body_4:
+      type: object
+      properties:
+        type:
+          type: string
+          description: Type of AI job.
+          enum:
+          - id-verification
+          - id-crosscheck
+          - id-aamva
+        callbackURL:
+          type: string
+          description: "Upon the job's completion, Vouched will POST the [job results](/#tag/job-model)\
+            \ to the defined [webhook](/#section/After-a-verification/Webhook)."
+        properties:
+          type: array
+          description: List of arbitrary properties
+          items:
+            $ref: '#/components/schemas/apijobs_properties'
+        params:
+          $ref: '#/components/schemas/apijobs_params'
+    updatejob_inputs:
+      type: object
+      properties:
+        idValid:
+          type: boolean
+          description: Is the id valid.
+        selfieValid:
+          type: boolean
+          description: Is the selfie valid.
+        faceMatch:
+          type: boolean
+          description: Is the face match valid.
+        birthDateMatch:
+          type: boolean
+          description: Does the birthdate match.
+        nameMatch:
+          type: boolean
+          description: Does the name match.
+        firstName:
+          type: string
+          description: The first name.
+        lastName:
+          type: string
+          description: The last name.
+        docId:
+          type: string
+          description: The document id number.
+        idType:
+          type: string
+          description: The id type.
+          enum:
+          - passport
+          - commercial-license
+          - global-entry
+          - identification
+          - residence
+          - employment
+          - drivers-license
+          - drivers-license-permit
+        state:
+          type: string
+          description: "The state/province/territory [ISO 3166-2 code](https://en.wikipedia.org/wiki/ISO_3166-2)."
+        country:
+          type: string
+          description: "The country [ISO 3166-1 code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)."
+    body_1:
+      type: object
+      properties:
+        country:
+          type: string
+          description: "The country [ISO 3166-1 code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)."
+        lastName:
+          type: string
+          description: Last name.
+        idType:
+          type: string
+          description: "Type of id, allowed drivers-license for the moment."
+        dob:
+          pattern: ' MM/DD/YYYY'
+          type: string
+          description: Date of birth.
+          example: 01/09/1994
+        licenseNumber:
+          type: string
+          description: License ID number.
+        state:
+          type: string
+          description: "The state in the [ISO 3166-2 format](https://en.wikipedia.org/wiki/ISO_3166-2)."
+        issueDate:
+          pattern: ' MM/DD/YYYY'
+          type: string
+          description: License issue date.
+        expirationDate:
+          pattern: ' MM/DD/YYYY'
+          type: string
+          description: License expiration date.
+        callbackURL:
+          type: string
+          description: "Upon the job's completion, Vouched will POST the job results\
+            \ to the defined [webhook](/#section/After-a-verification/Webhook)."
+    aamva_identity_request:
+      type: object
+      properties:
+        country:
+          type: string
+          description: "The [ISO 3166-1 country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)."
+        lastName:
+          type: string
+          description: Last Name.
+        idType:
+          type: string
+          description: "Type of id, allowed drivers-license for the moment."
+        dob:
+          pattern: ' MM/DD/YYYY'
+          type: string
+          description: Date of Birth.
+          example: 09/18/1992
+        licenseNumber:
+          type: string
+          description: License Id number.
+        state:
+          type: string
+          description: "The [ISO 3166-2 state code](https://en.wikipedia.org/wiki/ISO_3166-2)."
+        issueDate:
+          pattern: ' MM/DD/YYYY'
+          type: string
+          description: License Issue Date.
+        expirationDate:
+          pattern: ' MM/DD/YYYY'
+          type: string
+          description: License Expiration Date.
+        callbackURL:
+          type: string
+          description: "Upon the job's completion, Vouched will POST the job results\
+            \ to the defined [webhook](/#section/After-a-verification/Webhook)."
+      example:
+        country: country
+        lastName: lastName
+        idType: idType
+        dob: 09/18/1992
+        licenseNumber: licenseNumber
+        callbackURL: callbackURL
+        state: state
+        issueDate: issueDate
+        expirationDate: expirationDate
+    aamva_identity_result-2:
+      type: object
+      properties:
+        job_status:
+          type: string
+          description: Status of the job.
+          enum:
+          - active
+          - completed
+        aamva_status:
+          type: string
+          description: Status of the request sent to AAMVA.
+          enum:
+          - Pending
+          - completed
+        job_type:
+          type: string
+          description: Type of job the request was sent as a part of.
+          enum:
+          - id-aamva
+      example:
+        job_type: id-aamva
+        job_status: active
+        aamva_status: Pending
+    body_2:
+      type: object
+      properties:
+        type:
+          type: string
+          description: "idv - id with selfie verification, id - id only."
+          default: idv
+          enum:
+          - idv
+          - id
+        email:
+          type: string
+          description: Email address to send to.
+        phone:
+          type: string
+          description: 10 digit phone number. `US +1` `UK +44`
+          example: 000-111-2222
+        contact:
+          type: string
+          description: Contact method to use.
+          enum:
+          - email
+          - phone
+        firstName:
+          type: string
+          description: First Name.
+        lastName:
+          type: string
+          description: Last Name.
+        templateEmail:
+          type: string
+          description: The template to use for emails with variables $FIRST_NAME $LINK.
+        titleEmail:
+          type: string
+          description: The title of the email.
+        templateText:
+          type: string
+          description: The template to use for text messages with variables $FIRST_NAME
+            $LINK.
+        callbackURL:
+          type: string
+          description: "Upon the job's completion, Vouched will POST the job results\
+            \ to the defined [webhook](/#section/After-a-verification/Webhook) ."
+        send:
+          type: boolean
+          description: Send a message via the contact method.
+          default: true
+        internalId:
+          type: string
+          description: Application Internal Id.
+        enableCrossCheck:
+          type: boolean
+          description: Used to enable/disable crosscheck.
+        enableDarkWeb:
+          type: boolean
+          description: Used to enable/disable darkweb.
+        enableIPAddress:
+          type: boolean
+          description: Used to enable/disable ip address search.
+        enablePhysicalAddress:
+          type: boolean
+          description: Used to enable/disable address search.
+        enableAAMVA:
+          type: boolean
+          description: Used to enable/disable aamva search.
+    send_invite-2:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Invite id.
+        qrCode:
+          type: string
+          description: Base64 Data Url image for the invite link.
+        phone:
+          type: string
+          description: Phone number with the country code.
+          example: 000-111-2222
+        email:
+          type: string
+          description: Email address.
+        send:
+          type: boolean
+          description: Sends a message via the contact method.
+          enum:
+          - true
+        url:
+          type: string
+          description: The verification link sent to the user.
+        contact:
+          type: string
+          description: The contact used to send the invite.
+        jobId:
+          type: string
+          description: The associated job id if the status is active or completed.
+        firstName:
+          type: string
+          description: The contact's first name.
+        lastName:
+          type: string
+          description: The contact's last name.
+        updatedAt:
+          type: string
+          description: "The [ISO8601 date](https://en.wikipedia.org/wiki/ISO_8601)."
+          example: 2019-09-07T15:50-04:00
+        createdAt:
+          type: string
+          description: "The [ISO8601 date](https://en.wikipedia.org/wiki/ISO_8601)."
+          example: 2019-09-07T15:50-04:00
+        callbackURL:
+          type: string
+          description: "Upon the job's completion, Vouched will POST the job results\
+            \ to the defined [webhook](/#section/After-a-verification/Webhook)."
+        status:
+          type: string
+          description: Send status
+          enum:
+          - accepted
+          - queued
+          - sending
+          - sent
+          - failed
+          - delivered
+          - undelivered
+          - receiving
+          - received
+          - read (WhatsApp only)
+          - completed
+          - active
+      example:
+        lastName: lastName
+        url: url
+        jobId: jobId
+        firstName: firstName
+        createdAt: 2019-09-07T15:50-04:00
+        qrCode: qrCode
+        phone: 000-111-2222
+        contact: contact
+        callbackURL: callbackURL
+        id: id
+        send: true
+        email: email
+        updatedAt: 2019-09-07T15:50-04:00
+        status: accepted
+    crosscheck_address:
+      type: object
+      properties:
+        unit:
+          type: string
+          description: Unit number.
+        streetAddress:
+          type: string
+          description: Street Address.
+        city:
+          type: string
+          description: City.
+        state:
+          type: string
+          description: "The [ISO 3166-2 state/province/territory code](https://en.wikipedia.org/wiki/ISO_3166-2)."
+        postalCode:
+          type: string
+          description: Postal Code.
+        country:
+          type: string
+          description: "The [ISO 3166-1 country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)."
+      description: Address
+      example:
+        country: country
+        unit: unit
+        streetAddress: streetAddress
+        city: city
+        postalCode: postalCode
+        state: state
+    crosscheck_request:
+      type: object
+      properties:
+        email:
+          type: string
+          description: Email address.
+        phone:
+          type: string
+          description: Phone number. Defaults to +1 (US and CA). Country code required
+            for other countries.
+          example: 000-111-2222
+        firstName:
+          type: string
+          description: First Name.
+        lastName:
+          type: string
+          description: Last Name.
+        darkWeb:
+          type: boolean
+          description: Flag to enable darkWeb.
+        address:
+          $ref: '#/components/schemas/crosscheck_address'
+        ipAddress:
+          type: string
+          description: IP Address.
+      description: CrossCheck Request
+      example:
+        firstName: firstName
+        lastName: lastName
+        darkWeb: true
+        address:
+          country: country
+          unit: unit
+          streetAddress: streetAddress
+          city: city
+          postalCode: postalCode
+          state: state
+        phone: 000-111-2222
+        ipAddress: ipAddress
+        email: email
+    identity_crosscheck-2:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID of the request.
+        request:
+          $ref: '#/components/schemas/crosscheck_request'
+        result:
+          $ref: '#/components/schemas/crosscheck_result'
+      example:
+        result:
+          ageRange: null
+          address:
+            ageRange:
+              from: 5
+              to: 2
+            warnings:
+            - null
+            - null
+            isValid: true
+            isCommercial: true
+            name: name
+            type: incomplete-address
+            isMatch: true
+            errors:
+            - warnings: true
+              suggestion: John Smith
+              type: type
+              message: message
+            - warnings: true
+              suggestion: John Smith
+              type: type
+              message: message
+            isForwarder: true
+          darkWeb:
+            criminalMaxScore: 2
+            criminalCount: 2
+            criminalLastSeen: criminalLastSeen
+          gender: null
+          phone:
+            ageRange: null
+            carrier: carrier
+            isPrepaid: true
+            isDisposable: true
+            warnings:
+            - null
+            - null
+            isValid: true
+            isCommercial: true
+            name: name
+            type: fixed-voip
+            isMatch: true
+            errors:
+            - null
+            - null
+          confidences:
+            activity: 1
+            identity: 0
+          ipAddress:
+            country: country
+            isAnonymous: true
+            city: city
+            postalCode: postalCode
+            isp: isp
+            organization: organization
+            isAnonymousHosting: true
+            isAnonymousVpn: true
+            location:
+              latitude: 9
+              longitude: 3
+            state: state
+            userType: business - the IP address belongs to a business ISP or a corporation.
+          email:
+            ageRange: null
+            isDisposable: true
+            warnings:
+            - null
+            - null
+            isValid: true
+            daysFirstSeen: 7
+            name: name
+            isMatch: true
+            isAutoGenerated: true
+            errors:
+            - null
+            - null
+        request:
+          firstName: firstName
+          lastName: lastName
+          darkWeb: true
+          address:
+            country: country
+            unit: unit
+            streetAddress: streetAddress
+            city: city
+            postalCode: postalCode
+            state: state
+          phone: 000-111-2222
+          ipAddress: ipAddress
+          email: email
+        id: id
+    documents:
+      type: object
+      properties:
+        type:
+          type: string
+          description: The id type.
+        country:
+          type: string
+          description: "Issuing country in [ISO 3166-1 2 code](https://en.wikipedia.org/wiki/ISO_3166-1)."
+        state:
+          type: string
+          description: "Issuing state/province/territory in [ISO 3166-2 2 code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)."
+        properties:
+          type: array
+          description: Recognized extraction properties.
+      example:
+        country: country
+        state: state
+        type: type
+        properties: ""
+    authenticate_inputs:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The job id of the verified selfie to perform a face match.
+        userPhoto:
+          type: string
+          description: The user photo to perform a face match.
+          format: base64
+        matchId:
+          type: boolean
+          description: "When `true`, matches the userPhoto against the verified ID\
+            \ photo. <br/>When `false`, matches the userPhoto against the verified\
+            \ selfie."
+          default: false
+    inline_response_400:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/error-2'
+    inline_response_200:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The ID of the job to generate a PDF of
+        confidences:
+          type: boolean
+          description: Include Confidence Scores in the PDF
+        pdf:
+          type: string
+          description: PDF of the job in base64
+      example:
+        pdf: pdf
+        confidences: true
+        id: id
+    inline_response_200_1:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Job ID
+        request:
+          $ref: '#/components/schemas/aamva_identity_request'
+        result:
+          $ref: '#/components/schemas/aamva_identity_result-2'
+      example:
+        result:
+          job_type: id-aamva
+          job_status: active
+          aamva_status: Pending
+        request:
+          country: country
+          lastName: lastName
+          idType: idType
+          dob: 09/18/1992
+          licenseNumber: licenseNumber
+          callbackURL: callbackURL
+          state: state
+          issueDate: issueDate
+          expirationDate: expirationDate
+        id: id
+    inline_response_200_2:
+      type: object
+      properties:
+        invite:
+          $ref: '#/components/schemas/send_invite-2'
+      example:
+        invite:
+          lastName: lastName
+          url: url
+          jobId: jobId
+          firstName: firstName
+          createdAt: 2019-09-07T15:50-04:00
+          qrCode: qrCode
+          phone: 000-111-2222
+          contact: contact
+          callbackURL: callbackURL
+          id: id
+          send: true
+          email: email
+          updatedAt: 2019-09-07T15:50-04:00
+          status: accepted
+    inline_response_200_3:
+      type: object
+      properties:
+        invite:
+          type: array
+          description: List of paginated invites.
+          items:
+            $ref: '#/components/schemas/send_invite-2'
+        totalPages:
+          type: integer
+          description: Total number of pages.
+        pageSize:
+          type: integer
+          description: The requested page size.
+        page:
+          type: integer
+          description: The requested page.
+        total:
+          type: integer
+          description: Total number of filtered jobs.
+      example:
+        total: 5
+        totalPages: 0
+        pageSize: 6
+        invite:
+        - lastName: lastName
+          url: url
+          jobId: jobId
+          firstName: firstName
+          createdAt: 2019-09-07T15:50-04:00
+          qrCode: qrCode
+          phone: 000-111-2222
+          contact: contact
+          callbackURL: callbackURL
+          id: id
+          send: true
+          email: email
+          updatedAt: 2019-09-07T15:50-04:00
+          status: accepted
+        - lastName: lastName
+          url: url
+          jobId: jobId
+          firstName: firstName
+          createdAt: 2019-09-07T15:50-04:00
+          qrCode: qrCode
+          phone: 000-111-2222
+          contact: contact
+          callbackURL: callbackURL
+          id: id
+          send: true
+          email: email
+          updatedAt: 2019-09-07T15:50-04:00
+          status: accepted
+        page: 1
+    inline_response_200_4:
+      type: object
+      properties:
+        documents:
+          $ref: '#/components/schemas/documents'
+      example:
+        documents:
+          country: country
+          state: state
+          type: type
+          properties: ""
+    inline_response_200_5:
+      type: object
+      properties:
+        match:
+          maximum: 1
+          minimum: 0
+          type: integer
+          description: Where values >= 0.90 is a positive match
+      example:
+        match: 0
+    job_parameters_idPhotoDetectDimensions:
+      type: object
+      properties:
+        width:
+          type: integer
+          description: width of photo
+        height:
+          type: integer
+          description: height of photo
+      example:
+        width: 6
+        height: 1
+    id_watchlist_attributes_countries_territories:
+      type: object
+      properties:
+        type:
+          type: string
+        code:
+          type: string
+        iso_alpha2:
+          type: string
+        iso_alpha3:
+          type: string
+      example:
+        iso_alpha2: iso_alpha2
+        code: code
+        iso_alpha3: iso_alpha3
+        type: type
+    id_watchlist_attributes_date_of_birth:
+      type: object
+      properties:
+        day:
+          type: string
+        month:
+          type: string
+        year:
+          type: string
+      example:
+        month: month
+        year: year
+        day: day
+    id_watchlist_attributes:
+      type: object
+      properties:
+        type:
+          type: string
+        primary_name:
+          type: string
+          description: full matched name of the person
+        title:
+          type: string
+        country_territory_code:
+          type: string
+        country_territory_name:
+          type: string
+        gender:
+          type: string
+        is_subsidiary:
+          type: boolean
+        score:
+          type: string
+        icon_hints:
+          type: array
+          description: List of watchlist in which match was found
+          items:
+            type: string
+        countries_territories:
+          type: array
+          items:
+            $ref: '#/components/schemas/id_watchlist_attributes_countries_territories'
+        date_of_birth:
+          type: array
+          items:
+            $ref: '#/components/schemas/id_watchlist_attributes_date_of_birth'
+      example:
+        score: score
+        country_territory_name: country_territory_name
+        gender: gender
+        date_of_birth:
+        - month: month
+          year: year
+          day: day
+        - month: month
+          year: year
+          day: day
+        primary_name: primary_name
+        icon_hints:
+        - icon_hints
+        - icon_hints
+        type: type
+        title: title
+        countries_territories:
+        - iso_alpha2: iso_alpha2
+          code: code
+          iso_alpha3: iso_alpha3
+          type: type
+        - iso_alpha2: iso_alpha2
+          code: code
+          iso_alpha3: iso_alpha3
+          type: type
+        country_territory_code: country_territory_code
+        is_subsidiary: true
+    id_watchlist_data:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          description: default value of "Risk Entities"
+        attributes:
+          $ref: '#/components/schemas/id_watchlist_attributes'
+      example:
+        attributes:
+          score: score
+          country_territory_name: country_territory_name
+          gender: gender
+          date_of_birth:
+          - month: month
+            year: year
+            day: day
+          - month: month
+            year: year
+            day: day
+          primary_name: primary_name
+          icon_hints:
+          - icon_hints
+          - icon_hints
+          type: type
+          title: title
+          countries_territories:
+          - iso_alpha2: iso_alpha2
+            code: code
+            iso_alpha3: iso_alpha3
+            type: type
+          - iso_alpha2: iso_alpha2
+            code: code
+            iso_alpha3: iso_alpha3
+            type: type
+          country_territory_code: country_territory_code
+          is_subsidiary: true
+        id: id
+        type: type
+    id_watchlist_confidence:
+      type: object
+      properties:
+        normalized:
+          type: boolean
+      example:
+        normalized: true
+    result_idFields:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of available field.
+      example:
+        name: name
+  securitySchemes:
+    X-API-Key:
+      type: apiKey
+      description: "The authentication [private key](#section/Dashboard/Manage-keys)"
+      name: X-API-Key
+      in: header
+x-tagGroups:
+- name: APIs
+  tags:
+  - jobs
+  - invites
+  - aamva
+  - crosscheck
+- name: Models
+  tags:
+  - job model
+  - crosscheck model
+  - invite model
+  - error model
