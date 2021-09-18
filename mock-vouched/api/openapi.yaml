@@ -612,6 +612,7 @@ info:
     altText: Vouched logo
 servers:
 - url: https://verify.vouched.id
+- url: http://localhost:8080
 tags:
 - name: crosscheck
   description: This is the section where you will do actions for all things related
@@ -898,6 +899,7 @@ paths:
       x-swagger-router-controller: Jobs
     servers:
     - url: https://verify.vouched.id
+    - url: http://localhost:8080
   /api/jobs/{id}:
     delete:
       tags:
@@ -951,6 +953,7 @@ paths:
       x-swagger-router-controller: Jobs
     servers:
     - url: https://verify.vouched.id
+    - url: http://localhost:8080
   /api/jobs/{id}/review:
     put:
       tags:
@@ -1008,9 +1011,11 @@ paths:
       - X-API-Key: []
       servers:
       - url: https://verify.vouched.id
+      - url: http://localhost:8080
       x-swagger-router-controller: Jobs
     servers:
     - url: https://verify.vouched.id
+    - url: http://localhost:8080
   /api/jobs/{id}/download:
     get:
       tags:
@@ -1072,6 +1077,7 @@ paths:
       - X-API-Key: []
       servers:
       - url: https://verify.vouched.id
+      - url: http://localhost:8080
       x-swagger-router-controller: Jobs
   /api/identity/aamva:
     post:
@@ -1136,9 +1142,11 @@ paths:
       - X-API-Key: []
       servers:
       - url: https://verify.vouched.id
+      - url: http://localhost:8080
       x-swagger-router-controller: Aamva
     servers:
     - url: https://verify.vouched.id
+    - url: http://localhost:8080
   /api/invites:
     post:
       tags:
@@ -1195,9 +1203,11 @@ paths:
       - X-API-Key: []
       servers:
       - url: https://verify.vouched.id
+      - url: http://localhost:8080
       x-swagger-router-controller: Invites
     servers:
     - url: https://verify.vouched.id
+    - url: http://localhost:8080
   /api/invites/{id}/resend:
     post:
       tags:
@@ -1250,6 +1260,7 @@ paths:
       - X-API-Key: []
       servers:
       - url: https://verify.vouched.id
+      - url: http://localhost:8080
       x-swagger-router-controller: Invites
   /api/invites/:
     get:
@@ -1319,6 +1330,7 @@ paths:
       - X-API-Key: []
       servers:
       - url: https://verify.vouched.id
+      - url: http://localhost:8080
       x-swagger-router-controller: Invites
   /api/identity/crosscheck:
     post:
@@ -1385,9 +1397,11 @@ paths:
       - X-API-Key: []
       servers:
       - url: https://verify.vouched.id
+      - url: http://localhost:8080
       x-swagger-router-controller: Crosscheck
     servers:
     - url: https://verify.vouched.id
+    - url: http://localhost:8080
   /api/identity/documents:
     get:
       tags:
@@ -1431,9 +1445,11 @@ paths:
       - X-API-Key: []
       servers:
       - url: https://verify.vouched.id
+      - url: http://localhost:8080
       x-swagger-router-controller: Jobs
     servers:
     - url: https://verify.vouched.id
+    - url: http://localhost:8080
   /api/identity/authenticate:
     post:
       tags:
@@ -1483,9 +1499,11 @@ paths:
       - X-API-Key: []
       servers:
       - url: https://verify.vouched.id
+      - url: http://localhost:8080
       x-swagger-router-controller: Jobs
     servers:
     - url: https://verify.vouched.id
+    - url: http://localhost:8080
 components:
   schemas:
     response_1:
@@ -4436,7 +4454,6 @@ components:
         userPhoto:
           type: string
           description: The user photo to perform a face match.
-          format: base64
         matchId:
           type: boolean
           description: "When `true`, matches the userPhoto against the verified ID\
