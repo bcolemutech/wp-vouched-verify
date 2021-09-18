@@ -4454,7 +4454,6 @@ components:
         userPhoto:
           type: string
           description: The user photo to perform a face match.
-          format: base64
         matchId:
           type: boolean
           description: "When `true`, matches the userPhoto against the verified ID\
