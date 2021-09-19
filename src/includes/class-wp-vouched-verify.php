@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpIncludeInspection */
 
 /**
  * The file that defines the core plugin class
@@ -37,7 +37,7 @@ class Wp_Vouched_Verify {
 	 * @access   protected
 	 * @var      Wp_Vouched_Verify_Loader    $loader    Maintains and registers all hooks for the plugin.
 	 */
-	protected $loader;
+	protected Wp_Vouched_Verify_Loader $loader;
 
 	/**
 	 * The unique identifier of this plugin.
@@ -46,7 +46,7 @@ class Wp_Vouched_Verify {
 	 * @access   protected
 	 * @var      string    $plugin_name    The string used to uniquely identify this plugin.
 	 */
-	protected $plugin_name;
+	protected string $plugin_name;
 
 	/**
 	 * The current version of the plugin.
@@ -55,7 +55,7 @@ class Wp_Vouched_Verify {
 	 * @access   protected
 	 * @var      string    $version    The current version of the plugin.
 	 */
-	protected $version;
+	protected string $version;
 
 	/**
 	 * Define the core functionality of the plugin.
@@ -173,6 +173,7 @@ class Wp_Vouched_Verify {
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 
+        $this->loader->add_action('user_register', $plugin_public, 'handle_user_register');
 	}
 
 	/**
@@ -191,7 +192,8 @@ class Wp_Vouched_Verify {
 	 * @since     1.0.0
 	 * @return    string    The name of the plugin.
 	 */
-	public function get_plugin_name() {
+	public function get_plugin_name(): string
+    {
 		return $this->plugin_name;
 	}
 
@@ -201,7 +203,8 @@ class Wp_Vouched_Verify {
 	 * @since     1.0.0
 	 * @return    Wp_Vouched_Verify_Loader    Orchestrates the hooks of the plugin.
 	 */
-	public function get_loader() {
+	public function get_loader(): Wp_Vouched_Verify_Loader
+    {
 		return $this->loader;
 	}
 
@@ -211,7 +214,8 @@ class Wp_Vouched_Verify {
 	 * @since     1.0.0
 	 * @return    string    The version number of the plugin.
 	 */
-	public function get_version() {
+	public function get_version(): string
+    {
 		return $this->version;
 	}
 
