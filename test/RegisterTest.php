@@ -2,7 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 
-require '../src/public/class-wp-vouched-verify-public.php';
+require_once dirname(__FILE__) . '/../src/public/class-wp-vouched-verify-public.php';
 
 class RegisterTest extends TestCase
 {
