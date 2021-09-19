@@ -37,7 +37,7 @@ class Wp_Vouched_Verify {
 	 * @access   protected
 	 * @var      Wp_Vouched_Verify_Loader    $loader    Maintains and registers all hooks for the plugin.
 	 */
-	protected Wp_Vouched_Verify_Loader $loader;
+	protected $loader;
 
 	/**
 	 * The unique identifier of this plugin.
@@ -46,7 +46,7 @@ class Wp_Vouched_Verify {
 	 * @access   protected
 	 * @var      string    $plugin_name    The string used to uniquely identify this plugin.
 	 */
-	protected string $plugin_name;
+	protected $plugin_name;
 
 	/**
 	 * The current version of the plugin.
@@ -55,7 +55,7 @@ class Wp_Vouched_Verify {
 	 * @access   protected
 	 * @var      string    $version    The current version of the plugin.
 	 */
-	protected string $version;
+	protected $version;
 
 	/**
 	 * Define the core functionality of the plugin.
