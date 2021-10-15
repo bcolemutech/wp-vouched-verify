@@ -100,4 +100,62 @@ class Wp_Vouched_Verify_Admin {
 
 	}
 
+    public function vouched_option_page() {
+        add_options_page('Vouched Verify',
+        'Vouched Verify Options',
+        'manage_options',
+        'vouched',
+        array($this,'vouched_options_page_html'));
+    }
+
+    function vouched_options_page_html()
+    {
+        if ( ! current_user_can( 'manage_options' ) ) {
+            return;
+        }
+        ?>
+        <div class="wrap">
+            <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
+            <form action="options.php" method="post">
+                <?php
+                settings_fields('vouched_options');
+                do_settings_sections( 'vouched' );
+                ?>
+                <input name="submit" class="button button-primary" type="submit" value="<?php esc_attr_e( 'Save' ); ?>" />
+            </form>
+        </div>
+        <?php
+    }
+
+    public function vouched_settings() {
+        register_setting( 'vouched_options', 'vouched_options', 'vouched_options_validate' );
+        add_settings_section( 'api_settings', 'API Settings', array($this, 'vouched_api_section_text'), 'vouched' );
+
+        add_settings_field( 'vouched_setting_api_key', 'API Key', array($this,'vouched_setting_api_key'), 'vouched', 'api_settings' );
+        add_settings_field( 'vouched_setting_url', 'Vouched URL', array($this,'vouched_setting_url'), 'vouched', 'api_settings' );
+    }
+
+    public function vouched_options_validate( $input ): array
+    {
+        $newInput['api_key'] = trim( $input['api_key'] );
+        if ( ! preg_match( '/^[a-z0-9]{32}$/i', $newInput['api_key'] ) ) {
+            $newInput['api_key'] = '';
+        }
+
+        return $newInput;
+    }
+
+    public function vouched_api_section_text() {
+        echo '<p>Here you can set all the options for using the Vouched API</p>';
+    }
+
+    function vouched_setting_api_key() {
+        $options = get_option( 'vouched_options' );
+        echo "<input id='vouched_setting_api_key' name='vouched_options[api_key]' type='text' value='" . esc_attr( $options['api_key'] ) . "' />";
+    }
+
+    function vouched_setting_url() {
+        $options = get_option( 'vouched_options' );
+        echo "<input id='vouched_setting_url' name='vouched_options[url]' type='text' value='" . esc_attr( $options['url'] ) . "' />";
+    }
 }
