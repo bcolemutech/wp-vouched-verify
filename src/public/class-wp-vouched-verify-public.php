@@ -108,11 +108,52 @@ class Wp_Vouched_Verify_Public
      * Log user and user data when new user is registered
      *
      * @param int $user_id User's ID
+     * @throws Requests_Exception_HTTP
      */
     public function handle_user_register(int $user_id)
     {
-        error_log("User ID: " . $user_id,4);
-        error_log("User Email: ".$_POST['email'],4);
-    }
+        $options = get_option('vouched_options');
+        $url = $options['url'] . '/api/invites';
 
+        error_log("User ID: " . $user_id, 4);
+        error_log("User Name: " . $_POST['login'], 4);
+        error_log("User Email: " . $_POST['email'], 4);
+
+        $body = array(
+            'firstName' => $_POST['login'],
+            'email' => $_POST['email'],
+            'contact' => "email"
+        );
+
+        $args = array(
+            'body' => $body,
+            'timeout' => '5',
+            'redirection' => '5',
+            'httpversion' => '1.0',
+            'blocking' => true,
+            'headers' => array(),
+            'cookies' => array(),
+        );
+
+        error_log("Sending POST to ".$url, 4);
+
+        $response = wp_remote_post($url, $args);
+        $http_code = wp_remote_retrieve_response_code( $response );
+
+        if ($http_code >= 400)
+        {
+            error_log("POST failed with code ". $http_code, 4);
+            throw new Requests_Exception_HTTP("Received ".$http_code." from ".$url);
+        }
+
+        $responseBody = wp_remote_retrieve_body($response);
+
+        $responseJson = json_decode($responseBody);
+
+        $inviteID = $responseJson->{'invite'}->{'id'};
+
+        error_log("POST succeeded invite ID: ".$inviteID, 4);
+
+        add_user_meta($user_id, 'inviteID', $inviteID, true);
+    }
 }
