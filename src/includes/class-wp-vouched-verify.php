@@ -125,6 +125,16 @@ class Wp_Vouched_Verify
          */
         require_once plugin_dir_path(dirname(__FILE__)) . 'public/class-wp-vouched-verify-public.php';
 
+        /**
+         * The interface for wrapping WP functions
+         */
+        require_once plugin_dir_path(dirname(__FILE__)) . 'services/wp_wrapper_interface.php';
+
+        /**
+         * The wrapper for WP functions
+         */
+        require_once plugin_dir_path(dirname(__FILE__)) . 'services/wp_wrapper.php';
+
         $this->loader = new Wp_Vouched_Verify_Loader();
 
     }
