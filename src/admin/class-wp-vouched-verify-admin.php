@@ -39,7 +39,7 @@ class Wp_Vouched_Verify_Admin
      * @access   private
      * @var      string $version The current version of this plugin.
      */
-    private string $version;
+    private $version;
 
     /**
      * Initialize the class and set its properties.
