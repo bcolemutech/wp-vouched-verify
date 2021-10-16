@@ -30,7 +30,7 @@ class Wp_Vouched_Verify_Admin
      * @access   private
      * @var      string $plugin_name The ID of this plugin.
      */
-    private string $plugin_name;
+    private $plugin_name;
 
     /**
      * The version of this plugin.
