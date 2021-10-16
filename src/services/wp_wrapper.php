@@ -8,17 +8,17 @@ class wp_wrapper implements wp_wrapper_interface
         return get_option($string);
     }
 
-    public function wp_remote_post(string $url, array $args): WP_Error
+    public function wp_remote_post(string $url, array $args): array
     {
         return wp_remote_post($url, $args);
     }
 
-    public function wp_remote_retrieve_response_code(WP_Error|array $response): int
+    public function wp_remote_retrieve_response_code(array $response): int
     {
         return wp_remote_retrieve_response_code($response);
     }
 
-    public function wp_remote_retrieve_body(WP_Error|array $response): string
+    public function wp_remote_retrieve_body(array $response): string
     {
         return wp_remote_retrieve_body($response);
     }
