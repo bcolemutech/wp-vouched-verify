@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection SpellCheckingInspection */
+/** @noinspection PhpMissingFieldTypeInspection */
 
 /**
  * The public-facing functionality of the plugin.
@@ -41,19 +42,23 @@ class Wp_Vouched_Verify_Public
      */
     private $version;
 
+    private $wp_wrapper;
+
     /**
      * Initialize the class and set its properties.
      *
      * @param string $plugin_name The name of the plugin.
      * @param string $version The version of this plugin.
+     * @param wp_wrapper_interface $wp_wrapper
      * @since    1.0.0
      */
-    public function __construct(string $plugin_name, string $version)
+    public function __construct(string $plugin_name, string $version, wp_wrapper_interface $wp_wrapper)
     {
 
         $this->plugin_name = $plugin_name;
         $this->version = $version;
 
+        $this->wp_wrapper = $wp_wrapper;
     }
 
     /**
@@ -113,7 +118,7 @@ class Wp_Vouched_Verify_Public
      */
     public function handle_user_register(int $user_id)
     {
-        $options = get_option('vouched_options');
+        $options = $this->wp_wrapper->get_option('vouched_options');
         $url = $options['url'] . '/api/invites';
         $key = $options['api_key'];
 
@@ -126,7 +131,6 @@ class Wp_Vouched_Verify_Public
         }
 
         error_log("User ID: " . $user_id, 4);
-        error_log("User Name: " . $_POST['login'], 4);
         error_log("User Email: " . $_POST['email'], 4);
 
         $body = array(
@@ -151,9 +155,9 @@ class Wp_Vouched_Verify_Public
 
         error_log("Sending POST to " . $url, 4);
 
-        $response = wp_remote_post($url, $args);
-        $http_code = wp_remote_retrieve_response_code($response);
-        $responseBody = wp_remote_retrieve_body($response);
+        $response = $this->wp_wrapper->wp_remote_post($url, $args);
+        $http_code = $this->wp_wrapper->wp_remote_retrieve_response_code($response);
+        $responseBody = $this->wp_wrapper->wp_remote_retrieve_body($response);
 
         if ($http_code >= 400) {
             error_log("POST failed with code " . $http_code . " content: " . $responseBody, 4);
@@ -173,6 +177,6 @@ class Wp_Vouched_Verify_Public
 
         error_log("POST succeeded invite ID: " . $inviteID, 4);
 
-        add_user_meta($user_id, 'inviteID', $inviteID, true);
+        $this->wp_wrapper->add_user_meta($user_id, 'inviteID', $inviteID, true);
     }
 }
