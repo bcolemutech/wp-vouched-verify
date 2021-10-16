@@ -42,7 +42,7 @@ class Wp_Vouched_Verify_Public
      */
     private $version;
 
-    private wp_wrapper_interface $wp_wrapper;
+    private $wp_wrapper;
 
     /**
      * Initialize the class and set its properties.
