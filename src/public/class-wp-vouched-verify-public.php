@@ -179,4 +179,9 @@ class Wp_Vouched_Verify_Public
 
         $this->wp_wrapper->add_user_meta($user_id, 'inviteID', $inviteID, true);
     }
+
+    public function handle_wp_login(string $string, WP_User $user)
+    {
+
+    }
 }
