@@ -27,3 +27,4 @@ node_modules/
 /.phpunit.result.cache
 /vendor/
 /src/vendor/
+/wordpress/
