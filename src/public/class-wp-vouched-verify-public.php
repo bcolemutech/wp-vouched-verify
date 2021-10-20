@@ -179,4 +179,24 @@ class Wp_Vouched_Verify_Public
 
         $this->wp_wrapper->add_user_meta($user_id, 'inviteID', $inviteID, true);
     }
+
+    public function handle_wp_login(string $string, WP_User $user)
+    {
+
+        $options = $this->wp_wrapper->get_option('vouched_options');
+        $url = $options['url'] . '/api/invites';
+        $key = $options['api_key'];
+
+        if ($url == null || trim($url) == "") {
+            throw new InvalidArgumentException("Vouched URL is not set");
+        }
+
+        if ($key == null || trim($key) == "") {
+            throw new InvalidArgumentException("Vouched private key not set");
+        }
+
+        $inviteId = $this->wp_wrapper->get_user_meta($user->ID, "inviteID");
+
+        error_log("Retrived Invite " . $inviteId . " for user " . $user->ID, 4);
+    }
 }

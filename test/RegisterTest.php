@@ -9,7 +9,6 @@ class RegisterTest extends TestCase
 {
     public function testUserRegisterShouldSaveInviteId()
     {
-        $this->assertTrue(interface_exists('wp_wrapper_interface'));
         $stub = $this->getMockBuilder(wp_wrapper_interface::class)->getMock();
 
         $stub->method('get_option')->willReturn(array('url' => 'test.com', 'api_key' => 'abcd1234'));
