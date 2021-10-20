@@ -27,7 +27,7 @@ exports.listInvites = function(id,page,pageSize) {
     "phone" : "000-111-2222",
     "contact" : "contact",
     "callbackURL" : "callbackURL",
-    "id" : "id",
+    "id" : "321",
     "send" : true,
     "email" : "email",
     "updatedAt" : "2019-09-07T15:50-04:00",
@@ -42,11 +42,11 @@ exports.listInvites = function(id,page,pageSize) {
     "phone" : "000-111-2222",
     "contact" : "contact",
     "callbackURL" : "callbackURL",
-    "id" : "id",
+    "id" : "123",
     "send" : true,
     "email" : "email",
     "updatedAt" : "2019-09-07T15:50-04:00",
-    "status" : "accepted"
+    "status" : "completed"
   } ],
   "page" : 1
 };
