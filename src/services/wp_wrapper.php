@@ -28,7 +28,7 @@ class wp_wrapper implements wp_wrapper_interface
         return add_user_meta($user_id, $meta_key, $meta_value, $unique);
     }
 
-    public function get_user_meta(int $user_id, string $meta_key): mixed
+    public function get_user_meta(int $user_id, string $meta_key): string
     {
         return get_user_meta($user_id, $meta_key, true);
     }
