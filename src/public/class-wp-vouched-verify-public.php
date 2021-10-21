@@ -1,4 +1,5 @@
-<?php /** @noinspection SpellCheckingInspection */
+<?php /** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection SpellCheckingInspection */
 /** @noinspection PhpMissingFieldTypeInspection */
 
 /**
@@ -43,8 +44,10 @@ class Wp_Vouched_Verify_Public
     private $version;
 
     private $wp_wrapper;
+	private $url;
+	private $api_key;
 
-    /**
+	/**
      * Initialize the class and set its properties.
      *
      * @param string $plugin_name The name of the plugin.
@@ -118,17 +121,7 @@ class Wp_Vouched_Verify_Public
      */
     public function handle_user_register(int $user_id)
     {
-        $options = $this->wp_wrapper->get_option('vouched_options');
-        $url = $options['url'] . '/api/invites';
-        $key = $options['api_key'];
-
-        if ($url == null || trim($url) == "") {
-            throw new InvalidArgumentException("Vouched URL is not set");
-        }
-
-        if ($key == null || trim($key) == "") {
-            throw new InvalidArgumentException("Vouched private key not set");
-        }
+	    $this->LoadSettings();
 
         error_log("User ID: " . $user_id, 4);
         error_log("User Email: " . $_POST['email'], 4);
@@ -147,23 +140,22 @@ class Wp_Vouched_Verify_Public
             'httpversion' => '1.0',
             'blocking' => true,
             'headers' => array(
-                'X-API-Key' => $key,
+                'X-API-Key' => $this->api_key,
                 'content-type' => 'application/json'
             ),
             'cookies' => array(),
         );
 
-        error_log("Sending POST to " . $url, 4);
+        error_log("Sending POST to " . $this->url, 4);
 
-        $response = $this->wp_wrapper->wp_remote_post($url, $args);
+        $response = $this->wp_wrapper->wp_remote_post($this->url, $args);
         $http_code = $this->wp_wrapper->wp_remote_retrieve_response_code($response);
         $responseBody = $this->wp_wrapper->wp_remote_retrieve_body($response);
 
         if ($http_code >= 400) {
             error_log("POST failed with code " . $http_code . " content: " . $responseBody, 4);
-            throw new Requests_Exception_HTTP("Received " . $http_code . " from " . $url);
+            throw new Requests_Exception_HTTP("Received " . $http_code . " from " . $this->url);
         }
-
 
         error_log("Invite response: " . $responseBody, 4);
 
@@ -182,21 +174,24 @@ class Wp_Vouched_Verify_Public
 
     public function handle_wp_login(string $string, WP_User $user)
     {
+	    $this->LoadSettings();
 
-        $options = $this->wp_wrapper->get_option('vouched_options');
-        $url = $options['url'] . '/api/invites';
-        $key = $options['api_key'];
-
-        if ($url == null || trim($url) == "") {
-            throw new InvalidArgumentException("Vouched URL is not set");
-        }
-
-        if ($key == null || trim($key) == "") {
-            throw new InvalidArgumentException("Vouched private key not set");
-        }
-
-        $inviteId = $this->wp_wrapper->get_user_meta($user->ID, "inviteID");
+	    $inviteId = $this->wp_wrapper->get_user_meta($user->ID, "inviteID");
 
         error_log("Retrived Invite " . $inviteId . " for user " . $user->ID, 4);
     }
+
+	private function LoadSettings() {
+		$options       = $this->wp_wrapper->get_option( 'vouched_options' );
+		$this->url     = $options['url'] . '/api/invites';
+		$this->api_key = $options['api_key'];
+
+		if ( $this->url == null || trim( $this->url ) == "" ) {
+			throw new InvalidArgumentException( "Vouched URL is not set" );
+		}
+
+		if ( $this->api_key == null || trim( $this->api_key ) == "" ) {
+			throw new InvalidArgumentException( "Vouched private key not set" );
+		}
+	}
 }
