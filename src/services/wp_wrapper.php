@@ -10,7 +10,13 @@ class wp_wrapper implements wp_wrapper_interface
 
     public function wp_remote_post(string $url, array $args): array
     {
-        return wp_remote_post($url, $args);
+		$response = wp_remote_post($url, $args);
+
+		if(is_wp_error($response))
+		{
+			throw new Exception($response->get_error_message());
+		}
+		return $response;
     }
 
     public function wp_remote_retrieve_response_code(array $response): int
