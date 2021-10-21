@@ -192,6 +192,7 @@ class Wp_Vouched_Verify
         $this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_scripts');
 
         $this->loader->add_action('user_register', $plugin_public, 'handle_user_register');
+		$this->loader->add_filter('wp_login', $plugin_public, 'handle_wp_login',10,2);
     }
 
     /**
