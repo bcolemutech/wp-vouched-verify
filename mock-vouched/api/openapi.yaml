@@ -1148,6 +1148,75 @@ paths:
     - url: https://verify.vouched.id
     - url: http://localhost:8080
   /api/invites:
+    get:
+      tags:
+        - invites
+      summary: List Invites
+      description: List of Vouched Now invites.
+      operationId: listInvites
+      parameters:
+        - name: id
+          in: query
+          description: The invite id.
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+        - name: page
+          in: query
+          description: Paginate list by page.
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: integer
+        - name: pageSize
+          in: query
+          description: The number of items for a page.
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: List of Vouched Now Invites
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_3'
+        "400":
+          description: InvalidRequestError - The request is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "401":
+          description: AuthenticationError - The request could not be authenticated
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "404":
+          description: ConnectionError - A connection error occurred while communicating
+            to the Vouched service
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "500":
+          description: UnknownSystemError - A unknown system error occurred
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+      security:
+        - X-API-Key: [ ]
+      servers:
+        - url: https://verify.vouched.id
+        - url: http://localhost:8080
+      x-swagger-router-controller: Invites
     post:
       tags:
       - invites
@@ -1231,76 +1300,6 @@ paths:
             application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/inline_response_200_2'
-        "400":
-          description: InvalidRequestError - The request is invalid
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/inline_response_400'
-        "401":
-          description: AuthenticationError - The request could not be authenticated
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/inline_response_400'
-        "404":
-          description: ConnectionError - A connection error occurred while communicating
-            to the Vouched service
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/inline_response_400'
-        "500":
-          description: UnknownSystemError - A unknown system error occurred
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/inline_response_400'
-      security:
-      - X-API-Key: []
-      servers:
-      - url: https://verify.vouched.id
-      - url: http://localhost:8080
-      x-swagger-router-controller: Invites
-  /api/invites/:
-    get:
-      tags:
-      - invites
-      summary: List Invites
-      description: List of Vouched Now invites.
-      operationId: listInvites
-      parameters:
-      - name: id
-        in: query
-        description: The invite id.
-        required: false
-        style: form
-        explode: true
-        schema:
-          type: string
-      - name: page
-        in: query
-        description: Paginate list by page.
-        required: false
-        style: form
-        explode: true
-        schema:
-          type: integer
-      - name: pageSize
-        in: query
-        description: The number of items for a page.
-        required: false
-        style: form
-        explode: true
-        schema:
-          type: integer
-      responses:
-        "200":
-          description: List of Vouched Now Invites
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/inline_response_200_3'
         "400":
           description: InvalidRequestError - The request is invalid
           content:
