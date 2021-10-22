@@ -134,4 +134,22 @@ class vouched_service implements vouched_service_interface {
 
 		return $inviteID;
 	}
+
+	public function get_job( string $jobId ) {
+		$args = array(
+			'timeout'     => '5',
+			'redirection' => '5',
+			'httpversion' => '1.0',
+			'blocking'    => true,
+			'headers'     => array(
+				'X-API-Key'    => $this->api_key,
+				'content-type' => 'application/json'
+			),
+			'cookies'     => array(),
+		);
+
+		$url = $this->url . '/jobs/?id=' . $jobId;
+
+
+	}
 }

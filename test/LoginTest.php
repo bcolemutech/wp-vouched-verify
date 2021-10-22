@@ -77,7 +77,7 @@ class LoginTest extends TestCase
 
 	private function getVouchedStub() {
 		$stub = $this->getMockBuilder(vouched_service_interface::class)->getMock();
-		$stub->method('GetInvite')->with('123')
+		$stub->method('get_invite')->with('123')
 			->willReturn('');
 		return $stub;
 	}

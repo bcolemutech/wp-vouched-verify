@@ -20,4 +20,11 @@ interface vouched_service_interface {
 	 * @throws Exception
 	 */
 	public function send_invite();
+
+	/**
+	 * @param string $jobId
+	 *
+	 * @return mixed
+	 */
+	public function get_job(string $jobId);
 }
