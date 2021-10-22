@@ -22,116 +22,112 @@
  * @subpackage Wp_Vouched_Verify/public
  * @author     Brian Cole <https://github.com/bcolemutech>
  */
-class Wp_Vouched_Verify_Public
-{
-
-    /**
-     * The ID of this plugin.
-     *
-     * @since    1.0.0
-     * @access   private
-     * @var      string $plugin_name The ID of this plugin.
-     */
-    private $plugin_name;
-
-    /**
-     * The version of this plugin.
-     *
-     * @since    1.0.0
-     * @access   private
-     * @var      string $version The current version of this plugin.
-     */
-    private $version;
-
-    private $wp_wrapper;
-	private $url;
-	private $api_key;
+class Wp_Vouched_Verify_Public {
 
 	/**
-     * Initialize the class and set its properties.
-     *
-     * @param string $plugin_name The name of the plugin.
-     * @param string $version The version of this plugin.
-     * @param wp_wrapper_interface $wp_wrapper
-     * @since    1.0.0
-     */
-    public function __construct(string $plugin_name, string $version, wp_wrapper_interface $wp_wrapper)
-    {
+	 * The ID of this plugin.
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 * @var      string $plugin_name The ID of this plugin.
+	 */
+	private $plugin_name;
 
-        $this->plugin_name = $plugin_name;
-        $this->version = $version;
+	/**
+	 * The version of this plugin.
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 * @var      string $version The current version of this plugin.
+	 */
+	private $version;
 
-        $this->wp_wrapper = $wp_wrapper;
-    }
+	private $wp_wrapper;
 
-    /**
-     * Register the stylesheets for the public-facing side of the site.
-     *
-     * @since    1.0.0
-     */
-    public function enqueue_styles()
-    {
+	/** @var vouched_service */
+	private $vouched_service;
 
-        /**
-         * This function is provided for demonstration purposes only.
-         *
-         * An instance of this class should be passed to the run() function
-         * defined in Wp_Vouched_Verify_Loader as all the hooks are defined
-         * in that particular class.
-         *
-         * The Wp_Vouched_Verify_Loader will then create the relationship
-         * between the defined hooks and the functions defined in this
-         * class.
-         */
+	/**
+	 * Initialize the class and set its properties.
+	 *
+	 * @param string $plugin_name The name of the plugin.
+	 * @param string $version The version of this plugin.
+	 * @param wp_wrapper_interface $wp_wrapper
+	 * @param vouched_service_interface $vouched_service
+	 *
+	 * @since    1.0.0
+	 */
+	public function __construct( string $plugin_name, string $version, wp_wrapper_interface $wp_wrapper, vouched_service_interface $vouched_service) {
 
-        wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/wp-vouched-verify-public.css', array(), $this->version);
+		$this->plugin_name = $plugin_name;
+		$this->version     = $version;
 
-    }
+		$this->wp_wrapper = $wp_wrapper;
+		$this->vouched_service  = $vouched_service;
+	}
 
-    /**
-     * Register the JavaScript for the public-facing side of the site.
-     *
-     * @since    1.0.0
-     */
-    public function enqueue_scripts()
-    {
+	/**
+	 * Register the stylesheets for the public-facing side of the site.
+	 *
+	 * @since    1.0.0
+	 */
+	public function enqueue_styles() {
 
-        /**
-         * This function is provided for demonstration purposes only.
-         *
-         * An instance of this class should be passed to the run() function
-         * defined in Wp_Vouched_Verify_Loader as all the hooks are defined
-         * in that particular class.
-         *
-         * The Wp_Vouched_Verify_Loader will then create the relationship
-         * between the defined hooks and the functions defined in this
-         * class.
-         */
+		/**
+		 * This function is provided for demonstration purposes only.
+		 *
+		 * An instance of this class should be passed to the run() function
+		 * defined in Wp_Vouched_Verify_Loader as all the hooks are defined
+		 * in that particular class.
+		 *
+		 * The Wp_Vouched_Verify_Loader will then create the relationship
+		 * between the defined hooks and the functions defined in this
+		 * class.
+		 */
 
-        wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/wp-vouched-verify-public.js', array('jquery'), $this->version);
+		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/wp-vouched-verify-public.css', array(), $this->version );
+	}
 
-    }
+	/**
+	 * Register the JavaScript for the public-facing side of the site.
+	 *
+	 * @since    1.0.0
+	 */
+	public function enqueue_scripts() {
 
-    /**
-     * Intercept user registration, send Vouched invite using email address. Save return invite ID to user meta.
-     *
-     * @param int $user_id User's ID
-     * @throws Requests_Exception_HTTP
-     * @throws Exception
-     */
-    public function handle_user_register(int $user_id)
-    {
-	    $this->LoadSettings();
+		/**
+		 * This function is provided for demonstration purposes only.
+		 *
+		 * An instance of this class should be passed to the run() function
+		 * defined in Wp_Vouched_Verify_Loader as all the hooks are defined
+		 * in that particular class.
+		 *
+		 * The Wp_Vouched_Verify_Loader will then create the relationship
+		 * between the defined hooks and the functions defined in this
+		 * class.
+		 */
 
-        error_log("User ID: " . $user_id, 4);
-        error_log("User Email: " . $_POST['email'], 4);
+		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/wp-vouched-verify-public.js', array( 'jquery' ), $this->version );
+	}
 
-	    $inviteID = $this->SendInvite();
+	/**
+	 * Intercept user registration, send Vouched invite using email address. Save return invite ID to user meta.
+	 *
+	 * @param int $user_id User's ID
+	 *
+	 * @throws Requests_Exception_HTTP
+	 * @throws Exception
+	 */
+	public function handle_user_register( int $user_id ) {
+		error_log( "User ID: " . $user_id, 4 );
+		error_log( "User Email: " . $_POST['email'], 4 );
 
-        error_log("POST succeeded invite ID: " . $inviteID, 4);
+		$inviteID = $this->vouched_service->send_invite();
 
-        $this->wp_wrapper->add_user_meta($user_id, 'inviteID', $inviteID, true);
-    }
+		error_log( "POST succeeded invite ID: " . $inviteID, 4 );
+
+		$this->wp_wrapper->add_user_meta( $user_id, 'inviteID', $inviteID, true );
+	}
 
 	/**
 	 * Use WP_User to get Invite from Vouched. Then validates user is unique.
@@ -140,138 +136,23 @@ class Wp_Vouched_Verify_Public
 	 *
 	 * @param string $username
 	 * @param WP_User $user
+	 *
+	 * @throws Requests_Exception_HTTP
 	 */
-	public function handle_wp_login(string $username, WP_User $user)
-    {
-	    $this->LoadSettings();
+	public function handle_wp_login( string $username, WP_User $user ) {
+		$inviteId = $this->wp_wrapper->get_user_meta( $user->ID, "inviteID" );
 
-	    $inviteId = $this->wp_wrapper->get_user_meta($user->ID, "inviteID");
+		error_log( "Retrived Invite " . $inviteId . " for user " . $user->ID, 4 );
 
-        error_log("Retrived Invite " . $inviteId . " for user " . $user->ID, 4);
+		$invite = $this->vouched_service->get_invite( $inviteId );
 
-	    $invite = $this->getInvite( $inviteId );
+		error_log( "Invite status: " . $invite->{'status'}, 4 );
 
-	    error_log( "Invite status: " . $invite->{'status'}, 4 );
-
-		if ($invite->{'status'} != 'compleated')
-		{
+		if ( $invite->{'status'} != 'compleated' ) {
 			$this
 				->wp_wrapper
-				->add_user_meta($user->ID, 'vouched-message', 'Vouched verification is not complete', false);
-		}
-    }
-
-	private function LoadSettings() {
-		$options       = $this->wp_wrapper->get_option( 'vouched_options' );
-		$this->url     = $options['url'] . '/api/invites';
-		$this->api_key = $options['api_key'];
-
-		if ( $this->url == null || trim( $this->url ) == "" ) {
-			throw new InvalidArgumentException( "Vouched URL is not set" );
-		}
-
-		if ( $this->api_key == null || trim( $this->api_key ) == "" ) {
-			throw new InvalidArgumentException( "Vouched private key not set" );
+				->add_user_meta( $user->ID, 'vouched-message', 'Vouched verification is not complete', false );
 		}
 	}
 
-	/**
-	 * Send Invite request to Vouched using given email
-	 *
-	 * @return mixed
-	 * @throws Requests_Exception_HTTP
-	 * @throws Exception
-	 */
-	public function SendInvite() {
-		$body = array(
-			'email'   => $_POST['email'],
-			'contact' => "email"
-		);
-
-		$jsonBody = json_encode( $body );
-
-		$args = array(
-			'body'        => $jsonBody,
-			'timeout'     => '5',
-			'redirection' => '5',
-			'httpversion' => '1.0',
-			'blocking'    => true,
-			'headers'     => array(
-				'X-API-Key'    => $this->api_key,
-				'content-type' => 'application/json'
-			),
-			'cookies'     => array(),
-		);
-
-		error_log( "Sending POST to " . $this->url, 4 );
-
-		$response     = $this->wp_wrapper->wp_remote_post( $this->url, $args );
-		$http_code    = $this->wp_wrapper->wp_remote_retrieve_response_code( $response );
-		$responseBody = wp_remote_retrieve_body( $response );
-
-		if ( $http_code >= 400 ) {
-			error_log( "POST failed with code " . $http_code . " content: " . $responseBody, 4 );
-			throw new Requests_Exception_HTTP( "Received " . $http_code . " from " . $this->url );
-		}
-
-		error_log( "Invite response: " . $responseBody, 4 );
-
-		$responseJson = json_decode( $responseBody );
-
-		$inviteID = $responseJson->{'invite'}->{'id'};
-
-		if ($inviteID == null) {
-			throw new Exception("Did not receive an Invite ID");
-		}
-
-		return $inviteID;
-	}
-
-	/**
-	 * Get Vouched invite based on ID from API
-	 *
-	 * @param string $inviteId
-	 *
-	 * @return mixed
-	 * @throws Requests_Exception_HTTP
-	 * @throws Exception
-	 */
-	public function getInvite( string $inviteId ) {
-		$args = array(
-			'timeout'     => '5',
-			'redirection' => '5',
-			'httpversion' => '1.0',
-			'blocking'    => true,
-			'headers'     => array(
-				'X-API-Key'    => $this->api_key,
-				'content-type' => 'application/json'
-			),
-			'cookies'     => array(),
-		);
-
-		$url = $this->url . '/?id=' . $inviteId;
-
-		$response = $this->wp_wrapper->wp_remote_get( $url, $args );
-
-		$http_code    = $this->wp_wrapper->wp_remote_retrieve_response_code( $response );
-		$responseBody = $response['body'];
-
-		if ( $http_code >= 400 ) {
-			error_log( "GET failed with code " . $http_code . " content: " . $responseBody, 4 );
-			throw new Requests_Exception_HTTP( "Received " . $http_code . " from " . $this->url );
-		}
-
-		error_log( "Invite response: " . $responseBody, 4 );
-
-		$responseJson = json_decode( $responseBody );
-
-		$invite = $responseJson->{'invite'}[0];
-
-		if ($invite == null)
-		{
-			throw new Exception("No Invite found for ID " . $inviteId);
-		}
-
-		return $invite;
-}
 }

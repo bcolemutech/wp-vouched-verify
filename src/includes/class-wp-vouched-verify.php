@@ -185,8 +185,9 @@ class Wp_Vouched_Verify
      */
     private function define_public_hooks()
     {
-
-        $plugin_public = new Wp_Vouched_Verify_Public($this->get_plugin_name(), $this->get_version(), new wp_wrapper());
+	    $wp_wrapper    = new wp_wrapper();
+		$vouched_service = new vouched_service($wp_wrapper);
+	    $plugin_public = new Wp_Vouched_Verify_Public($this->get_plugin_name(), $this->get_version(), $wp_wrapper, $vouched_service);
 
         $this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_styles');
         $this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_scripts');
