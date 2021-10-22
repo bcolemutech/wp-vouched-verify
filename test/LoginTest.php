@@ -7,16 +7,23 @@ require_once dirname(__FILE__) . '/../vendor/autoload.php';
 require_once dirname(__FILE__) . '/../wordpress/wp-includes/class-wp-user.php';
 require_once dirname(__FILE__) . '/../src/public/class-wp-vouched-verify-public.php';
 require_once dirname(__FILE__) . '/../src/services/wp_wrapper_interface.php';
+require_once dirname(__FILE__) . '/../src/services/vouched_service_interface.php';
 
 class LoginTest extends TestCase
 {
+	/**
+	 * @throws Requests_Exception_HTTP
+	 */
 	public function testUserLoginShouldGetStatusOfInviteFromApi_HappyPath()
 	{
 		$stub = $this->getWpStub('completed', 'completed');
 		$stub->expects($this->once())->method('get_user_meta');
-		$stub->expects($this->once())->method('wp_remote_get')->with('test.com/api/invites/?id=123');
 
-		$pluginPublic = new Wp_Vouched_Verify_Public('Wp_Vouched_Verify', '1.0.0', $stub);
+		$vouched = $this->getVouchedStub();
+		$vouched->expects($this->once())->method('get_invite')->with(123);
+		$vouched->expects($this->once())->method('get_job')->with(5);
+
+		$pluginPublic = new Wp_Vouched_Verify_Public('Wp_Vouched_Verify', '1.0.0', $stub, $vouched);
 
 		$user = $this->createStub(WP_User::class);
 
@@ -26,18 +33,23 @@ class LoginTest extends TestCase
 		$pluginPublic->handle_wp_login('John', $user);
 	}
 
+	/**
+	 * @throws Requests_Exception_HTTP
+	 */
 	public function testGivenInviteIsNotCompletedStoreMessage()
 	{
 		$stub = $this->getWpStub('accepted','completed');
 		$stub->expects($this->once())->method('get_user_meta');
-		$stub->expects($this->once())
+		$stub->expects($this->any())
 		     ->method('wp_remote_get')
 		     ->with('test.com/api/invites/?id=123');
 		$stub->expects($this->once())
 		     ->method('add_user_meta')
 		     ->with(1,'vouched-message', 'Vouched verification is not complete', false);
 
-		$pluginPublic = new Wp_Vouched_Verify_Public('Wp_Vouched_Verify', '1.0.0', $stub);
+		$vouched = $this->getVouchedStub();
+
+		$pluginPublic = new Wp_Vouched_Verify_Public('Wp_Vouched_Verify', '1.0.0', $stub, $vouched);
 
 		$user = $this->createStub(WP_User::class);
 
@@ -60,6 +72,13 @@ class LoginTest extends TestCase
 
 		$stub->method('wp_remote_get')->with('test.com/api/jobs/?id=5')
 			->willReturn(array('body'=>"{\"items\":[{\"id\":\"5\",\"status\":\"".$jobStatus."\"}]}"));
+		return $stub;
+	}
+
+	private function getVouchedStub() {
+		$stub = $this->getMockBuilder(vouched_service_interface::class)->getMock();
+		$stub->method('GetInvite')->with('123')
+			->willReturn('');
 		return $stub;
 	}
 }
