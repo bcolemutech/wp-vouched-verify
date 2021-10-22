@@ -149,40 +149,7 @@ class Wp_Vouched_Verify_Public
 
         error_log("Retrived Invite " . $inviteId . " for user " . $user->ID, 4);
 
-	    $args = array(
-		    'timeout'     => '5',
-		    'redirection' => '5',
-		    'httpversion' => '1.0',
-		    'blocking'    => true,
-		    'headers'     => array(
-			    'X-API-Key'    => $this->api_key,
-			    'content-type' => 'application/json'
-		    ),
-		    'cookies'     => array(),
-	    );
-
-		$url = $this->url . '/?id=' . $inviteId;
-
-	    $response = $this->wp_wrapper->wp_remote_get($url, $args);
-
-	    $http_code = $this->wp_wrapper->wp_remote_retrieve_response_code( $response );
-	    $responseBody = $this->wp_wrapper->wp_remote_retrieve_body( $response );
-
-	    if ( $http_code >= 400 ) {
-		    error_log( "GET failed with code " . $http_code . " content: " . $responseBody, 4 );
-		    throw new Requests_Exception_HTTP( "Received " . $http_code . " from " . $this->url );
-	    }
-
-	    error_log( "Invite response: " . $responseBody, 4 );
-
-	    $responseJson = json_decode( $responseBody );
-
-	    $invite = $responseJson->{'invite'}[0];
-
-		if ($invite == null)
-		{
-			throw new Exception("No Invite found for ID " . $inviteId);
-		}
+	    $invite = $this->getInvite( $inviteId );
 
 	    error_log( "Invite status: " . $invite->{'status'}, 4 );
     }
@@ -252,4 +219,52 @@ class Wp_Vouched_Verify_Public
 
 		return $inviteID;
 	}
+
+	/**
+	 * Get Vouched invite based on ID from API
+	 *
+	 * @param string $inviteId
+	 *
+	 * @return mixed
+	 * @throws Requests_Exception_HTTP
+	 * @throws Exception
+	 */
+	public function getInvite( string $inviteId ) {
+		$args = array(
+			'timeout'     => '5',
+			'redirection' => '5',
+			'httpversion' => '1.0',
+			'blocking'    => true,
+			'headers'     => array(
+				'X-API-Key'    => $this->api_key,
+				'content-type' => 'application/json'
+			),
+			'cookies'     => array(),
+		);
+
+		$url = $this->url . '/?id=' . $inviteId;
+
+		$response = $this->wp_wrapper->wp_remote_get( $url, $args );
+
+		$http_code    = $this->wp_wrapper->wp_remote_retrieve_response_code( $response );
+		$responseBody = $this->wp_wrapper->wp_remote_retrieve_body( $response );
+
+		if ( $http_code >= 400 ) {
+			error_log( "GET failed with code " . $http_code . " content: " . $responseBody, 4 );
+			throw new Requests_Exception_HTTP( "Received " . $http_code . " from " . $this->url );
+		}
+
+		error_log( "Invite response: " . $responseBody, 4 );
+
+		$responseJson = json_decode( $responseBody );
+
+		$invite = $responseJson->{'invite'}[0];
+
+		if ($invite == null)
+		{
+			throw new Exception("No Invite found for ID " . $inviteId);
+		}
+
+		return $invite;
+}
 }
