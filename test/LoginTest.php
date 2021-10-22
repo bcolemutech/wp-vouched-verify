@@ -1,6 +1,5 @@
 <?php
 
-
 use PHPUnit\Framework\TestCase;
 
 require_once dirname(__FILE__) . '/../vendor/autoload.php';
@@ -53,7 +52,7 @@ class LoginTest extends TestCase
 		$stub->method( 'get_option' )->willReturn( array( 'url' => 'test.com', 'api_key' => 'abcd1234' ) );
 
 		$stub->method( 'get_user_meta' )->willReturn( '123' );
-		$stub->method( 'wp_remote_retrieve_body' )->willReturn( "{\"invite\":[{\"id\":\"123\",\"status\":\"completed\"}]}" );
+		$stub->method( 'wp_remote_retrieve_body' )->with('')->willReturn( "{\"invite\":[{\"id\":\"123\",\"status\":\"completed\"}]}" );
 
 		return $stub;
 	}
