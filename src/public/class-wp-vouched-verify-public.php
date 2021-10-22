@@ -207,7 +207,7 @@ class Wp_Vouched_Verify_Public
 
 		$response     = $this->wp_wrapper->wp_remote_post( $this->url, $args );
 		$http_code    = $this->wp_wrapper->wp_remote_retrieve_response_code( $response );
-		$responseBody = $this->wp_wrapper->wp_remote_retrieve_body( $response );
+		$responseBody = wp_remote_retrieve_body( $response );
 
 		if ( $http_code >= 400 ) {
 			error_log( "POST failed with code " . $http_code . " content: " . $responseBody, 4 );
@@ -254,7 +254,7 @@ class Wp_Vouched_Verify_Public
 		$response = $this->wp_wrapper->wp_remote_get( $url, $args );
 
 		$http_code    = $this->wp_wrapper->wp_remote_retrieve_response_code( $response );
-		$responseBody = $this->wp_wrapper->wp_remote_retrieve_body( $response );
+		$responseBody = $response['body'];
 
 		if ( $http_code >= 400 ) {
 			error_log( "GET failed with code " . $http_code . " content: " . $responseBody, 4 );
