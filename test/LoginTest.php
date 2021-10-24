@@ -62,6 +62,58 @@ class LoginTest extends TestCase
 		$pluginPublic->handle_wp_login('John', $user);
 	}
 
+    /**
+     * @throws Requests_Exception_HTTP
+     */
+    public function testGivenInviteIsCompletedWhenJobIsNotThenStoreMessage()
+    {
+        $stub = $this->getWpStub('completed','active');
+        $stub->expects($this->once())->method('get_user_meta');
+        $stub->expects($this->any())
+            ->method('wp_remote_get')
+            ->with('test.com/api/invites/?id=123');
+        $stub->expects($this->once())
+            ->method('add_user_meta')
+            ->with(1,'vouched-message', 'Vouched verification is not complete: Job active', false);
+
+        $vouched = $this->getVouchedStub('completed', 'active', false);
+
+        $pluginPublic = new Wp_Vouched_Verify_Public('Wp_Vouched_Verify', '1.0.0', $stub, $vouched);
+
+        $user = $this->createStub(WP_User::class);
+
+        $user->user_email = 'john@test.com';
+        $user->ID = 1;
+
+        $pluginPublic->handle_wp_login('John', $user);
+    }
+
+    /**
+     * @throws Requests_Exception_HTTP
+     */
+    public function testGivenInviteIsCompletedAndJobIsCompletedWhenReviewSuccessIsFalseThenStoreMessage()
+    {
+        $stub = $this->getWpStub('completed','completed');
+        $stub->expects($this->once())->method('get_user_meta');
+        $stub->expects($this->any())
+            ->method('wp_remote_get')
+            ->with('test.com/api/invites/?id=123');
+        $stub->expects($this->once())
+            ->method('add_user_meta')
+            ->with(1,'vouched-message', 'Verification review did not pass. See Invite for details test.com/invite/123', false);
+
+        $vouched = $this->getVouchedStub('completed', 'completed', false);
+
+        $pluginPublic = new Wp_Vouched_Verify_Public('Wp_Vouched_Verify', '1.0.0', $stub, $vouched);
+
+        $user = $this->createStub(WP_User::class);
+
+        $user->user_email = 'john@test.com';
+        $user->ID = 1;
+
+        $pluginPublic->handle_wp_login('John', $user);
+    }
+
 	/**
 	 * @return mixed|MockObject|wp_wrapper_interface
 	 */
