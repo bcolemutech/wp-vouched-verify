@@ -148,10 +148,12 @@ class Wp_Vouched_Verify_Public {
 
 		error_log( "Invite status: " . $invite->{'status'}, 4 );
 
-		if ( $invite->{'status'} != 'compleated' ) {
+		if ( $invite->{'status'} != 'completed' ) {
 			$this
 				->wp_wrapper
-				->add_user_meta( $user->ID, 'vouched-message', 'Vouched verification is not complete', false );
+				->add_user_meta( $user->ID, 'vouched-message', 'Vouched verification is not complete: Invite '. $invite->{'status'}, false );
+
+            return;
 		}
 	}
 
