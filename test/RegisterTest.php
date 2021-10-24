@@ -1,5 +1,6 @@
 <?php
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 require_once dirname(__FILE__) . '/../src/public/class-wp-vouched-verify-public.php';
@@ -9,12 +10,9 @@ class RegisterTest extends TestCase
 {
     public function testUserRegisterShouldSaveInviteId()
     {
-        $stub = $this->getMockBuilder(wp_wrapper_interface::class)->getMock();
+        $stub = $this->getWpStub();
 
-        $stub->method('get_option')->willReturn(array('url' => 'test.com', 'api_key' => 'abcd1234'));
-        $stub->method('wp_remote_retrieve_response_code')->willReturn(200);
-
-        $stub->method('wp_remote_retrieve_body')->willReturn("{\"invite\":{\"id\":\"123\"}}");
+        $vouched = $this->getVouchedStub();
 
         $stub
             ->expects($this->once())
@@ -26,9 +24,26 @@ class RegisterTest extends TestCase
                 $this->equalTo(true)
             );
 
-        $pluginPublic = new Wp_Vouched_Verify_Public('Wp_Vouched_Verify', '1.0.0', $stub);
+        $pluginPublic = new Wp_Vouched_Verify_Public('Wp_Vouched_Verify', '1.0.0', $stub, $vouched);
         $_POST['email'] = "test";
-
         $pluginPublic->handle_user_register(1);
+    }
+
+    /**
+     * @return mixed
+     */
+    private function getWpStub()
+    {
+        $stub = $this->getMockBuilder(wp_wrapper_interface::class)->getMock();
+
+        $stub->method('get_option')->willReturn(array('url' => 'test.com', 'api_key' => 'abcd1234'));
+        return $stub;
+    }
+
+    private function getVouchedStub() {
+        $stub = $this->getMockBuilder(vouched_service_interface::class)->getMock();
+        $stub->method('send_invite')
+            ->willReturn('123');
+        return $stub;
     }
 }
