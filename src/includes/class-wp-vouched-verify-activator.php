@@ -30,7 +30,12 @@ class Wp_Vouched_Verify_Activator {
 	 * @since    1.0.0
 	 */
 	public static function activate() {
-
+        $roles = get_editable_roles();
+        foreach ($GLOBALS['wp_roles']->role_objects as $key => $role) {
+            if (isset($roles[$key]) && $role->has_cap('read')) {
+                $role->add_cap('place_orders', false);
+            }
+        }
 	}
 
 }
