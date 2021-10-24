@@ -155,6 +155,28 @@ class Wp_Vouched_Verify_Public {
 
             return;
 		}
+
+        $job = $this->vouched_service->get_job($invite->{'jobId'});
+
+        $success = $job->{'reviewSuccess'} ? 'true' : 'false';
+        error_log( "Job status: " . $job->{'status'} . ' | Review passed: ' . $success, 4 );
+
+        if ( $job->{'status'} != 'completed' ) {
+            $this
+                ->wp_wrapper
+                ->add_user_meta( $user->ID, 'vouched-message', 'Vouched verification is not complete: Job '. $job->{'status'}, false );
+
+            return;
+        }
+
+        if ( $job->{'reviewSuccess'} == false ) {
+            $this
+                ->wp_wrapper
+                ->add_user_meta( $user->ID, 'vouched-message', 'Verification review did not pass. See Invite for details '. $invite->{'url'}, false );
+
+            return;
+        }
+
 	}
 
 }
