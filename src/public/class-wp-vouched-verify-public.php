@@ -157,7 +157,12 @@ class Wp_Vouched_Verify_Public
         if ($invite->{'status'} != 'completed') {
             $this
                 ->wp_wrapper
-                ->add_user_meta($user->ID, 'vouched-message', 'Vouched verification is not complete: Invite ' . $invite->{'status'}, false);
+                ->add_user_meta(
+                    $user->ID,
+                    'vouched-message',
+                    'Vouched verification is not complete: Invite ' . $invite->{'status'},
+                    false
+                );
 
             return;
         }
@@ -170,7 +175,12 @@ class Wp_Vouched_Verify_Public
         if ($job->{'status'} != 'completed') {
             $this
                 ->wp_wrapper
-                ->add_user_meta($user->ID, 'vouched-message', 'Vouched verification is not complete: Job ' . $job->{'status'}, false);
+                ->add_user_meta(
+                    $user->ID,
+                    'vouched-message',
+                    'Vouched verification is not complete: Job ' . $job->{'status'},
+                    false
+                );
 
             return;
         }
@@ -178,10 +188,21 @@ class Wp_Vouched_Verify_Public
         if ($job->{'reviewSuccess'} == false) {
             $this
                 ->wp_wrapper
-                ->add_user_meta($user->ID, 'vouched-message', 'Verification review did not pass. See Invite for details ' . $invite->{'url'}, false);
+                ->add_user_meta(
+                    $user->ID,
+                    'vouched-message',
+                    'Verification review did not pass. See Invite for details ' . $invite->{'url'},
+                    false
+                );
 
             return;
         }
+
+        $country = $this->wp_wrapper->get_user_meta($user->ID, 'vouched_country');
+        $state = $this->wp_wrapper->get_user_meta($user->ID, 'vouched_state');
+        $id = $this->wp_wrapper->get_user_meta($user->ID, 'vouched_id');
+
+
 
     }
 }
