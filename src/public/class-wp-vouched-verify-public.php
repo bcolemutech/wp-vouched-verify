@@ -178,5 +178,4 @@ class Wp_Vouched_Verify_Public {
         }
 
 	}
-
 }
