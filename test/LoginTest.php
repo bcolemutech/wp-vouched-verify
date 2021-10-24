@@ -19,9 +19,12 @@ class LoginTest extends TestCase
 		$stub = $this->getWpStub('completed', 'completed');
 		$stub->expects($this->once())->method('get_user_meta');
 
-		$vouched = $this->getVouchedStub();
+		$vouched = $this->getVouchedStub('completed', 'completed', true);
 		$vouched->expects($this->once())->method('get_invite')->with(123);
 		$vouched->expects($this->once())->method('get_job')->with(5);
+
+        $stub->expects($this->never())
+            ->method('add_user_meta');
 
 		$pluginPublic = new Wp_Vouched_Verify_Public('Wp_Vouched_Verify', '1.0.0', $stub, $vouched);
 
@@ -38,16 +41,16 @@ class LoginTest extends TestCase
 	 */
 	public function testGivenInviteIsNotCompletedStoreMessage()
 	{
-		$stub = $this->getWpStub('accepted','completed');
+		$stub = $this->getWpStub('accepted','active');
 		$stub->expects($this->once())->method('get_user_meta');
 		$stub->expects($this->any())
 		     ->method('wp_remote_get')
 		     ->with('test.com/api/invites/?id=123');
 		$stub->expects($this->once())
 		     ->method('add_user_meta')
-		     ->with(1,'vouched-message', 'Vouched verification is not complete', false);
+		     ->with(1,'vouched-message', 'Vouched verification is not complete: Invite accepted', false);
 
-		$vouched = $this->getVouchedStub();
+		$vouched = $this->getVouchedStub('accepted', 'active', false);
 
 		$pluginPublic = new Wp_Vouched_Verify_Public('Wp_Vouched_Verify', '1.0.0', $stub, $vouched);
 
@@ -75,10 +78,12 @@ class LoginTest extends TestCase
 		return $stub;
 	}
 
-	private function getVouchedStub() {
+	private function getVouchedStub(string $inviteStatus, string $jobStatus, bool $reviewSuccess) {
 		$stub = $this->getMockBuilder(vouched_service_interface::class)->getMock();
 		$stub->method('get_invite')->with('123')
-			->willReturn('');
+			->willReturn((object) array('status'=> $inviteStatus, 'jobId'=>'5', 'url' => 'test.com/invite/123'));
+        $stub->method('get_job')->with('5')
+            ->willReturn((object) array('status'=> $jobStatus, 'reviewSuccess'=> $reviewSuccess));
 		return $stub;
 	}
 }
