@@ -36,6 +36,7 @@ class Wp_Vouched_Verify_Activator {
                 $role->add_cap('place_orders', false);
             }
         }
+        add_role('verified', 'Verified Customer', array('read'=> true, 'place_orders'=>true));
 	}
 
 }
