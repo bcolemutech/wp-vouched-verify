@@ -16,8 +16,7 @@ class LoginTest extends TestCase
      */
     public function testGivenUserHasCompletedAndPassedVerificationWhenIdMatchesMetaThenSetHigherRole()
     {
-        $stub = $this->getWpStub('completed', 'completed');
-        $stub->expects($this->once())->method('get_user_meta');
+        $stub = $this->getWpStub(true);
 
         $vouched = $this->getVouchedStub('completed', 'completed', true, '01/01/9999');
         $vouched->expects($this->once())->method('get_invite')->with(123);
@@ -26,7 +25,10 @@ class LoginTest extends TestCase
         $stub->expects($this->never())
             ->method('add_user_meta');
 
-        $pluginPublic = new Wp_Vouched_Verify_Public('Wp_Vouched_Verify', '1.0.0', $stub, $vouched);
+        $userService = $this->getUserService();
+        $userService->expects($this->once())->method('get_invite_id')->with(1);
+
+        $pluginPublic = new Wp_Vouched_Verify_Public('Wp_Vouched_Verify', '1.0.0', $stub, $vouched, $userService);
 
         $user = $this->createStub(WP_User::class);
 
@@ -41,7 +43,7 @@ class LoginTest extends TestCase
      */
     public function testGivenInviteIsNotCompletedStoreMessage()
     {
-        $stub = $this->getWpStub('accepted', 'active');
+        $stub = $this->getWpStub(false);
         $stub->expects($this->once())->method('get_user_meta');
         $stub->expects($this->any())
             ->method('wp_remote_get')
@@ -52,7 +54,9 @@ class LoginTest extends TestCase
 
         $vouched = $this->getVouchedStub('accepted', 'active', false, '01/01/9999');
 
-        $pluginPublic = new Wp_Vouched_Verify_Public('Wp_Vouched_Verify', '1.0.0', $stub, $vouched);
+        $userService = $this->getMockBuilder(user_service_interface::class)->getMock();
+
+        $pluginPublic = new Wp_Vouched_Verify_Public('Wp_Vouched_Verify', '1.0.0', $stub, $vouched, $userService);
 
         $user = $this->createStub(WP_User::class);
 
@@ -67,7 +71,7 @@ class LoginTest extends TestCase
      */
     public function testGivenInviteIsCompletedWhenJobIsNotThenStoreMessage()
     {
-        $stub = $this->getWpStub('completed', 'active');
+        $stub = $this->getWpStub(false);
         $stub->expects($this->once())->method('get_user_meta');
         $stub->expects($this->any())
             ->method('wp_remote_get')
@@ -78,7 +82,9 @@ class LoginTest extends TestCase
 
         $vouched = $this->getVouchedStub('completed', 'active', false, '01/01/9999');
 
-        $pluginPublic = new Wp_Vouched_Verify_Public('Wp_Vouched_Verify', '1.0.0', $stub, $vouched);
+        $userService = $this->getMockBuilder(user_service_interface::class)->getMock();
+
+        $pluginPublic = new Wp_Vouched_Verify_Public('Wp_Vouched_Verify', '1.0.0', $stub, $vouched, $userService);
 
         $user = $this->createStub(WP_User::class);
 
@@ -93,7 +99,7 @@ class LoginTest extends TestCase
      */
     public function testGivenInviteIsCompletedAndJobIsCompletedWhenReviewSuccessIsFalseThenStoreMessage()
     {
-        $stub = $this->getWpStub('completed', 'completed');
+        $stub = $this->getWpStub(false);
         $stub->expects($this->any())
             ->method('wp_remote_get')
             ->with('test.com/api/invites/?id=123');
@@ -103,7 +109,9 @@ class LoginTest extends TestCase
 
         $vouched = $this->getVouchedStub('completed', 'completed', false, '01/01/9999');
 
-        $pluginPublic = new Wp_Vouched_Verify_Public('Wp_Vouched_Verify', '1.0.0', $stub, $vouched);
+        $userService = $this->getMockBuilder(user_service_interface::class)->getMock();
+
+        $pluginPublic = new Wp_Vouched_Verify_Public('Wp_Vouched_Verify', '1.0.0', $stub, $vouched, $userService);
 
         $user = $this->createStub(WP_User::class);
 
@@ -121,12 +129,7 @@ class LoginTest extends TestCase
         $stub = $this->getMockBuilder(wp_wrapper_interface::class)->getMock();
         $stub->method('get_option')->willReturn(array('url' => 'test.com', 'api_key' => 'abcd1234'));
 
-        $stub->method('get_user_meta')->with(1,'inviteID')->willReturn('123');
-        if ($hasMeta) {
-            $stub->method('get_user_meta')->with(1, 'vouched_country')->willReturn('US');
-            $stub->method('get_user_meta')->with(1, 'vouched_state')->willReturn('IA');
-            $stub->method('get_user_meta')->with(1, 'vouched_id')->willReturn('1234567890');
-        }
+
 
         return $stub;
     }
@@ -148,5 +151,18 @@ class LoginTest extends TestCase
                 )
             ));
         return $stub;
+    }
+
+    public function getUserService(bool $hasVerifiedId)
+    {
+        $userService = $this->getMockBuilder(user_service_interface::class)->getMock();
+        $userService->method('get_invite_id')->with(1)->willReturn('123');
+
+        if ($hasVerifiedId) {
+            $userService->method('get_country')->with(1)->willReturn('US'); //'vouched_country'
+            $userService->method('get_state')->with(1)->willReturn('IA'); //'vouched_state'
+            $userService->method('get_id_number')->with(1)->willReturn('1234567890'); //'vouched_id'
+        }
+        return $userService;
     }
 }

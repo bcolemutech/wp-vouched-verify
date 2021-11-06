@@ -1,6 +1,5 @@
 <?php
 
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 require_once dirname(__FILE__) . '/../src/public/class-wp-vouched-verify-public.php';
@@ -24,7 +23,9 @@ class RegisterTest extends TestCase
                 $this->equalTo(true)
             );
 
-        $pluginPublic = new Wp_Vouched_Verify_Public('Wp_Vouched_Verify', '1.0.0', $stub, $vouched);
+        $userService = $this->getMockBuilder(user_service_interface::class)->getMock();
+
+        $pluginPublic = new Wp_Vouched_Verify_Public('Wp_Vouched_Verify', '1.0.0', $stub, $vouched, $userService);
         $_POST['email'] = "test";
         $pluginPublic->handle_user_register(1);
     }

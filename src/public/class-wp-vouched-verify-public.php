@@ -47,6 +47,7 @@ class Wp_Vouched_Verify_Public
 
     /** @var vouched_service */
     private $vouched_service;
+    private user_service_interface $user_service;
 
     /**
      * Initialize the class and set its properties.
@@ -55,17 +56,23 @@ class Wp_Vouched_Verify_Public
      * @param string $version The version of this plugin.
      * @param wp_wrapper_interface $wp_wrapper
      * @param vouched_service_interface $vouched_service
-     *
+     * @param user_service_interface $user_service
      * @since    1.0.0
      */
-    public function __construct(string $plugin_name, string $version, wp_wrapper_interface $wp_wrapper, vouched_service_interface $vouched_service)
-    {
+    public function __construct(
+        string $plugin_name,
+        string $version,
+        wp_wrapper_interface $wp_wrapper,
+        vouched_service_interface $vouched_service,
+        user_service_interface $user_service
+    ){
 
         $this->plugin_name = $plugin_name;
         $this->version = $version;
 
         $this->wp_wrapper = $wp_wrapper;
         $this->vouched_service = $vouched_service;
+        $this->user_service = $user_service;
     }
 
     /**
@@ -131,7 +138,7 @@ class Wp_Vouched_Verify_Public
 
         error_log("POST succeeded invite ID: " . $inviteID, 4);
 
-        $this->wp_wrapper->add_user_meta($user_id, 'inviteID', $inviteID, true);
+        $this->user_service->set_invite_id($user_id, $inviteID);
     }
 
     /**
@@ -146,7 +153,7 @@ class Wp_Vouched_Verify_Public
      */
     public function handle_wp_login(string $username, WP_User $user)
     {
-        $inviteId = $this->wp_wrapper->get_user_meta($user->ID, "inviteID");
+        $inviteId = $this->user_service->get_invite_id($user->ID);
 
         error_log("Retrived Invite " . $inviteId . " for user " . $user->ID, 4);
 
@@ -201,7 +208,6 @@ class Wp_Vouched_Verify_Public
         $country = $this->wp_wrapper->get_user_meta($user->ID, 'vouched_country');
         $state = $this->wp_wrapper->get_user_meta($user->ID, 'vouched_state');
         $id = $this->wp_wrapper->get_user_meta($user->ID, 'vouched_id');
-
 
 
     }
