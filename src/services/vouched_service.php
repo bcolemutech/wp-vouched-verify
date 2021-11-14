@@ -84,11 +84,11 @@ class vouched_service implements vouched_service_interface {
 	/**
 	 * Send Invite request to Vouched using given email
 	 *
-	 * @return mixed
+	 * @return string
 	 * @throws Requests_Exception_HTTP
 	 * @throws Exception
 	 */
-	public function send_invite() {
+	public function send_invite(): string {
 		$body = array(
 			'email'   => $_POST['email'],
 			'contact' => "email"
