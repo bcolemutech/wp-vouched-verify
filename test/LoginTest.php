@@ -8,6 +8,7 @@ require_once dirname(__FILE__) . '/../wordpress/wp-includes/class-wp-user.php';
 require_once dirname(__FILE__) . '/../src/public/class-wp-vouched-verify-public.php';
 require_once dirname(__FILE__) . '/../src/services/wp_wrapper_interface.php';
 require_once dirname(__FILE__) . '/../src/services/vouched_service_interface.php';
+require_once dirname(__FILE__) . '/../src/services/user_service_interface.php';
 
 class LoginTest extends TestCase
 {
@@ -25,7 +26,7 @@ class LoginTest extends TestCase
         $stub->expects($this->never())
             ->method('add_user_meta');
 
-        $userService = $this->getUserService();
+        $userService = $this->getUserService(true);
         $userService->expects($this->once())->method('get_invite_id')->with(1);
 
         $pluginPublic = new Wp_Vouched_Verify_Public('Wp_Vouched_Verify', '1.0.0', $stub, $vouched, $userService);
@@ -44,7 +45,6 @@ class LoginTest extends TestCase
     public function testGivenInviteIsNotCompletedStoreMessage()
     {
         $stub = $this->getWpStub(false);
-        $stub->expects($this->once())->method('get_user_meta');
         $stub->expects($this->any())
             ->method('wp_remote_get')
             ->with('test.com/api/invites/?id=123');
@@ -54,7 +54,7 @@ class LoginTest extends TestCase
 
         $vouched = $this->getVouchedStub('accepted', 'active', false, '01/01/9999');
 
-        $userService = $this->getMockBuilder(user_service_interface::class)->getMock();
+        $userService = $this->getUserService(false);
 
         $pluginPublic = new Wp_Vouched_Verify_Public('Wp_Vouched_Verify', '1.0.0', $stub, $vouched, $userService);
 
@@ -72,7 +72,6 @@ class LoginTest extends TestCase
     public function testGivenInviteIsCompletedWhenJobIsNotThenStoreMessage()
     {
         $stub = $this->getWpStub(false);
-        $stub->expects($this->once())->method('get_user_meta');
         $stub->expects($this->any())
             ->method('wp_remote_get')
             ->with('test.com/api/invites/?id=123');
@@ -82,7 +81,7 @@ class LoginTest extends TestCase
 
         $vouched = $this->getVouchedStub('completed', 'active', false, '01/01/9999');
 
-        $userService = $this->getMockBuilder(user_service_interface::class)->getMock();
+        $userService = $this->getUserService(false);
 
         $pluginPublic = new Wp_Vouched_Verify_Public('Wp_Vouched_Verify', '1.0.0', $stub, $vouched, $userService);
 
@@ -109,7 +108,7 @@ class LoginTest extends TestCase
 
         $vouched = $this->getVouchedStub('completed', 'completed', false, '01/01/9999');
 
-        $userService = $this->getMockBuilder(user_service_interface::class)->getMock();
+        $userService = $this->getUserService(true);
 
         $pluginPublic = new Wp_Vouched_Verify_Public('Wp_Vouched_Verify', '1.0.0', $stub, $vouched, $userService);
 
