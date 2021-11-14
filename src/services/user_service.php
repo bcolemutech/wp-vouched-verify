@@ -32,4 +32,31 @@ class user_service implements user_service_interface
     {
         return $this->wp_wrapper->get_user_meta($user_id, "inviteID");
     }
+
+    /**
+     * @param int $user_id
+     * @return string
+     */
+    public function get_country(int $user_id): string
+    {
+        return $this->wp_wrapper->get_user_meta($user_id, "vouched_country");
+    }
+
+    /**
+     * @param int $user_id
+     * @return string
+     */
+    public function get_state(int $user_id): string
+    {
+        return $this->wp_wrapper->get_user_meta($user_id, "vouched_state");
+    }
+
+    /**
+     * @param int $user_id
+     * @return string
+     */
+    public function get_id_number(int $user_id): string
+    {
+        return $this->wp_wrapper->get_user_meta($user_id, "vouched_id");
+    }
 }
