@@ -39,6 +39,33 @@ class UserServiceTest extends TestCase
         $sut->get_invite_id(1);
     }
 
+    public function testGivenIdDoesNotExistInUserMetaThenReturnTrue()
+    {
+        $stub = $this->getWpStub(false);
+
+        $stub->expects($this->once())->method('query_users_with_meta_query')->willReturn(array());
+
+        $sut = new user_service($stub);
+
+        $actual = $sut->unique_check("US", "IA", '123456789');
+
+        $this->assertEquals(true, $actual);
+
+    }
+
+    public function testGivenIdExistsInUserMetaThenReturnFalse()
+    {
+        $stub = $this->getWpStub(false);
+
+        $stub->expects($this->once())->method('query_users_with_meta_query')->willReturn(array('stuff'));
+
+        $sut = new user_service($stub);
+
+        $actual = $sut->unique_check("US", "IA", '123456789');
+
+        $this->assertEquals(false, $actual);
+    }
+
     /**
      * @return mixed|MockObject|wp_wrapper_interface
      */
