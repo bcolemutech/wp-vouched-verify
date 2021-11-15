@@ -14,8 +14,6 @@ class RegisterTest extends TestCase
      */
     public function testUserRegisterShouldSaveInviteId()
     {
-        $stub = $this->getWpStub();
-
         $vouched = $this->getMockBuilder(vouched_service_interface::class)->getMock();
 
         $vouched->expects($this->once())->method('send_invite')->will($this->returnValue('123'));
@@ -24,17 +22,8 @@ class RegisterTest extends TestCase
 
         $userService->expects($this->once())->method('set_invite_id')->with($this->equalTo(1), $this->equalTo('123'));
 
-        $pluginPublic = new Wp_Vouched_Verify_Public('Wp_Vouched_Verify', '1.0.0', $stub, $vouched, $userService);
+        $pluginPublic = new Wp_Vouched_Verify_Public('Wp_Vouched_Verify', '1.0.0', $vouched, $userService);
         $_POST['email'] = "test";
         $pluginPublic->handle_user_register(1);
-    }
-
-
-    private function getWpStub()
-    {
-        $stub = $this->getMockBuilder(wp_wrapper_interface::class)->getMock();
-
-        $stub->method('get_option')->willReturn(array('url' => 'test.com', 'api_key' => 'abc1234'));
-        return $stub;
     }
 }
