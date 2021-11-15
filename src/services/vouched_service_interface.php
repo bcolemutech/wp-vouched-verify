@@ -15,11 +15,11 @@ interface vouched_service_interface {
 	/**
 	 * Send Invite request to Vouched using given email
 	 *
-	 * @return mixed
+	 * @return string
 	 * @throws Requests_Exception_HTTP
 	 * @throws Exception
 	 */
-	public function send_invite();
+	public function send_invite(): string;
 
 	/**
 	 * @param string $jobId
