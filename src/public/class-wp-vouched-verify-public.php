@@ -43,8 +43,6 @@ class Wp_Vouched_Verify_Public
      */
     private $version;
 
-    private $wp_wrapper;
-
     /** @var vouched_service */
     private $vouched_service;
     private user_service_interface $user_service;
@@ -54,23 +52,21 @@ class Wp_Vouched_Verify_Public
      *
      * @param string $plugin_name The name of the plugin.
      * @param string $version The version of this plugin.
-     * @param wp_wrapper_interface $wp_wrapper
      * @param vouched_service_interface $vouched_service
      * @param user_service_interface $user_service
      * @since    1.0.0
      */
     public function __construct(
-        string $plugin_name,
-        string $version,
-        wp_wrapper_interface $wp_wrapper,
+        string                    $plugin_name,
+        string                    $version,
         vouched_service_interface $vouched_service,
-        user_service_interface $user_service
-    ){
+        user_service_interface    $user_service
+    )
+    {
 
         $this->plugin_name = $plugin_name;
         $this->version = $version;
 
-        $this->wp_wrapper = $wp_wrapper;
         $this->vouched_service = $vouched_service;
         $this->user_service = $user_service;
     }
@@ -153,6 +149,8 @@ class Wp_Vouched_Verify_Public
      */
     public function handle_wp_login(string $username, WP_User $user)
     {
+        error_log("Verifying User \"" . $username . "\"", 4);
+
         $inviteId = $this->user_service->get_invite_id($user->ID);
 
         error_log("Retrived Invite " . $inviteId . " for user " . $user->ID, 4);
@@ -162,14 +160,9 @@ class Wp_Vouched_Verify_Public
         error_log("Invite status: " . $invite->{'status'}, 4);
 
         if ($invite->{'status'} != 'completed') {
-            $this
-                ->wp_wrapper
-                ->add_user_meta(
-                    $user->ID,
-                    'vouched-message',
-                    'Vouched verification is not complete: Invite ' . $invite->{'status'},
-                    false
-                );
+            $this->user_service->set_vouched_message($user->ID, 'Vouched verification is not complete: Invite ' . $invite->{'status'});
+
+            $this->user_service->set_role_verified($user, false);
 
             return;
         }
@@ -180,35 +173,45 @@ class Wp_Vouched_Verify_Public
         error_log("Job status: " . $job->{'status'} . ' | Review passed: ' . $success, 4);
 
         if ($job->{'status'} != 'completed') {
-            $this
-                ->wp_wrapper
-                ->add_user_meta(
-                    $user->ID,
-                    'vouched-message',
-                    'Vouched verification is not complete: Job ' . $job->{'status'},
-                    false
-                );
+            $this->user_service->set_vouched_message($user->ID, 'Vouched verification is not complete: Job ' . $job->{'status'});
+
+            $this->user_service->set_role_verified($user, false);
 
             return;
         }
 
         if ($job->{'reviewSuccess'} == false) {
-            $this
-                ->wp_wrapper
-                ->add_user_meta(
-                    $user->ID,
-                    'vouched-message',
-                    'Verification review did not pass. See Invite for details ' . $invite->{'url'},
-                    false
-                );
+            $this->user_service->set_vouched_message($user->ID, 'Verification review did not pass. See Invite for details ' . $invite->{'url'});
+
+            $this->user_service->set_role_verified($user, false);
 
             return;
         }
 
-        $country = $this->wp_wrapper->get_user_meta($user->ID, 'vouched_country');
-        $state = $this->wp_wrapper->get_user_meta($user->ID, 'vouched_state');
-        $id = $this->wp_wrapper->get_user_meta($user->ID, 'vouched_id');
+        $country = $this->user_service->get_country($user->ID);
+        $state = $this->user_service->get_state($user->ID);
+        $id_number = $this->user_service->get_id_number($user->ID);
 
+        if($job->{'result'}->{'country'} == $country && $job->{'result'}->{'state'} == $state && $job->{'result'}->{'id'} == $id_number)
+        {
+            $this->user_service->set_role_verified($user, true);
 
+            return;
+        }
+
+        if($this->user_service->unique_check($job->{'result'}->{'country'}, $job->{'result'}->{'state'},$job->{'result'}->{'id'}))
+        {
+            $this->user_service->set_country($user->ID, $job->{'result'}->{'country'});
+            $this->user_service->set_state($user->ID, $job->{'result'}->{'state'});
+            $this->user_service->set_id_number($user->ID, $job->{'result'}->{'id'});
+
+            $this->user_service->set_role_verified($user, true);
+        }
+        else
+        {
+            $this->user_service->set_vouched_message($user->ID, "User ".$user->ID."(".$username.") verified ID is not unique");
+
+            $this->user_service->set_role_verified($user, false);
+        }
     }
 }
