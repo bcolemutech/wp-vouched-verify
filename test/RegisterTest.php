@@ -20,7 +20,10 @@ class RegisterTest extends TestCase
 
         $userService = $this->getMockBuilder(user_service_interface::class)->getMock();
 
-        $userService->expects($this->once())->method('set_invite_id')->with($this->equalTo(1), $this->equalTo('123'));
+        $userService
+            ->expects($this->once())
+            ->method('set_invite_id')
+            ->with($this->equalTo(1), $this->equalTo('123'));
 
         $pluginPublic = new Wp_Vouched_Verify_Public('Wp_Vouched_Verify', '1.0.0', $vouched, $userService);
         $_POST['email'] = "test";
