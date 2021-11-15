@@ -86,4 +86,31 @@ class user_service implements user_service_interface
     {
         $this->wp_wrapper->add_user_meta($user_id, 'vouched_id', $id, false);
     }
+
+    /**
+     * @param WP_User $user
+     * @param bool $verified
+     */
+    public function set_role_verified(WP_User $user, bool $verified)
+    {
+        if ($verified) {
+            $user->set_role('verified');
+        } else {
+            $user->set_role('customer');
+        }
+    }
+
+    /**
+     * @param int $user_id
+     * @param string $message
+     */
+    public function set_vouched_message(int $user_id, string $message)
+    {
+        $this->wp_wrapper->add_user_meta($user_id, 'vouched-message', $message, false);
+    }
+
+    public function unique_check(string $country, string $state, string $id): bool
+    {
+        // TODO: Implement unique_check() method.
+    }
 }
