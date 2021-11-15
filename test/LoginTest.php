@@ -1,6 +1,5 @@
 <?php
 
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 require_once dirname(__FILE__) . '/../vendor/autoload.php';
@@ -15,9 +14,9 @@ class LoginTest extends TestCase
     /**
      * @throws Requests_Exception_HTTP
      */
-    public function testGivenUserHasCompletedAndPassedVerificationWhenIdMatchesMetaThenSetHigherRole()
+    public function testGivenUserHasCompletedAndPassedVerificationAndIsUniqueWhenIdMatchesMetaThenSetHigherRole()
     {
-        $stub = $this->getWpStub(true);
+        $stub = $this->getWpStub();
 
         $vouched = $this->getVouchedStub('completed', 'completed', true, '01/01/9999');
         $vouched->expects($this->once())->method('get_invite')->with(123);
@@ -28,6 +27,84 @@ class LoginTest extends TestCase
 
         $userService = $this->getUserService(true);
         $userService->expects($this->once())->method('get_invite_id')->with(1);
+
+        $userService->expects($this->never())->method('unique_check')->with('US','IA','1234567890')->willReturn($this->returnValue(true));
+
+        $userService->expects($this->never())->method('set_country');
+        $userService->expects($this->never())->method('set_state');
+        $userService->expects($this->never())->method('set_id_number');
+
+        $userService->expects($this->once())->method('set_role_verified')->with(true);
+
+        $pluginPublic = new Wp_Vouched_Verify_Public('Wp_Vouched_Verify', '1.0.0', $stub, $vouched, $userService);
+
+        $user = $this->createStub(WP_User::class);
+
+        $user->user_email = 'john@test.com';
+        $user->ID = 1;
+
+        $pluginPublic->handle_wp_login('John', $user);
+    }
+
+    public function testGivenUserHasCompletedAndPassedVerificationWhenIdDoesNotMatchAndIsUniqueMetaThenStoreIdAndSetRole()
+    {
+        $stub = $this->getWpStub();
+
+        $vouched = $this->getVouchedStub('completed', 'completed', true, '01/01/9999');
+        $vouched->expects($this->once())->method('get_invite')->with(123);
+        $vouched->expects($this->once())->method('get_job')->with(5);
+
+        $stub->expects($this->never())
+            ->method('add_user_meta');
+
+        $userService = $this->getUserService(false);
+        $userService->expects($this->once())->method('get_invite_id')->with(1);
+        $userService->expects($this->once())->method('get_country')->with(1);
+        $userService->expects($this->once())->method('get_state')->with(1);
+        $userService->expects($this->once())->method('get_id_number')->with(1);
+
+        $userService->expects($this->once())->method('unique_check')->with('US','IA','1234567890')->willReturn($this->returnValue(true));
+
+        $userService->expects($this->once())->method('set_country')->with('US');
+        $userService->expects($this->once())->method('set_state')->with('IA');
+        $userService->expects($this->once())->method('set_id_number')->with('1234567890');
+
+        $userService->expects($this->once())->method('set_role_verified')->with(false);
+
+        $pluginPublic = new Wp_Vouched_Verify_Public('Wp_Vouched_Verify', '1.0.0', $stub, $vouched, $userService);
+
+        $user = $this->createStub(WP_User::class);
+
+        $user->user_email = 'john@test.com';
+        $user->ID = 1;
+
+        $pluginPublic->handle_wp_login('John', $user);
+    }
+
+    public function testGivenUserHasCompletedAndPassedVerificationWhenIdDoesNotMatchAndIsNotUniqueMetaThenStoreMessage()
+    {
+        $stub = $this->getWpStub();
+
+        $vouched = $this->getVouchedStub('completed', 'completed', true, '01/01/9999');
+        $vouched->expects($this->once())->method('get_invite')->with(123);
+        $vouched->expects($this->once())->method('get_job')->with(5);
+
+        $stub->expects($this->never())
+            ->method('add_user_meta');
+
+        $userService = $this->getUserService(false);
+        $userService->expects($this->once())->method('get_invite_id')->with(1);
+        $userService->expects($this->once())->method('get_country')->with(1);
+        $userService->expects($this->once())->method('get_state')->with(1);
+        $userService->expects($this->once())->method('get_id_number')->with(1);
+
+        $userService->expects($this->once())->method('unique_check')->with('US','IA','1234567890')->willReturn($this->returnValue(false));
+
+        $stub->expects($this->once())
+            ->method('add_user_meta')
+            ->with(1, 'vouched-message', 'Users verified ID is not unique', false);
+
+        $userService->expects($this->once())->method('set_role_verified')->with(false);
 
         $pluginPublic = new Wp_Vouched_Verify_Public('Wp_Vouched_Verify', '1.0.0', $stub, $vouched, $userService);
 
@@ -44,7 +121,7 @@ class LoginTest extends TestCase
      */
     public function testGivenInviteIsNotCompletedStoreMessage()
     {
-        $stub = $this->getWpStub(false);
+        $stub = $this->getWpStub();
         $stub->expects($this->any())
             ->method('wp_remote_get')
             ->with('test.com/api/invites/?id=123');
@@ -55,6 +132,8 @@ class LoginTest extends TestCase
         $vouched = $this->getVouchedStub('accepted', 'active', false, '01/01/9999');
 
         $userService = $this->getUserService(false);
+
+        $userService->expects($this->once())->method('set_role_verified')->with(false);
 
         $pluginPublic = new Wp_Vouched_Verify_Public('Wp_Vouched_Verify', '1.0.0', $stub, $vouched, $userService);
 
@@ -71,7 +150,7 @@ class LoginTest extends TestCase
      */
     public function testGivenInviteIsCompletedWhenJobIsNotThenStoreMessage()
     {
-        $stub = $this->getWpStub(false);
+        $stub = $this->getWpStub();
         $stub->expects($this->any())
             ->method('wp_remote_get')
             ->with('test.com/api/invites/?id=123');
@@ -82,6 +161,8 @@ class LoginTest extends TestCase
         $vouched = $this->getVouchedStub('completed', 'active', false, '01/01/9999');
 
         $userService = $this->getUserService(false);
+
+        $userService->expects($this->once())->method('set_role_verified')->with(false);
 
         $pluginPublic = new Wp_Vouched_Verify_Public('Wp_Vouched_Verify', '1.0.0', $stub, $vouched, $userService);
 
@@ -98,7 +179,7 @@ class LoginTest extends TestCase
      */
     public function testGivenInviteIsCompletedAndJobIsCompletedWhenReviewSuccessIsFalseThenStoreMessage()
     {
-        $stub = $this->getWpStub(false);
+        $stub = $this->getWpStub();
         $stub->expects($this->any())
             ->method('wp_remote_get')
             ->with('test.com/api/invites/?id=123');
@@ -110,6 +191,8 @@ class LoginTest extends TestCase
 
         $userService = $this->getUserService(true);
 
+        $userService->expects($this->once())->method('set_role_verified')->with(false);
+
         $pluginPublic = new Wp_Vouched_Verify_Public('Wp_Vouched_Verify', '1.0.0', $stub, $vouched, $userService);
 
         $user = $this->createStub(WP_User::class);
@@ -120,15 +203,10 @@ class LoginTest extends TestCase
         $pluginPublic->handle_wp_login('John', $user);
     }
 
-    /**
-     * @return mixed|MockObject|wp_wrapper_interface
-     */
-    public function getWpStub(bool $hasMeta)
+    public function getWpStub()
     {
         $stub = $this->getMockBuilder(wp_wrapper_interface::class)->getMock();
         $stub->method('get_option')->willReturn(array('url' => 'test.com', 'api_key' => 'abcd1234'));
-
-
 
         return $stub;
     }
