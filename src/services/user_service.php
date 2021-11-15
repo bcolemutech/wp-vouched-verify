@@ -111,6 +111,33 @@ class user_service implements user_service_interface
 
     public function unique_check(string $country, string $state, string $id): bool
     {
-        // TODO: Implement unique_check() method.
+
+
+        $args = array(
+            'meta_query' => array(
+                'relation' => 'AND',
+                array(
+                    'key'     => 'vouched_country',
+                    'value'   => $country,
+                    'compare' => '='
+                ),
+                array(
+                    'key'     => 'vouched_state',
+                    'value'   => $state,
+                    'compare' => '='
+                ),
+                array(
+                    'key'     => 'vouched_id',
+                    'value'   => $id,
+                    'compare' => '='
+                )
+            )
+        );
+
+        $results = $this->wp_wrapper->query_users_with_meta_query($args);
+
+        $count = count($results);
+
+        return $count == 0;
     }
 }
