@@ -59,4 +59,31 @@ class user_service implements user_service_interface
     {
         return $this->wp_wrapper->get_user_meta($user_id, "vouched_id");
     }
+
+    /**
+     * @param int $user_id
+     * @param string $country
+     */
+    public function set_country(int $user_id, string $country)
+    {
+        $this->wp_wrapper->add_user_meta($user_id, 'vouched_country', $country, false);
+    }
+
+    /**
+     * @param int $user_id
+     * @param string $state
+     */
+    public function set_state(int $user_id, string $state)
+    {
+        $this->wp_wrapper->add_user_meta($user_id, 'vouched_state', $state, false);
+    }
+
+    /**
+     * @param int $user_id
+     * @param string $id
+     */
+    public function set_id_number(int $user_id, string $id)
+    {
+        $this->wp_wrapper->add_user_meta($user_id, 'vouched_id', $id, false);
+    }
 }
