@@ -45,7 +45,11 @@ class Wp_Vouched_Verify_Public
 
     /** @var vouched_service */
     private $vouched_service;
-    private user_service_interface $user_service;
+
+    /**
+     * @var user_service_interface
+     */
+    private $user_service;
 
     /**
      * Initialize the class and set its properties.

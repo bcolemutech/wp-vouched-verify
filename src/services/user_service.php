@@ -5,7 +5,7 @@ class user_service implements user_service_interface
     /**
      * @var wp_wrapper_interface
      */
-    private wp_wrapper_interface $wp_wrapper;
+    private $wp_wrapper;
 
     /**
      * @param wp_wrapper_interface $wrapper
