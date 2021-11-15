@@ -135,7 +135,11 @@ class vouched_service implements vouched_service_interface {
 		return $inviteID;
 	}
 
-	public function get_job( string $jobId ) {
+    /**
+     * @throws Requests_Exception_HTTP
+     * @throws Exception
+     */
+    public function get_job(string $jobId ) {
 		$args = array(
 			'timeout'     => '5',
 			'redirection' => '5',
@@ -150,6 +154,26 @@ class vouched_service implements vouched_service_interface {
 
 		$url = $this->url . '/jobs/?id=' . $jobId;
 
+        $response = $this->wp_wrapper->wp_remote_get( $url, $args );
 
+        $http_code    = $this->wp_wrapper->wp_remote_retrieve_response_code( $response );
+        $responseBody = $response['body'];
+
+        if ( $http_code >= 400 ) {
+            error_log( "GET failed with code " . $http_code . " content: " . $responseBody, 4 );
+            throw new Requests_Exception_HTTP( "Received " . $http_code . " from " . $url );
+        }
+
+        error_log( "Job response: " . $responseBody, 4 );
+
+        $responseJson = json_decode( $responseBody );
+
+        $job = $responseJson->{'items'}[0];
+
+        if ( $job == null ) {
+            throw new Exception( "No Job found for ID " . $jobId );
+        }
+
+        return $job;
 	}
 }
