@@ -145,6 +145,16 @@ class Wp_Vouched_Verify
          */
         require_once plugin_dir_path(dirname(__FILE__)) . 'services/vouched_service.php';
 
+        /**
+         * Interface for WP user interactions
+         */
+        require_once plugin_dir_path(dirname(__FILE__)) . 'services/user_service_interface.php';
+
+        /**
+         * Service for WP user interactions
+         */
+        require_once plugin_dir_path(dirname(__FILE__)) . 'services/user_service.php';
+
         $this->loader = new Wp_Vouched_Verify_Loader();
     }
 
@@ -196,7 +206,8 @@ class Wp_Vouched_Verify
     {
 	    $wp_wrapper    = new wp_wrapper();
 		$vouched_service = new vouched_service($wp_wrapper);
-	    $plugin_public = new Wp_Vouched_Verify_Public($this->get_plugin_name(), $this->get_version(), $wp_wrapper, $vouched_service);
+        $user_service = new user_service($wp_wrapper);
+	    $plugin_public = new Wp_Vouched_Verify_Public($this->get_plugin_name(), $this->get_version(), $vouched_service, $user_service);
 
         $this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_styles');
         $this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_scripts');
