@@ -20,7 +20,7 @@ exports.listInvites = function(id,page,pageSize) {
   "invite" : [ {
     "lastName" : "lastName",
     "url" : "url",
-    "jobId" : "jobId",
+    "jobId" : "1",
     "firstName" : "firstName",
     "createdAt" : "2019-09-07T15:50-04:00",
     "qrCode" : "qrCode",
@@ -31,7 +31,7 @@ exports.listInvites = function(id,page,pageSize) {
     "send" : true,
     "email" : "email",
     "updatedAt" : "2019-09-07T15:50-04:00",
-    "status" : "accepted"
+    "status" : "Delivered"
   }, {
     "lastName" : "lastName",
     "url" : "url",
@@ -46,7 +46,7 @@ exports.listInvites = function(id,page,pageSize) {
     "send" : true,
     "email" : "email",
     "updatedAt" : "2019-09-07T15:50-04:00",
-    "status" : "completed"
+    "status" : "Completed"
   } ],
   "page" : 1
 };
