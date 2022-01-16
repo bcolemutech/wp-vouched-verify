@@ -155,6 +155,12 @@ class Wp_Vouched_Verify_Public
     {
         error_log("Verifying User \"" . $username . "\"", 4);
 
+        if(in_array('administrator', $user->roles)){
+            error_log($username . " is an admin. Skipping verification.",4);
+
+            return;
+        }
+
         $inviteId = $this->user_service->get_invite_id($user->ID);
 
         error_log("Retrived Invite " . $inviteId . " for user " . $user->ID, 4);
