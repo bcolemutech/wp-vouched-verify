@@ -230,9 +230,8 @@ class LoginTest extends TestCase
         $userService->expects($this->never())->method('get_invite_id');
 
         $userService
-            ->expects($this->once())
-            ->method('set_vouched_message')
-            ->with(1, 'Vouched verification skipped: admin');
+            ->expects($this->never())
+            ->method('set_vouched_message');
 
         $pluginPublic = new Wp_Vouched_Verify_Public('Wp_Vouched_Verify', '1.0.0', $vouched, $userService);
 
