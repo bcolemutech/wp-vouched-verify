@@ -25,6 +25,7 @@ class LoginTest extends TestCase
 
         $user->user_email = 'john@test.com';
         $user->ID = 1;
+        $user->roles = ['customer'];
 
         $userService = $this->getUserService(true);
         $userService->expects($this->once())->method('get_invite_id')->with(1);
@@ -60,6 +61,7 @@ class LoginTest extends TestCase
 
         $user->user_email = 'john@test.com';
         $user->ID = 1;
+        $user->roles = ['customer'];
 
         $userService = $this->getUserService(false);
         $userService->expects($this->once())->method('get_invite_id')->with(1);
@@ -98,6 +100,7 @@ class LoginTest extends TestCase
 
         $user->user_email = 'john@test.com';
         $user->ID = 1;
+        $user->roles = ['customer'];
 
         $userService = $this->getUserService(false);
         $userService->expects($this->once())->method('get_invite_id')->with(1);
@@ -135,6 +138,7 @@ class LoginTest extends TestCase
 
         $user->user_email = 'john@test.com';
         $user->ID = 1;
+        $user->roles = ['customer'];
 
         $userService = $this->getUserService(false);
 
@@ -162,6 +166,7 @@ class LoginTest extends TestCase
 
         $user->user_email = 'john@test.com';
         $user->ID = 1;
+        $user->roles = ['customer'];
 
         $userService = $this->getUserService(false);
 
@@ -197,6 +202,37 @@ class LoginTest extends TestCase
             ->with(1, 'Verification review did not pass. See Invite for details test.com/invite/123');
 
         $userService->expects($this->once())->method('set_role_verified')->with($user, false);
+
+        $pluginPublic = new Wp_Vouched_Verify_Public('Wp_Vouched_Verify', '1.0.0', $vouched, $userService);
+
+        $pluginPublic->handle_wp_login('John', $user);
+    }
+
+    /**
+     * @throws Requests_Exception_HTTP
+     */
+    public function testGivenUserHasAdminRoleDoNotVerify()
+    {
+        $user = $this->createStub(WP_User::class);
+
+        $user->user_email = 'john@test.com';
+        $user->ID = 1;
+        $user->roles = ['administrator'];
+
+        $vouched = $this
+            ->getVouchedStub('completed', 'completed', false, '01/01/9999');
+
+        $vouched->expects($this->never())->method('get_invite');
+        $vouched->expects($this->never())->method('get_job');
+
+        $userService = $this->getUserService(false);
+
+        $userService->expects($this->never())->method('get_invite_id');
+
+        $userService
+            ->expects($this->once())
+            ->method('set_vouched_message')
+            ->with(1, 'Vouched verification skipped: admin');
 
         $pluginPublic = new Wp_Vouched_Verify_Public('Wp_Vouched_Verify', '1.0.0', $vouched, $userService);
 
