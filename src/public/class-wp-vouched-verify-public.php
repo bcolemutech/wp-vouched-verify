@@ -165,6 +165,7 @@ class Wp_Vouched_Verify_Public
 
         if (!is_numeric($inviteId)) {
             error_log("Invite ID not found for user " . $user->ID, 4);
+
             $this->user_service->set_vouched_message($user->ID, 'Invite not found');
 
             $inviteId = $this->vouched_service->send_invite($user->user_email);
