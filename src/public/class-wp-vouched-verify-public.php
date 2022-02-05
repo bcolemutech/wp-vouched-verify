@@ -134,7 +134,7 @@ class Wp_Vouched_Verify_Public
         error_log("User ID: " . $user_id, 4);
         error_log("User Email: " . $_POST['email'], 4);
 
-        $inviteID = $this->vouched_service->send_invite();
+        $inviteID = $this->vouched_service->send_invite($_POST['email']);
 
         error_log("POST succeeded invite ID: " . $inviteID, 4);
 
@@ -162,6 +162,19 @@ class Wp_Vouched_Verify_Public
         }
 
         $inviteId = $this->user_service->get_invite_id($user->ID);
+
+        if(!is_numeric($inviteId)) {
+            error_log("Invite ID not found for user " . $user->ID, 4);
+            $this->user_service->set_vouched_message($user->ID, 'Invite not found');
+
+            $inviteId = $this->vouched_service->send_invite($user->user_email);
+
+            $this->user_service->set_invite_id($user->ID, $inviteId);
+
+            $this->user_service->set_role_verified($user, false);
+
+            return;
+        }
 
         error_log("Retrived Invite " . $inviteId . " for user " . $user->ID, 4);
 
