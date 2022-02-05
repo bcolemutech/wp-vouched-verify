@@ -134,7 +134,7 @@ class Wp_Vouched_Verify_Public
         error_log("User ID: " . $user_id, 4);
         error_log("User Email: " . $_POST['email'], 4);
 
-        $inviteID = $this->vouched_service->send_invite();
+        $inviteID = $this->vouched_service->send_invite($_POST['email']);
 
         error_log("POST succeeded invite ID: " . $inviteID, 4);
 
@@ -155,13 +155,27 @@ class Wp_Vouched_Verify_Public
     {
         error_log("Verifying User \"" . $username . "\"", 4);
 
-        if(in_array('administrator', $user->roles)){
-            error_log($username . " is an admin. Skipping verification.",4);
+        if (in_array('administrator', $user->roles)) {
+            error_log($username . " is an admin. Skipping verification.", 4);
 
             return;
         }
 
         $inviteId = $this->user_service->get_invite_id($user->ID);
+
+        if (!is_numeric($inviteId)) {
+            error_log("Invite ID not found for user " . $user->ID, 4);
+
+            $this->user_service->set_vouched_message($user->ID, 'Invite not found');
+
+            $inviteId = $this->vouched_service->send_invite($user->user_email);
+
+            $this->user_service->set_invite_id($user->ID, $inviteId);
+
+            $this->user_service->set_role_verified($user, false);
+
+            return;
+        }
 
         error_log("Retrived Invite " . $inviteId . " for user " . $user->ID, 4);
 
@@ -202,24 +216,20 @@ class Wp_Vouched_Verify_Public
         $state = $this->user_service->get_state($user->ID);
         $id_number = $this->user_service->get_id_number($user->ID);
 
-        if($job->{'result'}->{'country'} == $country && $job->{'result'}->{'state'} == $state && $job->{'result'}->{'id'} == $id_number)
-        {
+        if ($job->{'result'}->{'country'} == $country && $job->{'result'}->{'state'} == $state && $job->{'result'}->{'id'} == $id_number) {
             $this->user_service->set_role_verified($user, true);
 
             return;
         }
 
-        if($this->user_service->unique_check($job->{'result'}->{'country'}, $job->{'result'}->{'state'},$job->{'result'}->{'id'}))
-        {
+        if ($this->user_service->unique_check($job->{'result'}->{'country'}, $job->{'result'}->{'state'}, $job->{'result'}->{'id'})) {
             $this->user_service->set_country($user->ID, $job->{'result'}->{'country'});
             $this->user_service->set_state($user->ID, $job->{'result'}->{'state'});
             $this->user_service->set_id_number($user->ID, $job->{'result'}->{'id'});
 
             $this->user_service->set_role_verified($user, true);
-        }
-        else
-        {
-            $this->user_service->set_vouched_message($user->ID, "User ".$user->ID."(".$username.") verified ID is not unique");
+        } else {
+            $this->user_service->set_vouched_message($user->ID, "User " . $user->ID . "(" . $username . ") verified ID is not unique");
 
             $this->user_service->set_role_verified($user, false);
         }

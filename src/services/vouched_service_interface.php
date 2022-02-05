@@ -19,7 +19,7 @@ interface vouched_service_interface {
 	 * @throws Requests_Exception_HTTP
 	 * @throws Exception
 	 */
-	public function send_invite(): string;
+	public function send_invite(string $email): string;
 
 	/**
 	 * @param string $jobId
