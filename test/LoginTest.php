@@ -27,7 +27,7 @@ class LoginTest extends TestCase
         $user->ID = 1;
         $user->roles = ['customer'];
 
-        $userService = $this->getUserService(true);
+        $userService = $this->getUserService(true, true);
         $userService->expects($this->once())->method('get_invite_id')->with(1);
 
         $userService
@@ -63,7 +63,7 @@ class LoginTest extends TestCase
         $user->ID = 1;
         $user->roles = ['customer'];
 
-        $userService = $this->getUserService(false);
+        $userService = $this->getUserService(false, true);
         $userService->expects($this->once())->method('get_invite_id')->with(1);
         $userService->expects($this->once())->method('get_country')->with(1);
         $userService->expects($this->once())->method('get_state')->with(1);
@@ -102,7 +102,7 @@ class LoginTest extends TestCase
         $user->ID = 1;
         $user->roles = ['customer'];
 
-        $userService = $this->getUserService(false);
+        $userService = $this->getUserService(false, true);
         $userService->expects($this->once())->method('get_invite_id')->with(1);
         $userService->expects($this->once())->method('get_country')->with(1);
         $userService->expects($this->once())->method('get_state')->with(1);
@@ -126,6 +126,34 @@ class LoginTest extends TestCase
         $pluginPublic->handle_wp_login('John', $user);
     }
 
+    public function testGivenUserDoesNotHaveAnInviteIdThenSendInvite(){
+        $vouched = $this->getMockBuilder(vouched_service_interface::class)->getMock();
+
+        $user = $this->createStub(WP_User::class);
+
+        $user->method('__get')->with('user_email')->willReturn('john@test.com');
+        $user->ID = 1;
+        $user->roles = ['customer'];
+
+        $userService = $this->getUserService(false, false);
+
+        $userService
+            ->expects($this->once())
+            ->method('set_vouched_message')
+            ->with(1, 'Invite not found');
+
+        $vouched->expects($this->once())->method('send_invite')->will($this->returnValue('123'));
+        $userService
+            ->expects($this->once())
+            ->method('set_invite_id')
+            ->with($this->equalTo(1), $this->equalTo('123'));
+        $userService->expects($this->once())->method('set_role_verified')->with($user, false);
+
+        $pluginPublic = new Wp_Vouched_Verify_Public('Wp_Vouched_Verify', '1.0.0', $vouched, $userService);
+
+        $pluginPublic->handle_wp_login('John', $user);
+    }
+
     /**
      * @throws Requests_Exception_HTTP
      */
@@ -140,7 +168,7 @@ class LoginTest extends TestCase
         $user->ID = 1;
         $user->roles = ['customer'];
 
-        $userService = $this->getUserService(false);
+        $userService = $this->getUserService(false, true);
 
         $userService
             ->expects($this->once())
@@ -168,7 +196,7 @@ class LoginTest extends TestCase
         $user->ID = 1;
         $user->roles = ['customer'];
 
-        $userService = $this->getUserService(false);
+        $userService = $this->getUserService(false, true);
 
         $userService
             ->expects($this->once())
@@ -190,7 +218,7 @@ class LoginTest extends TestCase
         $vouched = $this
             ->getVouchedStub('completed', 'completed', false, '01/01/9999');
 
-        $userService = $this->getUserService(true);
+        $userService = $this->getUserService(true, true);
 
         $user = $this->createStub(WP_User::class);
         $user->user_email = 'john@test.com';
@@ -225,7 +253,7 @@ class LoginTest extends TestCase
         $vouched->expects($this->never())->method('get_invite');
         $vouched->expects($this->never())->method('get_job');
 
-        $userService = $this->getUserService(false);
+        $userService = $this->getUserService(false, true);
 
         $userService->expects($this->never())->method('get_invite_id');
 
@@ -265,10 +293,13 @@ class LoginTest extends TestCase
         return $stub;
     }
 
-    public function getUserService(bool $hasVerifiedId)
+    public function getUserService(bool $hasVerifiedId, bool $hasInviteId)
     {
         $userService = $this->getMockBuilder(user_service_interface::class)->getMock();
-        $userService->method('get_invite_id')->with(1)->willReturn('123');
+        if($hasInviteId)
+        {
+            $userService->method('get_invite_id')->with(1)->willReturn('123');
+        }
 
         if ($hasVerifiedId) {
             $userService->method('get_country')->with(1)->willReturn('US'); //'vouched_country'
